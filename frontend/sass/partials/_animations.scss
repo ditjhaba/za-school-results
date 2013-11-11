@@ -1,0 +1,23 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _animations.scss
+ =============================================================================
+ This file is responsible for all custom animations and delays in the za_schools app.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+@import "companimation";
+@import "companimation/preset/fade/fadeIn";
+@import "companimation/preset/fade/fadeInUp"; //modify to not include all animations
+
+@for $i from 1 through 10 {
+	%delayed-#{$i} {
+		@include animation-delay(($i * $zaSchoolsTransitionTime));
+	}
+}

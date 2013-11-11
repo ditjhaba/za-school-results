@@ -1,0 +1,1 @@
+([:dependencies ([org.clojure/clojure "1.5.1"] [clojure-csv/clojure-csv "2.0.1"] [clojurewerkz/neocons "2.0.0-beta3"] [compojure/compojure "1.1.6"] [org.clojure/tools.nrepl "0.2.3" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.3" :exclusions ([org.clojure/clojure])])])

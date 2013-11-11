@@ -1,0 +1,123 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _variables.scss
+ =============================================================================
+ This file is responsible for all variables in the za_schools app.  Styles should be compiled using compass and sass.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+@import "compass/css3/pie";
+@import "compass/css3";
+
+/* =============================================================================
+CSS3 PIE
+========================================================================== */
+$pie-enabled: false !default;
+$pie-behavior: url("/css/PIE.htc");
+$pie-base-class: pie-element;
+
+$zaSchoolsMultiplier: 1.3 !default;
+$zaSchoolsMultiplierLarge: $zaSchoolsMultiplier * 2.1 !default;
+$zaSchoolsMultiplierSmall: $zaSchoolsMultiplier / $zaSchoolsMultiplierLarge !default;
+
+$zaSchoolsMultiplierLargePercentage: $zaSchoolsMultiplierLarge * 10%;
+
+/* =============================================================================
+Sizes and Spacing
+========================================================================== */
+
+/* Padding */
+$zaSchoolsPadding: 1em !default;
+$zaSchoolsPaddingLarge: $zaSchoolsPadding * $zaSchoolsMultiplier;
+$zaSchoolsPaddingSmall: $zaSchoolsPadding / $zaSchoolsMultiplier;
+$zaSchoolsPaddingMini: $zaSchoolsPadding / $zaSchoolsMultiplierLarge;
+
+/* Margin */
+$zaSchoolsMargin: 1em !default;
+$zaSchoolsMarginSmall: $zaSchoolsMargin / $zaSchoolsMultiplier;
+$zaSchoolsMarginLarge: $zaSchoolsMargin * $zaSchoolsMultiplierLarge;
+$zaSchoolsMarginMini: $zaSchoolsMarginSmall / $zaSchoolsMultiplierLarge;
+
+/* =============================================================================
+Grid
+========================================================================== */
+$zaSchoolsNum-cols: 12 !default;
+$zaSchoolsRowWidth: 100% !default;
+$zaSchoolsContainer-lateral-padding: $zaSchoolsPadding !default;
+$zaSchoolsCol-margin-right: 3.8% !default;
+$zaSchoolsCol-unit: (($zaSchoolsRowWidth + $zaSchoolsCol-margin-right) / $zaSchoolsNum-cols) !default;
+
+$zaSchoolsRowNotation: row !default;
+$zaSchoolsColumnNotation: col !default;
+
+$zaSchoolsContainer-width: $zaSchoolsRowWidth;
+$zaSchoolsTotal-columns: $zaSchoolsNum-cols;
+$zaSchoolsColumn-width: 4% !default;
+$zaSchoolsGutter-width: 2% !default;
+$zaSchoolsGrid-padding: 0% !default; //rows should take up the whole screen
+$zaSchoolsFrom-direction: left;
+
+$zaSchoolsContainer-style: fluid;
+
+//Turn off media-query fallback output for non-IE stylesheets.
+$zaSchoolsBreakpoint-ie-output: true;
+/* =============================================================================
+Type
+========================================================================== */
+$zaSchoolsFontURL: "http://fonts.googleapis.com/css?family=Open+Sans:400,300"; //google font url.  Imported at _type.scss
+$zaSchoolsEm: 1em !default;
+$zaSchoolsBaseFontSize: 100% !default;
+$zaSchoolsBaseFontFamily: "Open Sans", "sans-serif", "arial" !default;
+$zaSchoolsFontSizeSmall: ($zaSchoolsBaseFontSize / $zaSchoolsMultiplierSmall) !default;
+$zaSchoolsFontSizeMedium: ($zaSchoolsBaseFontSize * $zaSchoolsMultiplier) !default;
+$zaSchoolsFontSizeLarge: ($zaSchoolsBaseFontSize * $zaSchoolsMultiplierLarge) !default;
+$zaSchoolsFontSizeMini: ($zaSchoolsBaseFontSize / $zaSchoolsMultiplierLarge) !default;
+$zaSchoolsLineHeight: 1.4 !default;
+
+$zaSchoolsHeadingFontWeight: 300 !default;
+$zaSchoolsBaseFontWeight: 500 !default;
+
+$zaSchoolsBorderRadius: ($zaSchoolsMargin / $zaSchoolsMultiplierLarge) !default;
+$zaSchoolsBorderRadiusSmall: ($zaSchoolsBorderRadius / $zaSchoolsMultiplier) !default;
+$zaSchoolsBorderRadiusLarge: ($zaSchoolsBorderRadius * $zaSchoolsMultiplierLarge) !default;
+
+/* Transitions*/
+$zaSchoolsTransitionTime: 0.5s !default; //global transition time
+$zaSchoolsTransitionFunction: ease !default; //transition function for CSS3 transitions
+/* =============================================================================
+Colours
+========================================================================== */
+$zaSchoolsTextColour: #000 !default;
+$zaSchoolsInverseTextColour: invert($zaSchoolsTextColour) !default;
+$zaSchoolsPrimaryColour: #CCC !default; // colour of text and main colour overall
+$zaSchoolsSecondaryColour: #0f0f0f !default; // colour of any components, backgrounds, etc.
+$zaSchoolsTertiaryColour: #7c7c7c !default; //special colour to complement secondary colour
+//background colour.  Should be the opposite of primary colour for good results
+$zaSchoolsBodyBackground: $zaSchoolsInverseTextColour !default;
+
+/* Links */
+$zaSchoolsLinkColour: contrast-color($zaSchoolsTextColour, lighten($zaSchoolsTextColour, 30), darken($zaSchoolsTextColour, 30), 40%);
+
+/* =============================================================================
+Borders
+========================================================================== */
+$zaSchoolsBorderWidth: 1px !default;
+$zaSchoolsBorderStyle: solid !default;
+$zaSchoolsBorderColour: fade-out(lighten($zaSchoolsTextColour, 80%), 0.5) !default;
+$zaSchoolsBorder: $zaSchoolsBorderWidth $zaSchoolsBorderStyle $zaSchoolsBorderColour;
+
+/* =============================================================================
+Media query variables
+========================================================================== */
+$zaSchoolsBreakpointMain: (screen) (max-width 767px);
+$zaSchoolsQueryIphone3: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio);
+$zaSchoolsQueryIphone3Portrait: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio) (orientation portrait);
+$zaSchoolsQueryIphone3Landscape: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio) (orientation landscape);

@@ -1,0 +1,42 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _type.scss
+ =============================================================================
+ This file is responsible for typographic elements on the za_schools app.  Styles should be compiled using compass and sass.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+@import url($zaSchoolsFontURL);
+
+/* Type */
+#{headings(all)} {
+	font-weight: $zaSchoolsHeadingFontWeight;
+}
+
+@for $i from 1 through 6 {
+	h#{$i} {
+		font-size: (($zaSchoolsEm * $zaSchoolsMultiplierLarge) - (($i * (($zaSchoolsEm * $zaSchoolsMultiplierLarge) / 6 )))) + ($zaSchoolsEm * $zaSchoolsMultiplier);
+	}
+}
+
+a {
+	@extend %transition-all;
+	color: $zaSchoolsInverseTextColour;
+	&:visited {
+		color: darken($zaSchoolsTextColour, 30);
+	}
+	text-decoration: none;
+}
+
+ul, ol, dl {
+	padding-left: ($zaSchoolsPaddingLarge * $zaSchoolsMultiplier);
+	@extend %normal-margin-top-bottom;
+}

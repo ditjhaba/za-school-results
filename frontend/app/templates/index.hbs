@@ -1,0 +1,55 @@
+<div id="map"></div>
+
+<script type="text/javascript">
+map = new GMaps({
+  div: '#map',
+  lat: -30.559482,
+  lng: 22.937505999999985,
+  zoom: 6,
+  zoomControl : false,
+  panControl : false,
+  streetViewControl : false,
+  mapTypeControl: false,
+  overviewMapControl: false
+});
+
+
+$.ajax('/data/sa_provinces.json').success(function(data) {
+  var natal = data.features[0];
+  var freeState = data.features[1];
+  var easternCape = data.features[2];
+  var mpumalanga = data.features[3];
+  var limpopo = data.features[4];
+  var northernCape = data.features[5];
+  var northWest = data.features[6];
+  var westernCape = data.features[7];
+  var gauteng = data.features[8];
+
+  drawProvince(natal);
+  drawProvince(freeState);
+  drawProvince(easternCape);
+  drawProvince(mpumalanga);
+  drawProvince(limpopo);
+  drawProvince(northernCape);
+  drawProvince(northWest);
+  drawProvince(westernCape);
+  drawProvince(gauteng);
+  drawProvince(gauteng);
+});
+
+function drawProvince(province) {
+   paths = province.geometry.coordinates;
+
+   polygon = map.drawPolygon({
+    paths: paths,
+    useGeoJSON: true,
+    strokeColor: '#BBD8E9',
+    strokeOpacity: 1,
+    strokeWeight: 3,
+    fillColor: '#BBD8E9',
+    fillOpacity: 0.6
+  });
+
+}
+
+</script>

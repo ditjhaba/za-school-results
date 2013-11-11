@@ -1,0 +1,153 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _type.scss
+ =============================================================================
+ This file is responsible for navigation elements on the za_schools app.  Styles should be compiled using compass and sass.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+@import "compass/css3";
+@import "variables.scss";
+@import "helpers";
+
+.nav, .nav ul {
+	@extend %margin-none;
+	@extend %padding-none;
+	@extend %no-list-style;
+}
+
+.nav {
+	background: darken($zaSchoolsTertiaryColour, 15);
+	border-bottom: $zaSchoolsBorderWidth $zaSchoolsBorderStyle darken($zaSchoolsBorderColour, 15%);
+	@extend %overflow-visible;
+	@extend %row-width;
+
+	@include background(linear-gradient($zaSchoolsTertiaryColour, darken($zaSchoolsTertiaryColour, 30)));
+	ul {
+		//normal menu styling here
+		a {
+			color: $zaSchoolsInverseTextColour;
+			@extend %medium;
+			border-right: 1px solid darken($zaSchoolsSecondaryColour, 25);
+			@extend %inline;
+			padding: $zaSchoolsPaddingSmall $zaSchoolsPaddingLarge;
+			text-decoration: none;
+			text-shadow: 0 1px $zaSchoolsPaddingSmall $zaSchoolsTextColour;
+
+			&:hover {
+				@include background(linear-gradient(lighten($zaSchoolsTertiaryColour, 30), $zaSchoolsTertiaryColour));
+			}
+		}
+		ul {
+			//nested menu 1
+			@extend %no-list-style;
+			@extend %opacity-0;
+			@extend %invisible;
+			@extend %absolute;
+			z-index: 9;
+			top: 100%;
+			@extend %normal-margin-left;
+			background: darken($zaSchoolsTertiaryColour, 20);
+			@include transition(opacity $zaSchoolsTransitionTime $zaSchoolsTransitionFunction);
+			@include box-shadow(0 0 $zaSchoolsPaddingSmall fade-out($zaSchoolsBodyBackground, 0.5));
+
+			ul {
+				//nested menu 2
+				left: 100%;
+				top: 0;
+				z-index: 10;
+				li {
+					&:first-child {
+						a {
+							&:after {
+								left: -0.4em;
+								top: $zaSchoolsEm * 0.8;
+								width: 0;
+								height: 0;
+								border-left: 0;
+								border-bottom: $zaSchoolsBorderRadius solid transparent;
+								border-top: $zaSchoolsBorderRadius solid transparent;
+								border-right: $zaSchoolsBorderRadiusLarge solid darken($zaSchoolsSecondaryColour, 40);
+							}
+
+							&:hover {
+								&:after {
+									border-right-color: lighten($zaSchoolsTertiaryColour, 40);
+									border-bottom-color: transparent;
+								}
+							}
+						}
+					}
+					&:last-child {
+						a {
+							border-right-color: lighten($zaSchoolsTertiaryColour, 40);
+							border-bottom-color: transparent;
+						}
+					}
+				}
+			}
+			li {
+				&:hover {
+					> ul {
+						@extend %opacity-1;
+						@extend %visible;
+						@extend %margin-none;
+					}
+				}
+
+				&:first-child {
+					a {
+						@extend %rounded-top;
+						&:hover {
+							&:after {
+								border-bottom-color: lighten($zaSchoolsTertiaryColour, 30);
+							}
+						}
+						&:after {
+							content: "";
+							@extend %absolute;
+							left: $zaSchoolsMarginLarge;
+							top: -0.4em;
+							width: 0;
+							height: 0;
+							border-left: ($zaSchoolsBorderWidth * $zaSchoolsMultiplier) $zaSchoolsBorderStyle transparent;
+							border-right: ($zaSchoolsBorderWidth * $zaSchoolsMultiplier) $zaSchoolsBorderStyle transparent;
+							border-bottom: ($zaSchoolsBorderWidth * $zaSchoolsMultiplierLarge) $zaSchoolsBorderStyle darken($zaSchoolsSecondaryColour, 15);
+						}
+					}
+				}
+			}
+		}
+		li {
+			@extend %inline;
+			@extend %relative;
+			&:hover {
+				a {
+					color: darken($zaSchoolsInverseTextColour, 10);
+				}
+				> ul {
+					@extend %block;
+					@extend %opacity-1;
+					@extend %visible;
+					@extend %margin-none;
+				}
+			}
+		}
+	}
+	@extend %clearfix;
+}
+
+//responsive button
+.responsive-grid {
+	@extend button;
+	@extend %margin-none;
+	@extend %show-phone;
+}

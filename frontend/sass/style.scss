@@ -1,0 +1,43 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: style.scss
+ =============================================================================
+ This file is responsible for all styles on the za_schools app.  Styles should be compiled using compass and sass.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+/* =============================================================================
+Imports
+========================================================================== */
+/* Base imports */
+@import "compass/utilities";
+@import "partials/_variables.scss";
+@import "partials/_helpers.scss";
+@import "partials/_animations";
+@import "compass/reset";
+@import "compass/css3/pie";
+@import "compass/css3";
+@import "partials/_variables.scss";
+@import "partials/_grids.scss";
+@import "partials/icomoon/_icomoon.scss";
+@import "partials/_mixins.scss";
+
+/* Optional imports */
+@import "partials/_animations";
+@import "partials/_type.scss";
+@import "partials/_forms.scss";
+@import "partials/_nav.scss";
+@import "partials/_base.scss";
+@import "partials/_media-queries";
+
+/* =============================================================================
+Main Styles
+========================================================================== */

@@ -1,0 +1,30 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _mixins.scss
+ =============================================================================
+ This file is responsible for all mixins in the za_schools app.  Styles should be compiled using compass and sass.
+ --------------------------------------------------------------------------------------------------------------------- */
+
+/* =============================================================================
+Visibility Mixins
+========================================================================== */
+@mixin visuallyhidden { //useful for within a media query
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	left: -500%;
+}

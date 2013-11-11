@@ -1,0 +1,587 @@
+/*------------------------------------------------------------------------------------------------------------------------
+ @package: za_schools (app)
+
+ @author: Hendrik louw
+ @www: http://seangoresht.com
+ @github: hendriklouw
+
+ @twitter: hendriklouw
+
+ @copyright: COPYRIGHT 11-11-2013 Thoughtworks
+ =============================================================================
+ Filename: _helpers.scss
+ =============================================================================
+ This file contains all useful helpers (usually used through @extends) in the za_schools app.  Styles should be compiled using compass and sass (make sure SUSY is installed).
+ --------------------------------------------------------------------------------------------------------------------- */
+
+/**
+ * Non-semantic helper classes: please define your styles before this section
+ */
+@import "compass/css3/pie";
+@import "compass/css3";
+
+/* =============================================================================
+Visibility Helpers
+========================================================================== */
+/* For image replacement */
+%ir {
+	display: block;
+	text-indent: -99in;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	text-align: left;
+	direction: ltr;
+}
+
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+%hidden {
+	display: none;
+}
+
+%show-phone {
+	display: none;
+}
+
+/* Hide only visually, but have it available for screenreaders: by Jon Neal.
+  www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
+%visuallyhidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	left: -500%;
+
+	&.focusable {
+		&:active, &:focus { /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
+			clip: auto;
+			height: auto;
+			margin: 0;
+			overflow: visible;
+			position: static;
+			width: auto;
+		}
+	}
+}
+
+/* Hide visually and from screenreaders, but maintain layout */
+%invisible {
+	visibility: hidden;
+}
+
+%visible {
+	visibility: visible;
+}
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+   nicolasgallagher.com/micro-clearfix-hack/ */
+
+%clearfix {
+	zoom: 1; //for IE
+	&:before, &:after {
+		content: "";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+%centred {
+	text-align: center;
+}
+
+/* =============================================================================
+CSS3 PIE
+========================================================================== */
+@if $pie-enabled == true {
+	.pie-element {
+		// relative is the default, so passing relative
+		// is redundant, but we do it here for clarity%
+		@include pie-element(relative);
+	}
+// But sometimes this messes up your positioning
+// So you can also use z-indexing. In this case
+// an ancestor element before or having the first
+// opaque background should be marked as a pie-container
+// which gives it a z-index of 0 (actually any z-index
+// can be provided to the pie-container mixin).
+// And then the pie element itself should be given
+// a z-index of -1.
+	.pie-container {
+		@include pie-container;
+	}
+	.pie {
+		@include pie;
+	}
+}
+
+/* =============================================================================
+Overflow
+========================================================================== */
+%overflow-visible {
+	overflow: visible;
+}
+
+%overflow-hidden {
+	overflow: hidden;
+}
+
+/* =============================================================================
+Margins
+========================================================================== */
+
+/* Normal margin */
+%normal-margin {
+	margin: $zaSchoolsMargin;
+}
+
+%margin-none {
+	margin: 0;
+}
+
+%normal-margin-bottom {
+	margin-bottom: $zaSchoolsMargin;
+}
+
+%normal-margin-top {
+	margin-top: $zaSchoolsMargin;
+}
+
+%normal-margin-left {
+	margin-left: $zaSchoolsMargin;
+}
+
+%normal-margin-right {
+	margin-right: $zaSchoolsMargin;
+}
+
+/* Normal margin combinations */
+%normal-margin-top-bottom {
+	margin: $zaSchoolsMargin 0;
+}
+
+%normal-margin-left-right {
+	margin: 0 $zaSchoolsMargin;
+}
+
+/* Large Margin */
+
+%large-margin {
+	margin: $zaSchoolsMarginLarge;
+}
+
+%large-margin-top-bottom {
+	margin: $zaSchoolsMarginLarge 0;
+}
+
+%large-margin-left-right {
+	margin: 0 $zaSchoolsMarginLarge;
+}
+
+%large-margin-bottom {
+	margin-bottom: $zaSchoolsMarginLarge;
+}
+
+%large-margin-right {
+	margin-right: $zaSchoolsMarginLarge;
+}
+
+%large-margin-left {
+	margin-left: $zaSchoolsMarginLarge;
+}
+
+/* Small Margin */
+
+%small-margin {
+	margin: $zaSchoolsMarginSmall;
+}
+
+%small-margin-top-bottom {
+	margin: $zaSchoolsMarginSmall 0;
+}
+
+%small-margin-left-right {
+	margin: 0 $zaSchoolsMarginSmall;
+}
+
+%small-margin-bottom {
+	margin-bottom: $zaSchoolsMarginSmall;
+}
+
+%small-margin-right {
+	margin-right: $zaSchoolsMarginSmall;
+}
+
+%small-margin-left {
+	margin-left: $zaSchoolsMarginSmall;
+}
+
+/* Mini Margin */
+
+%mini-margin {
+	margin: $zaSchoolsMarginMini;
+}
+
+%mini-margin-top-bottom {
+	margin: $zaSchoolsMarginMini 0;
+}
+
+%mini-margin-left-right {
+	margin: 0 $zaSchoolsMarginMini;
+}
+
+%mini-margin-bottom {
+	margin-bottom: $zaSchoolsMarginMini;
+}
+
+%mini-margin-right {
+	margin-right: $zaSchoolsMarginMini;
+}
+
+%mini-margin-left {
+	margin-left: $zaSchoolsMarginMini;
+}
+
+/* =============================================================================
+Padding
+========================================================================== */
+
+/* Normal padding */
+%normal-padding {
+	padding: $zaSchoolsPadding;
+}
+
+%padding-none {
+	padding: 0;
+}
+
+%normal-padding-top-bottom {
+	padding: $zaSchoolsPadding 0;
+}
+
+%normal-padding-left-right {
+	padding: 0 $zaSchoolsPadding;
+}
+
+%normal-padding-bottom {
+	padding-bottom: $zaSchoolsPadding;
+}
+
+%normal-padding-right {
+	padding-right: $zaSchoolsPadding;
+}
+
+%normal-padding-left {
+	padding-left: $zaSchoolsPadding;
+}
+
+/* Large Padding */
+
+%large-padding {
+	padding: $zaSchoolsPaddingLarge;
+}
+
+%large-padding-top-bottom {
+	padding: $zaSchoolsPaddingLarge 0;
+}
+
+%large-padding-left-right {
+	padding: 0 $zaSchoolsPaddingLarge;
+}
+
+%large-padding-bottom {
+	padding-bottom: $zaSchoolsPaddingLarge;
+}
+
+%large-padding-right {
+	padding-right: $zaSchoolsPaddingLarge;
+}
+
+%large-padding-left {
+	padding-left: $zaSchoolsPaddingLarge;
+}
+
+/* Small Padding */
+
+%small-padding {
+	padding: $zaSchoolsPaddingSmall;
+}
+
+%small-padding-top-bottom {
+	padding: $zaSchoolsPaddingSmall 0;
+}
+
+%small-padding-left-right {
+	padding: 0 $zaSchoolsPaddingSmall;
+}
+
+%small-padding-bottom {
+	padding-bottom: $zaSchoolsPaddingSmall;
+}
+
+%small-padding-right {
+	padding-right: $zaSchoolsPaddingSmall;
+}
+
+%small-padding-left {
+	padding-left: $zaSchoolsPaddingSmall;
+}
+
+/* Mini Padding */
+
+%mini-padding {
+	padding: $zaSchoolsPaddingMini;
+}
+
+%mini-padding-top-bottom {
+	padding: $zaSchoolsPaddingMini 0;
+}
+
+%mini-padding-left-right {
+	padding: 0 $zaSchoolsPaddingMini;
+}
+
+%mini-padding-bottom {
+	padding-bottom: $zaSchoolsPaddingMini;
+}
+
+%mini-padding-right {
+	padding-right: $zaSchoolsPaddingMini;
+}
+
+%mini-padding-left {
+	padding-left: $zaSchoolsPaddingMini;
+}
+
+/* =============================================================================
+Border radius
+========================================================================== */
+
+//CSS PIE for all rounded corners
+%rounded, %rounded-left, %rounded-right, %rounded-top, %rounded-bottom, %rounded-large, %rounded-left-large, %rounded-right-large, %rounded-bottom-large, %rounded-top-large {
+	@if ($pie-enabled == true) {
+		@extend .pie;
+	}
+}
+
+/* Normal border radii */
+
+%rounded {
+	@include border-radius($zaSchoolsBorderRadius);
+}
+
+%rounded-left {
+	@include border-top-left-radius($zaSchoolsBorderRadius);
+	@include border-bottom-left-radius($zaSchoolsBorderRadius);
+}
+
+%rounded-right {
+	@include border-top-right-radius($zaSchoolsBorderRadius);
+	@include border-bottom-right-radius($zaSchoolsBorderRadius);
+}
+
+%rounded-top {
+	@include border-top-left-radius($zaSchoolsBorderRadius);
+	@include border-top-right-radius($zaSchoolsBorderRadius);
+}
+
+%rounded-bottom {
+	@include border-bottom-left-radius($zaSchoolsBorderRadius);
+	@include border-bottom-right-radius($zaSchoolsBorderRadius);
+}
+
+%rounded-left-none {
+	@include border-top-left-radius(0);
+	@include border-bottom-left-radius(0);
+}
+
+/* Large border radii */
+
+%rounded-large {
+	@include border-radius($zaSchoolsBorderRadiusLarge);
+}
+
+%rounded-left-large {
+	@include border-top-left-radius($zaSchoolsBorderRadiusLarge);
+	@include border-bottom-left-radius($zaSchoolsBorderRadiusLarge);
+}
+
+%rounded-right-large {
+	@include border-top-right-radius($zaSchoolsBorderRadiusLarge);
+	@include border-bottom-right-radius($zaSchoolsBorderRadiusLarge);
+}
+
+%rounded-top-large {
+	@include border-top-left-radius($zaSchoolsBorderRadiusLarge);
+	@include border-top-right-radius($zaSchoolsBorderRadiusLarge);
+}
+
+%rounded-bottom-large {
+	@include border-bottom-left-radius($zaSchoolsBorderRadiusLarge);
+	@include border-bottom-right-radius($zaSchoolsBorderRadiusLarge);
+}
+
+/* No rounded radii (useful for overriding other elements with radii) */
+
+%rounded-none {
+	@include border-radius(0);
+}
+
+%rounded-left-none {
+	@include border-top-left-radius(0);
+	@include border-bottom-left-radius(0);
+}
+
+%rounded-right-none {
+	@include border-top-right-radius(0);
+	@include border-bottom-right-radius(0);
+}
+
+%rounded-top-none {
+	@include border-top-left-radius(0);
+	@include border-top-right-radius(0);
+}
+
+%rounded-bottom-none {
+	@include border-bottom-left-radius(0);
+	@include border-bottom-right-radius(0);
+}
+
+
+%border-box {
+	@include box-sizing(border-box);
+	@if ($pie-enabled == true) {
+		*behavior: url(/css/boxsizing.htc); //allow correct box-sizing on IE 6, 7 (will not work on localhost)
+	//also, make sure to add `AddType text/x-component .htc` to apache.config file
+	}
+}
+
+%transition-all {
+	@include transition($zaSchoolsTransitionTime all $zaSchoolsTransitionFunction);
+}
+
+/* =============================================================================
+Font Sizes
+========================================================================== */
+%large {
+	font-size: $zaSchoolsFontSizeLarge;
+}
+
+%medium {
+	font-size: $zaSchoolsFontSizeMedium;
+}
+
+%small {
+	font-size: $zaSchoolsFontSizeSmall;
+}
+
+%mini {
+	font-size: $zaSchoolsFontSizeMini;
+}
+
+/* =============================================================================
+Opacity/visibility
+========================================================================== */
+%opacity-0 {
+	@include opacity(0);
+}
+
+%opacity-05 {
+	@include opacity(0.5);
+}
+
+%opacity-1 {
+	@include opacity(1);
+}
+
+/* =============================================================================
+Borders
+========================================================================== */
+%bordered {
+	border: $zaSchoolsBorder;
+}
+
+%bordered-right {
+	border-right: $zaSchoolsBorder;
+}
+
+%bordered-left {
+	border-left: $zaSchoolsBorder;
+}
+
+%bordered-top {
+	border-top: $zaSchoolsBorder;
+}
+
+%bordered-bottom {
+	border-bottom: $zaSchoolsBorder;
+}
+
+%border-none {
+	border: 0;
+}
+
+/* =============================================================================
+Floats
+========================================================================== */
+%pull-left {
+	float: left;
+}
+%pull-right {
+	float: right;
+}
+
+/* =============================================================================
+Positions
+========================================================================== */
+%absolute {
+	position: absolute;
+}
+
+%fixed {
+	position: fixed;
+}
+
+%relative {
+	position: relative;
+}
+
+%static {
+	position: static;
+}
+
+/* =============================================================================
+Display modes
+========================================================================== */
+%block {
+	display: block;
+}
+
+%inline { //made into a class for potential markup in CMS
+	@include inline-block();
+}
+
+/* =============================================================================
+Lists
+========================================================================== */
+%no-list-style {
+	list-style: none;
+}
+
+/* =============================================================================
+Links
+========================================================================== */
+%text-decoration-none {
+	text-decoration: none;
+}
+
+/* =============================================================================
+Widths
+========================================================================== */
+%row-width {
+	width: $zaSchoolsRowWidth;
+}
