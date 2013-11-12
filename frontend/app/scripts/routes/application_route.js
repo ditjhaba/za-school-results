@@ -1,6 +1,3 @@
-// Frontend.ApplicationRoute = Ember.Route.extend({
-// });
-
 Frontend.IndexRoute = Ember.Route.extend({
   model: function() {
 

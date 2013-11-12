@@ -1,10 +1,34 @@
-
-
-
 <div id="map"></div>
 {{#view Frontend.MapView}}{{/view}}
+{{#view Frontend.SouthAfricaOverlayView}}{{/view}}
 
-{{#each}}
-  <h2>{{name}}</h2>
-{{/each}}
 
+
+
+<div class="south-africa">
+  <div class="region">South Africa</div>
+  <div class="year">2012</div>
+
+  <ul class="pass-rate-info">
+    <li>
+      <div class="students-entered odometer">40</div>
+      <span class="description">% students passed</span>
+    </li>
+    <li>
+      <div class="students-entered odometer">20000</div>
+      <span class="description">students entered</span>
+    </li>
+    <li>
+      <div class="students-write odometer">123123</div>
+      <span class="description">students wrote</span>
+    </li>
+    <li>
+      <div class="students-entered odometer">123123</div>
+      <span class="description">students passed</span>
+    </li>
+    <li>
+      <div>&nbsp;</div>
+      <strong>their matric exams</strong>
+    </li>
+  </ul>
+</div>

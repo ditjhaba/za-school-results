@@ -1,53 +1,58 @@
 Frontend.IndexController = Ember.ArrayController.extend({
   actions: {
     drawOverlay: function() {
-      console.log('drawing');
+
       var model = this.get('model');
       model.forEach(function(province){
         var paths = province.get('polygonPaths');
 
-        Frontend.map.drawPolygon({
+        // draw province layer
+        var polygon = Frontend.map.drawPolygon({
           paths: paths,
           useGeoJSON: true,
           strokeColor: '#BBD8E9',
           strokeOpacity: 1,
           strokeWeight: 3,
           fillColor: '#BBD8E9',
-          fillOpacity: 0.6
+          fillOpacity: 0.8
         });
 
-        // var bounds= new google.maps.LatLngBounds();
-        // paths.forEach(function(path) {
-        //     bounds.extend(path);
-        // });
-        // for (int i = 0; i < paths.length; i++) {
-        //   bounds.extend(paths[i]);
-        // }
+        // draw province names in middle of province layers
+        var polyCenter = polygon.getBounds().getCenter();
+        Frontend.map.drawOverlay({
+           lat: polyCenter.lat(),
+           lng: polyCenter.lng(),
+           layer: 'overlayLayer',
+           content: '<div class="province">' + province.get('name') + '</div>',
+           verticalAlign: 'middle',
+           horizontalAlign: 'center'
+         });
 
-        // var polyCenter = bounds.getCenter();
+        Ember.run(this, function() {
+
+          window.google.maps.event.addListener(polygon, 'mouseout', function() {
+            this.setOptions( {fillOpacity: 0.8});
+          });
+          window.google.maps.event.addListener(polygon, 'mouseover', function() {
+            this.setOptions( {fillOpacity: 0.6 });
+          });
+
+          window.google.maps.event.addListener(polygon, 'click', function() {
+             Frontend.map.setZoom(8);
+             Frontend.map.setCenter(polyCenter.lat(), polyCenter.lng());
+           });
+        });
       });
-
-      Frontend.map.drawOverlay({
-         lat: Frontend.map.getCenter().lat(),
-         lng: Frontend.map.getCenter().lng(),
-         layer: 'overlayLayer',
-         content: '<div class="south-africa">Pass Rate: 98%<div class="overlay_arrow above"></div></div>',
-         verticalAlign: 'top',
-         horizontalAlign: 'center'
-       });
-
-
-
-        // var marker = new google.maps.Marker({
-        //     position: polyCenter ,
-        //     map: map,
-        //     title:"Center of bounds"
-        // });
-
-
-
+    },
+    startOdometer: function() {
+      Ember.run(this, function() {
+        var el = document.querySelector('.odometer');
+        window.od = new window.Odometer({
+          el: el,
+          value: 0,
+        });
+        el.innerHTML = 200000;
+      });
     }
-    // .property("drawOverlay")
   }
-
 });

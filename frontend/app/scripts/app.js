@@ -1,7 +1,5 @@
 var Frontend = window.Frontend = Ember.Application.create();
 
-
-
 /* Order and include as you please. */
 require('scripts/controllers/*');
 require('scripts/store');
