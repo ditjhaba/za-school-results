@@ -1,5 +1,4 @@
 Frontend.SouthAfricaOverlayView = Ember.View.extend({
-  classNames: ['south-africa', 'odometer'],
   tagName: 'div',
 
    didInsertElement: function() {

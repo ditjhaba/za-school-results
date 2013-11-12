@@ -46,7 +46,7 @@ Frontend.IndexController = Ember.ArrayController.extend({
     },
     startOdometer: function() {
       Ember.run(this, function() {
-        var el = document.querySelector('.odometer');
+        var el = document.querySelector('.students-passed-percent');
         window.od = new window.Odometer({
           el: el,
           value: 0,
