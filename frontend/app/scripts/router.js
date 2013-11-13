@@ -1,3 +1,2 @@
 Frontend.Router.map(function () {
-   
 });
