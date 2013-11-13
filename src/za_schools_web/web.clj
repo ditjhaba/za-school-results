@@ -2,6 +2,7 @@
   (:use compojure.core)
   (:use cheshire.core)
   (:use ring.util.response)
+  (:use ring.middleware.gzip)
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
@@ -34,6 +35,24 @@
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.matric_results_2012_passed) AND n.matric_results_2012_passed <> '' RETURN SUM(n.matric_results_2012_passed) AS passed, SUM(n.matric_results_2012_wrote) AS wrote")]
     (response {:country (merge {:id 1 } (nth res 0))})))
 
+
+(defn get-province-results
+  [province]
+  (nr/connect! "http://localhost:7474/db/data/")
+  (let [res (cy/tquery "START n=node(*)
+                        WHERE HAS(n.province_id)
+                        AND n.province_id={pid} AND HAS(n.matric_results_2012_wrote)
+                        AND n.matric_results_2012_wrote <> ''
+                        RETURN SUM(n.matric_results_2012_wrote) AS wrote,
+                        SUM(n.matric_results_2012_passed) AS passed" {:pid (str (get province "id"))})]
+    (merge (nth res 0) province)))
+
+(defn get-provinces
+  []
+  (nr/connect! "http://localhost:7474/db/data/")
+  (let [res (cy/tquery "START n=node(*) WHERE HAS(n.code) AND HAS(n.name) RETURN n.id AS id, n.name AS name, n.code AS code")]
+    (map get-province-results res)))
+
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
@@ -45,6 +64,9 @@
 
   (context "/countries" [] (defroutes countries-routes
     (GET "/:id" [id] (get-country id))))
+
+  (context "/provinces" [] (defroutes provinces-routes
+    (GET "/" [] (get-provinces))))
 
   (ANY "*" []
        (route/resources "/")))
@@ -68,8 +90,11 @@
                             trace/wrap-stacktrace))
                             middleware/wrap-json-body
                             middleware/wrap-json-response
+                            wrap-gzip
                          (site {:session {:store store}}))
                      {:port port :join? false})))
+
+
 
 ;; For interactive development:
 ;; (.stop server)

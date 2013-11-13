@@ -1,7 +1,12 @@
 Frontend.Province = DS.Model.extend({
   name: DS.attr(),
   code: DS.attr(),
-  index: DS.attr(),
+  pass: DS.attr(),
+  wrote: DS.attr(),
+
+  index: function() {
+    return this.get('id') - 1;
+  }.property('index'),
 
   polygonPaths: function() {
     if(Frontend.globalPaths === undefined) {
