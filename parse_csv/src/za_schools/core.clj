@@ -12,12 +12,12 @@
 (defn get-provinces
   "parse the provinces csv file"
   [& args]
-  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/resources/raw_data/school_data_provinces_2013.csv"))
+  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/parse_csv/resources/raw_data/school_data_provinces_2013.csv"))
 
 (defn get-master-data
   "parse the master csv file"
   [& args]
-  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/resources/raw_data/school_data_master_2013.csv"))
+  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/parse_csv/resources/raw_data/school_data_master_2013.csv"))
 
 (defn save-province
   [province]
@@ -31,6 +31,15 @@
   []
   (doseq [province-data (rest (get-provinces))]
     (save-province province-data)))
+
+
+(defn str2no [str]
+  (if-not (clojure.string/blank? str)
+    (let [n (read-string str)]
+       (if (number? n) n ""))
+    ""
+    ))
+
 
 (defn build-data-master
   [dm]
@@ -53,15 +62,16 @@
       :urban_rural (nth dm 22)
       :section21 (nth dm 23)
       :no_fee_school (nth dm 24)
-      :matric_results_2012_entered (nth dm 85)
-      :matric_results_2012_wrote (nth dm 86)
-      :matric_results_2012_passed (nth dm 87)
-      :matric_results_2012_percent_passed (nth dm 88)
+      :matric_results_2012_entered (str2no (nth dm 85))
+      :matric_results_2012_wrote (str2no (nth dm 86))
+      :matric_results_2012_passed (str2no (nth dm 87))
+      :matric_results_2012_percent_passed (str2no (nth dm 88))
     })
+
 
 (defn parse-data-master
   []
-  (doseq [data-master-data (rest (get-master-data))]
+  (doseq [data-master-data (rest (rest (get-master-data)))]
     (nn/create (build-data-master data-master-data))))
 
 (defn -main
