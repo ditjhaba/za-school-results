@@ -2,7 +2,8 @@
   (:gen-class)
    (:require [clojure-csv.core :as csv]
              [clojurewerkz.neocons.rest :as nr]
-             [clojurewerkz.neocons.rest.nodes :as nn]))
+             [clojurewerkz.neocons.rest.nodes :as nn]
+             [clojure.java.io :as io]))
 
 (defn take-csv
     "Takes file name and reads data."
@@ -12,12 +13,12 @@
 (defn get-provinces
   "parse the provinces csv file"
   [& args]
-  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/parse_csv/resources/raw_data/school_data_provinces_2013.csv"))
+  (take-csv (io/resource "raw_data/school_data_provinces_2013.csv")))
 
 (defn get-master-data
   "parse the master csv file"
   [& args]
-  (take-csv "/Users/hendrik/tw-repo/p3/za_schools/parse_csv/resources/raw_data/school_data_master_2013.csv"))
+  (take-csv (io/resource "raw_data/school_data_master_2013.csv")))
 
 (defn save-province
   [province]
