@@ -29,16 +29,18 @@
       (session/wrap-session)
       (basic/wrap-basic-authentication authenticated?)))
 
+(def db-url "http://localhost:7474/db/data/")
+
 (defn get-country
   [id]
-  (nr/connect! "http://localhost:7474/db/data/")
+  (nr/connect! db-url)
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.matric_results_2012_passed) AND n.matric_results_2012_passed <> '' RETURN SUM(n.matric_results_2012_passed) AS passed, SUM(n.matric_results_2012_wrote) AS wrote")]
     (response {:country (merge {:id 1 :name "South Africa"} (nth res 0))})))
 
 
 (defn get-province-results
   [province]
-  (nr/connect! "http://localhost:7474/db/data/")
+  (nr/connect! db-url)
   (let [res (cy/tquery "START n=node(*)
                         WHERE HAS(n.province_id)
                         AND n.province_id={pid} AND HAS(n.matric_results_2012_wrote)
@@ -49,7 +51,7 @@
 
 (defn get-provinces
   []
-  (nr/connect! "http://localhost:7474/db/data/")
+  (nr/connect! db-url)
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.code) AND HAS(n.name) RETURN n.id AS id, n.name AS name, n.code AS code")]
       (response {:province (map get-province-results res)})))
 
