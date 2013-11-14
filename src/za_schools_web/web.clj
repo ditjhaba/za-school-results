@@ -51,7 +51,7 @@
   []
   (nr/connect! "http://localhost:7474/db/data/")
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.code) AND HAS(n.name) RETURN n.id AS id, n.name AS name, n.code AS code")]
-    (map get-province-results res)))
+      (response {:province (map get-province-results res)})))
 
 (defroutes app
   (ANY "/repl" {:as req}

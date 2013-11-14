@@ -4,5 +4,5 @@ Frontend.Country = DS.Model.extend({
 
   pass_rate: function() {
      return (this.get('passed')/this.get('wrote')) * 100;
-  }.property('pass_rate')
+  }.property('pass_rate', 'passed', 'wrote')
 });
