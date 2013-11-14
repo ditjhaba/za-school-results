@@ -33,7 +33,7 @@
   [id]
   (nr/connect! "http://localhost:7474/db/data/")
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.matric_results_2012_passed) AND n.matric_results_2012_passed <> '' RETURN SUM(n.matric_results_2012_passed) AS passed, SUM(n.matric_results_2012_wrote) AS wrote")]
-    (response {:country (merge {:id 1 } (nth res 0))})))
+    (response {:country (merge {:id 1 :name "South Africa"} (nth res 0))})))
 
 
 (defn get-province-results

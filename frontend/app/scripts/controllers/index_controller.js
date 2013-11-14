@@ -34,9 +34,14 @@ Frontend.IndexController = Ember.ObjectController.extend({
            // google maps event listeners
            window.google.maps.event.addListener(polygon, 'mouseout', function() {
               this.setOptions( {fillOpacity: 0.8});
+              that.set('name', that.get('country_name'));
+              that.set('passed', that.get('country_passed'));
+              that.set('wrote', that.get('country_wrote'));
+
             });
             window.google.maps.event.addListener(polygon, 'mouseover', function() {
               this.setOptions( {fillOpacity: 0.6 });
+              that.set('name', province.get('name'));
               that.set('passed', province.get('passed'));
               that.set('wrote', province.get('wrote'));
             });
