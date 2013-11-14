@@ -32,7 +32,7 @@ Frontend.IndexController = Ember.ObjectController.extend({
             });
 
            // google maps event listeners
-           window.google.maps.event.addListener(polygon, 'mouseout', function() {
+           window.google.maps.event.addListener(polygon, 'mouseout', function(event) {
               this.setOptions( {fillOpacity: 0.8});
               that.set('name', that.get('country_name'));
               that.set('passed', that.get('country_passed'));
@@ -41,29 +41,33 @@ Frontend.IndexController = Ember.ObjectController.extend({
             });
             window.google.maps.event.addListener(polygon, 'mouseover', function() {
               this.setOptions( {fillOpacity: 0.6 });
-              that.set('name', province.get('name'));
-              that.set('passed', province.get('passed'));
-              that.set('wrote', province.get('wrote'));
-            });
+              // Ember.run.later(function() {
+                that.set('name', province.get('name'));
+                that.set('passed', province.get('passed'));
+                that.set('wrote', province.get('wrote'));
+              // }, 550);
 
-            window.google.maps.event.addListener(polygon, 'click', function() {
-               Frontend.map.setZoom(7);
-               Frontend.map.setCenter(polyCenter.lat(), polyCenter.lng());
-             });
+            });
            });
        }, 2000);
     },
 
     startOdometer: function() {
-      // var el = document.querySelector('.students-passed-percent');
-      // this.odometerFor(el, this.get('pass_rate'));
-      // el = document.querySelector('.students-passed');
-      // this.odometerFor(el, this.get('passed'));
-      // el = document.querySelector('.students-write');
-      // this.odometerFor(el, this.get('wrote'));
+      var el = document.querySelector('.students-passed-percent');
+      this.odometerFor(el, this.get('pass_rate'));
+      el = document.querySelector('.students-passed');
+      this.odometerFor(el, this.get('passed'));
+      el = document.querySelector('.students-write');
+      this.odometerFor(el, this.get('wrote'));
     }
-
   },
+
+  odometerPassedValueChanged: function() {
+    window.$('.students-passed').html(this.get('passed'));
+    window.$('.students-write').html(this.get('wrote'));
+    window.$('.students-passed-percent').html(this.get('pass_rate'));
+  }.observes('passed', 'wrote', 'pass_rate'),
+
   odometerFor: function(element, value) {
     Ember.run(this, function() {
         new window.Odometer({

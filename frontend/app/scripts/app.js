@@ -12,7 +12,7 @@ require('scripts/router');
 window.odometerOptions = {
   auto: false, // Don't automatically initialize everything with class 'odometer'
   format: '(,ddd).dd', // Change how digit groups are formatted, and how many digits are shown after the decimal point
-  duration: 3000, // Change how long the javascript expects the CSS animation to take
+  duration: 0, // Change how long the javascript expects the CSS animation to take
   animation: 'count' // Count is a simpler animation method which just increments the value,
-                     // use it when you're looking for something more subtle.
+  //                    // use it when you're looking for something more subtle.
 };
