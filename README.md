@@ -1,5 +1,14 @@
 # za_schools_web
 
+INSTRUCTIONS FOR LAUNCHING THE APP
+- cd into the 'frontend' folder.
+- run the npm install command
+- go back to the project folder
+- run 'brew install leiningen' for clojure build automation
+- run 'brew install neo4j' for the awesome graph DB
+- run 'lein run'
+
+
 A [Heroku](http://www.heroku.com) web app using Compojure.
 
 This generated project has a few basics set up beyond the bare Compojure defaults:
