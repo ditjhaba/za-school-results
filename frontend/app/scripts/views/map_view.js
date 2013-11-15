@@ -3,17 +3,14 @@ Frontend.MapView = Ember.View.extend({
   tagName: 'div',
 
   didInsertElement: function() {
-    Frontend.map = new window.GMaps({
-      div: '#map',
-      lat: -30.559482,
-      lng: 22.937505999999985,
-      zoom: 6,
-      zoomControl : false,
-      panControl : false,
-      streetViewControl : false,
-      mapTypeControl: false,
-      overviewMapControl: false
-    });
+
+   var map = window.L.map('map').setView([-30.559482,  22.937505999999985], 6);
+
+   // add an OpenStreetMap tile layer
+   window.L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+   }).addTo(map);
+
     this.get('controller').send('drawOverlay');
   }
 });
