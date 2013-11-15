@@ -9,12 +9,11 @@ Frontend.IndexController = Ember.ObjectController.extend({
         store.findAll('province').then(function(provinces) {
           provinces.forEach(function(province){
             var geoJSONStyle = {
-              fillColor: "transparent",
-              color: "#000",
+              fillColor: "#CCC",
+              color: "#CCC",
               weight: 1,
               opacity: 1,
-              fillOpacity: 0.8,
-              dashArray: '3'
+              fillOpacity: 0
             };
 
             window.L.geoJson(province.get('dataFromJSON'),{
@@ -50,11 +49,12 @@ Frontend.IndexController = Ember.ObjectController.extend({
 
       var schools = store.findAll('school').then(function(schools){
         schools.forEach(function(school){
-          window.L.circleMarker([school.get('lat'), school.get('lng')], 500, {
-              color: 'transparent',
+
+          window.L.circleMarker([school.get('lat'), school.get('lng')], {
+              color: school.get('fillColor'),
               opacity: 0,
               fillColor: school.get('fillColor'),
-              fillOpacity: 0.2
+              fillOpacity: 0.3,
           }).addTo(Frontend.map);
 
         });

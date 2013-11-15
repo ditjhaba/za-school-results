@@ -7,10 +7,10 @@ Frontend.School = DS.Model.extend({
     fillColor: function() {
       var d = this.get('pass_rate');
 
-      return d > 80  ?  '#288DF6' :
-             d > 60   ? '#23D36D' :
-             d > 40   ? '#D2EA32' :
-             d > 20   ? '#EDA321' :
-                        '#F62B19';
+      return d > 80  ?  '#47A103' :
+             d > 60   ? '#E8DA04' :
+             d > 40   ? '#FFB707' :
+             d > 20   ? '#E86605' :
+                        '#FF2B12';
     }.property('fillColor')
 });
