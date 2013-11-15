@@ -3,9 +3,18 @@ Frontend.IndexController = Ember.ObjectController.extend({
     drawOverlay: function() {
       var store = this.get('store');
       var provinces = store.findAll('province');
+      var schools = store.findAll('school');
       var that = this;
 
       Ember.run.later(function(){
+
+        schools.forEach(function(school){
+          Frontend.map.addMarker({
+            lat: school.get('lat'),
+            lng: school.get('lng'),
+            title: school.get('name')
+          });
+        });
         provinces.forEach(function(province){
            var paths = province.get('polygonPaths');
 

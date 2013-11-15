@@ -55,6 +55,14 @@
   (let [res (cy/tquery "START n=node(*) WHERE HAS(n.code) AND HAS(n.name) RETURN n.id AS id, n.name AS name, n.code AS code")]
       (response {:province (map get-province-results res)})))
 
+(defn get-schools []
+  (nr/connect! db-url)
+  (let [res (cy/tquery "START n=node(*)
+                        WHERE HAS (n.gis_long) AND HAS (n.gis_lat) AND n.gis_long <> '' AND n.gis_lat <> ''
+                        AND HAS (n.matric_results_2012_percent_passed) AND n.matric_results_2012_percent_passed <> ''    
+                        RETURN n.school_name AS name, n.gis_long AS lng, n.gis_lat AS lat, n.matric_results_2012_percent_passed AS pass_rate")]
+                        (response {:school res})))
+
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
@@ -70,8 +78,13 @@
   (context "/provinces" [] (defroutes provinces-routes
     (GET "/" [] (get-provinces))))
 
+  (context "/schools" [] (defroutes schools-routes
+    (GET "/" [] (get-schools))))
+
   (ANY "*" []
        (route/resources "/")))
+
+
 
 (defn wrap-error-page [handler]
   (fn [req]
