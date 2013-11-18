@@ -4,11 +4,9 @@ Frontend.IndexController = Ember.ObjectController.extend({
       var store = this.get('store');
       var that = this;
 
-      Ember.$.ajax('/data/sa_provinces.json').then(function(data){
-        Frontend.globalPaths = data;
-        store.findAll('province').then(function(provinces) {
-          provinces.forEach(function(province){
-            var geoJSONStyle = {
+      var provinceLookup = {};
+
+      var geoJSONStyle = {
               fillColor: "#CCC",
               color: "#CCC",
               weight: 1,
@@ -16,54 +14,56 @@ Frontend.IndexController = Ember.ObjectController.extend({
               fillOpacity: 0
             };
 
-            window.L.geoJson(province.get('dataFromJSON'),{
-              style: geoJSONStyle,
-              onEachFeature: function(feature, layer) {
-                layer.on({
-                  mouseover: function() {
-                    layer.setStyle({
-                        color: '#333',
-                        weight: 2,
-                        dashArray: ''
-                     });
+      Ember.$.ajax('/data/sa_provinces.json').then(function(data){
+        Frontend.globalPaths = data;
+        store.findAll('province').then(function(provinces) {
+          provinces.forEach(function(province){
+            
+            var provinceGeoJSON = window.L.geoJson(province.get('dataFromJSON'), {style: geoJSONStyle});
+            provinceGeoJSON.addTo(Frontend.map);
+            provinceLookup[province.get('code')] = [provinceGeoJSON];            
+          });
 
-                     if (!window.L.Browser.ie && !window.L.Browser.opera) {
-                       layer.bringToBack();
-                     }
+          var schools = store.findAll('school').then(function(schools){
+            schools.forEach(function(school){
+              var circle = window.L.circleMarker([school.get('lat'), school.get('lng')], {
+                color: school.get('fillColor'),
+                opacity: 0,
+                fillColor: school.get('fillColor'),
+                fillOpacity: 0.3,
+              });
+              circle.addTo(Frontend.map);
+              circle.bindPopup(school.get('name') + "<br/> <strong> Pass Rate: </strong>" +school.get('pass_rate') + '%');
+              circle.bringToFront();
+              provinceLookup[school.get('province_code')].push(circle);
+            });
 
-                    that.set('name', province.get('name'));
-                    that.set('passed', province.get('passed'));
-                    that.set('wrote', province.get('wrote'));
-                  },
-                  mouseout: function() {
-                    layer.setStyle(geoJSONStyle);
-                    that.set('name', that.get('country_name'));
-                    that.set('passed', that.get('country_passed'));
-                    that.set('wrote', that.get('country_wrote'));
-                  }
-                });
-              }
-            }).addTo(Frontend.map);
+            provinces.forEach(function(province){
+              var group = window.L.featureGroup(provinceLookup[province.get('code')]).on('mouseover', function() {
+                provinceLookup[province.get('code')][0].setStyle({
+                    color: '#333',
+                    weight: 2,
+                    dashArray: ''
+                 });
+
+                if (!window.L.Browser.ie && !window.L.Browser.opera) {
+                 provinceLookup[province.get('code')][0].bringToBack();
+                }
+
+                that.set('name', province.get('name'));
+                that.set('passed', province.get('passed'));
+                that.set('wrote', province.get('wrote'));
+              }).on ('mouseout', function(){
+                provinceLookup[province.get('code')][0].setStyle(geoJSONStyle);
+                that.set('name', that.get('country_name'));
+                that.set('passed', that.get('country_passed'));
+                that.set('wrote', that.get('country_wrote'));
+              });
+              group.addTo(Frontend.map);
+            });
           });
         });
-      });
-
-      var schools = store.findAll('school').then(function(schools){
-        schools.forEach(function(school){
-
-          var circle = window.L.circleMarker([school.get('lat'), school.get('lng')], {
-
-              color: school.get('fillColor'),
-              opacity: 0,
-              fillColor: school.get('fillColor'),
-              fillOpacity: 0.3,
-          });
-          circle.addTo(Frontend.map);
-          circle.bindPopup(school.get('name'))
-          circle.bringToFront();
-
-        });
-      });
+      }); 
     },
 
     startOdometer: function() {

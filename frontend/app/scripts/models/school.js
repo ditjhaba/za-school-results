@@ -3,6 +3,7 @@ Frontend.School = DS.Model.extend({
     pass_rate: DS.attr(),
     lng: DS.attr(),
     lat: DS.attr(),
+    province_code: DS.attr(),
 
     fillColor: function() {
       var d = this.get('pass_rate');
