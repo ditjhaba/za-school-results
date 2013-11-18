@@ -22,8 +22,9 @@ Frontend.IndexController = Ember.ObjectController.extend({
                 layer.on({
                   mouseover: function() {
                     layer.setStyle({
-                       weight: 2,
-                       dashArray: ''
+                        color: '#333',
+                        weight: 2,
+                        dashArray: ''
                      });
 
                      if (!window.L.Browser.ie && !window.L.Browser.opera) {
