@@ -28,7 +28,7 @@ Frontend.IndexController = Ember.ObjectController.extend({
                      });
 
                      if (!window.L.Browser.ie && !window.L.Browser.opera) {
-                       layer.bringToFront();
+                       layer.bringToBack();
                      }
 
                     that.set('name', province.get('name'));
@@ -51,12 +51,16 @@ Frontend.IndexController = Ember.ObjectController.extend({
       var schools = store.findAll('school').then(function(schools){
         schools.forEach(function(school){
 
-          window.L.circleMarker([school.get('lat'), school.get('lng')], {
+          var circle = window.L.circleMarker([school.get('lat'), school.get('lng')], {
+
               color: school.get('fillColor'),
               opacity: 0,
               fillColor: school.get('fillColor'),
               fillOpacity: 0.3,
-          }).addTo(Frontend.map);
+          });
+          circle.addTo(Frontend.map);
+          circle.bindPopup(school.get('name'))
+          circle.bringToFront();
 
         });
       });

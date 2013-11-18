@@ -9,30 +9,19 @@ html, body {
   height: 100%;
 }
 
-.south-africa {
-  background-color: rgba(255,255,255, 0.8);
+.pass-rate-info {
   position: absolute;
   top: 0;
-  right: 0;
-  max-width: 30%;
-  min-width: 20%;
+  left: 0;
   padding: 20px;
 }
 
-.year, .region {
-  position: absolute;
-  top: 0;
-  padding: 20px;
-}
-.year { left: 0; }
-.region { right: 0; }
-
-.south-africa ul {
+.pass-rate-info {
   margin: 0;
   padding: 0;
   padding-top: 20px;
 }
-.south-africa li {
+.pass-rate-info li {
   font-size: 16px;
   padding:0;
   padding-top: 5px;
@@ -42,7 +31,7 @@ html, body {
   overflow: auto;
 }
 
-.south-africa li div {
+.pass-rate-info li div {
   display: block;
   width: 100px;
   padding-right: 10px;
@@ -50,8 +39,18 @@ html, body {
   text-align: right;
 }
 
- .south-africa li .description, .south-africa li strong {
+ .pass-rate-info li .description, .pass-rate-info li strong {
   display: block;
   float: left;
   text-align: left;
+}
+
+.banner{
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.8);
+  padding: 5px;
+  padding-top: 2px;
 }
