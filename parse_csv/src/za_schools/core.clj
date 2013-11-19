@@ -1,9 +1,12 @@
 (ns za-schools.core
   (:gen-class)
-   (:require [clojure-csv.core :as csv]
-             [clojurewerkz.neocons.rest :as nr]
-             [clojurewerkz.neocons.rest.nodes :as nn]
-             [clojure.java.io :as io]))
+   (:require  [clojure-csv.core :as csv]
+              [monger.core :as mg]
+              [clojure.java.io :as io])
+   (:use [monger.core :only [connect! connect set-db! get-db]]
+         [monger.collection :only [insert insert-batch]])
+   (:import [org.bson.types ObjectId]
+            [com.mongodb DB WriteConcern]))
 
 (defn take-csv
     "Takes file name and reads data."
@@ -23,16 +26,18 @@
 (defn save-province
   [province]
   (let [province-map
-    { :id (nth province 0)
+
+    { :_id (ObjectId.)
+      :id (nth province 0)
       :code (nth province 1)
       :name (nth province 2)}]
-  (nn/create province-map)))
+
+  (insert "province" province-map)))
 
 (defn parse-provinces
   []
   (doseq [province-data (rest (get-provinces))]
     (save-province province-data)))
-
 
 (defn str2no [str]
   (if-not (clojure.string/blank? str)
@@ -40,7 +45,6 @@
        (if (number? n) n ""))
     ""
     ))
-
 
 (defn build-data-master
   [dm]
@@ -69,16 +73,16 @@
       :matric_results_2012_percent_passed (str2no (nth dm 88))
     })
 
-
 (defn parse-data-master
   []
   (doseq [data-master-data (rest (rest (get-master-data)))]
-    (nn/create (build-data-master data-master-data))))
+    (insert "school" (build-data-master data-master-data))))
 
 (defn -main
   "Parse school data master files"
   [& args]
-  (nr/connect! "http://localhost:7474/db/data/")
+  (mg/connect!)
+  (mg/set-db! (mg/get-db "za_schools"))
   (parse-provinces)
   (println "Parsing provinces done")
   (parse-data-master)

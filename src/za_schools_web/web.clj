@@ -3,6 +3,8 @@
   (:use cheshire.core)
   (:use ring.util.response)
   (:use ring.middleware.gzip)
+  (:use monger.operators)
+  (:use [monger.conversion :only [from-db-object]])
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
@@ -14,11 +16,17 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
+            [monger.core :as mg]
             [environ.core :refer [env]]
-            [clojurewerkz.neocons.rest :as nr]
-            [clojurewerkz.neocons.rest.nodes :as nn]
-            [clojurewerkz.neocons.rest.relationships :as nrl]
-            [clojurewerkz.neocons.rest.cypher :as cy]))
+            [monger.core :as mg]
+            [monger.collection :as mc]
+            [monger.json :as json]
+            [cheshire.core :refer :all])
+
+
+  (:import [org.bson.types ObjectId]
+           [com.mongodb DB WriteConcern]))
+
 
 (defn- authenticated? [user pass]
   ;; TODO: heroku config:add REPL_USER=[...] REPL_PASSWORD=[...]
@@ -31,39 +39,60 @@
 
 (def db-url "http://localhost:7474/db/data/")
 
+(defn db-connect
+  []
+  (mg/connect!)
+  (mg/set-db! (mg/get-db "za_schools")))
+
 (defn get-country
   [id]
-  (nr/connect! db-url)
-  (let [res (cy/tquery "START n=node(*) WHERE HAS(n.matric_results_2012_passed) AND n.matric_results_2012_passed <> '' RETURN SUM(n.matric_results_2012_passed) AS passed, SUM(n.matric_results_2012_wrote) AS wrote")]
+  (db-connect)
+  (let [res (mc/aggregate "school" [ {$group
+                                      {
+                                        :_id nil
+                                        :passed {$sum "$matric_results_2012_passed" }
+                                        :wrote {$sum "$matric_results_2012_wrote"}
+                                    }}])]
     (response {:country (merge {:id 1 :name "South Africa"} (nth res 0))})))
 
-
-(defn get-province-results
+(defn get-provinces-results
   [province]
-  (nr/connect! db-url)
-  (let [res (cy/tquery "START n=node(*)
-                        WHERE HAS(n.province_id)
-                        AND n.province_id={pid} AND HAS(n.matric_results_2012_wrote)
-                        AND n.matric_results_2012_wrote <> ''
-                        RETURN SUM(n.matric_results_2012_wrote) AS wrote,
-                        SUM(n.matric_results_2012_passed) AS passed" {:pid (str (get province "id"))})]
-    (merge (nth res 0) province)))
+  (db-connect)
+  (let [res (mc/aggregate "school" [
+                                    {
+                                    $group  {
+                                                :_id "$province_name"
+                                                :passed {$sum "$matric_results_2012_passed" }
+                                                :wrote {$sum "$matric_results_2012_wrote"}
+                                            }
+
+                                    }
+                                    { $match { :_id (get province :code) } }
+                                  ])]
+
+    (merge province (nth res 0))))
 
 (defn get-provinces
   []
-  (nr/connect! db-url)
-  (let [res (cy/tquery "START n=node(*) 
-                        WHERE HAS(n.code)
-                        AND HAS(n.name) RETURN n.id AS id, n.name AS name, n.code AS code")]
-      (response {:province (map get-province-results res)})))
+  (db-connect)
+  (let [results (mc/find-maps "province")]
+    (response {:province (map get-provinces-results results) })))
+
+
+(defn school-to-ember
+  [school]
+    {
+      :lat (get school :gis_lat)
+      :lng (get school :gis_long)
+      :pass_rate (get school :matric_results_2012_percent_passed)
+      :name (get school :school_name)
+      :province_code (get school :province_name)
+    })
 
 (defn get-schools []
-  (nr/connect! db-url)
-  (let [res (cy/tquery "START n=node(*)
-                        WHERE HAS (n.gis_long) AND HAS (n.gis_lat) AND n.gis_long <> '' AND n.gis_lat <> ''
-                        AND HAS (n.matric_results_2012_percent_passed) AND n.matric_results_2012_percent_passed <> ''    
-                        RETURN n.province_name AS province_code, n.school_name AS name, n.gis_long AS lng, n.gis_lat AS lat, n.matric_results_2012_percent_passed AS pass_rate")]
-                        (response {:school res})))
+  (db-connect)
+  (let [res (mc/find-maps "school" {:gis_long {$ne ""} :matric_results_2012_passed {$ne ""}})]
+    (response {:school (map school-to-ember res)})))
 
 (defroutes app
   (ANY "/repl" {:as req}
@@ -86,8 +115,6 @@
   (ANY "*" []
        (route/resources "/")))
 
-
-
 (defn wrap-error-page [handler]
   (fn [req]
     (try (handler req)
@@ -95,7 +122,6 @@
            {:status 500
             :headers {"Content-Type" "text/html"}
             :body (slurp (io/resource "500.html"))}))))
-
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))
@@ -110,8 +136,6 @@
                             wrap-gzip
                          (site {:session {:store store}}))
                      {:port port :join? false})))
-
-
 
 ;; For interactive development:
 ;; (.stop server)

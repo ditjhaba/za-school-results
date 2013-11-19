@@ -6,10 +6,8 @@
   :dependencies [
                   [org.clojure/clojure "1.5.1"]
                   [clojure-csv/clojure-csv "2.0.1"]
-                  [clojurewerkz/neocons "2.0.0-beta3"]
                   [compojure "1.1.6"]
-
-                ]
+                  [com.novemberain/monger "1.5.0"]]
   :resource-paths ["resources"]
   :main za-schools.core
   :profiles {:uberjar {:aot :all}})
