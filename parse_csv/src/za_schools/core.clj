@@ -2,7 +2,8 @@
   (:gen-class)
    (:require  [clojure-csv.core :as csv]
               [monger.core :as mg]
-              [clojure.java.io :as io])
+              [clojure.java.io :as io]
+              [environ.core :refer [env]])
    (:use [monger.core :only [connect! connect set-db! get-db]]
          [monger.collection :only [insert insert-batch]])
    (:import [org.bson.types ObjectId]
@@ -81,8 +82,7 @@
 (defn -main
   "Parse school data master files"
   [& args]
-  (mg/connect!)
-  (mg/set-db! (mg/get-db "za_schools"))
+  (mg/connect-via-uri! (env :mongohq-url))
   (parse-provinces)
   (println "Parsing provinces done")
   (parse-data-master)

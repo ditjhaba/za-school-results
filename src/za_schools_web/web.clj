@@ -41,8 +41,7 @@
 
 (defn db-connect
   []
-  (mg/connect!)
-  (mg/set-db! (mg/get-db "za_schools")))
+  (mg/connect-via-uri! (env :mongohq-url)))
 
 (defn get-country
   [id]
