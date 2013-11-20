@@ -6,39 +6,60 @@ get '/' do
 end
 
 get '/countries/:id' do
-  country_results = School.ne(matric_results_2012_passed: "")
-  passed = country_results.sum(:matric_results_2012_passed).to_i
-  wrote = country_results.sum(:matric_results_2012_wrote).to_i
-  {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote}}.to_json
+  cache("countries") do
+    country_results = School.ne(matric_results_2012_passed: "")
+    passed = country_results.sum(:matric_results_2012_passed).to_i
+    wrote = country_results.sum(:matric_results_2012_wrote).to_i
+    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote}}.to_json
+  end
 end
 
 get '/provinces' do
-  provinces = Province.all
-  province_results = provinces.map do |province|
-    {
-      code: province.code,
-      name: province.name,
-      id: province.id,
-      passed: province.passed_total,
-      wrote: province.wrote_total
-    }
+  cache("provinces") do
+    provinces = Province.all
+    province_results = provinces.map do |province|
+      {
+        code: province.code,
+        name: province.name,
+        id: province.id,
+        passed: province.passed_total,
+        wrote: province.wrote_total
+      }
+    end
+    {province: province_results}.to_json
   end
-  {province: province_results}.to_json
 end
 
 get '/schools' do
-  schools = School.ne(gis_long: "").and.ne(matric_results_2012_passed: "")
-  schools_results = schools.map do |school|
-    {
-      name: school.school_name,
-      pass_rate: school.matric_results_2012_percent_passed,
-      lat: school.gis_lat,
-      lng: school.gis_long,
-      province_code: school.province_name
-    }
+  cache("schools") do
+    schools = School.ne(gis_long: "").and.ne(matric_results_2012_passed: "")
+    schools_results = schools.map do |school|
+      {
+        name: school.school_name,
+        pass_rate: school.matric_results_2012_percent_passed,
+        lat: school.gis_lat,
+        lng: school.gis_long,
+        province_code: school.province_name
+      }
+    end
+    {school: schools_results}.to_json
   end
-  {school: schools_results}.to_json
 end
+
+def cache(name, &block)
+  client = IronCache::Client.new
+  cache =  client.cache("za_schools_results")
+
+  item = cache.get(name)
+  if item
+    value = item.value
+  else
+    value = yield
+    cache.put(name, value)
+  end
+  value
+end
+
 
 class School
   include Mongoid::Document
