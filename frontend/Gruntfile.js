@@ -21,7 +21,7 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
-        dist: '../resources/public'
+        dist: '../public'
     };
 
     grunt.initConfig({
