@@ -1,6 +1,8 @@
 Frontend.School = DS.Model.extend({
     name: DS.attr(),
     pass_rate: DS.attr(),
+    passed: DS.attr(),
+    wrote: DS.attr(),
     lng: DS.attr(),
     lat: DS.attr(),
     province_code: DS.attr(),

@@ -33,7 +33,14 @@ Frontend.IndexController = Ember.ObjectController.extend({
                 fillOpacity: 0.3,
               });
               circle.addTo(Frontend.map);
-              circle.bindPopup(school.get('name') + "<br/> <strong> Pass Rate: </strong>" +school.get('pass_rate') + '%');
+              popupContent = "<h3>" + school.get('name') + "</h3>";
+              popupContent += "<ul class='popup-content'>"
+              popupContent += "<li><strong>Pass Rate: </strong>" + school.get('pass_rate') + "%</li>";
+              popupContent += "<li><strong>Students passed: </strong>" + school.get('passed') + "</li>";
+              popupContent += "<li><strong>Students wrote: </strong>" + school.get('wrote') + "</li>";
+              circle.bindPopup(popupContent);
+              popupContent += "</ul>"
+
               circle.bringToFront();
               provinceLookup[school.get('province_code')].push(circle);
             });

@@ -37,6 +37,8 @@ get '/schools' do
       {
         name: school.school_name,
         pass_rate: school.matric_results_2012_percent_passed,
+        passed: school.matric_results_2012_passed,
+        wrote: school.matric_results_2012_wrote,
         lat: school.gis_lat,
         lng: school.gis_long,
         province_code: school.province_name

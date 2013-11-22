@@ -60,4 +60,9 @@ html, body {
 .leaflet-control-zoom {
   left: -23px;
 }
-
+.popup-content {
+  padding:0;
+}
+.popup-content li {
+  list-style:none;
+}
