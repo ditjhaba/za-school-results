@@ -54,3 +54,10 @@ html, body {
   padding: 5px;
   padding-top: 2px;
 }
+.leaflet-top.leaflet-left {
+  display: none;
+}
+.leaflet-control-zoom {
+  left: -23px;
+}
+
