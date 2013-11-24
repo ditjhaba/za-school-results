@@ -69,6 +69,7 @@ Frontend.IndexController = Ember.ObjectController.extend({
               group.addTo(Frontend.map);
             });
           });
+          startOdometer();
         });
       }); 
     },
