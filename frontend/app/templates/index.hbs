@@ -1,25 +1,6 @@
 <div id="map"></div>
 {{#view Frontend.MapView}}{{/view}}
 
-  <ul class="pass-rate-info">
-    <li>
-      <div class="students-passed-percent odometer"></div>
-      <span class="description">% students passed</span>
-    </li>
-    <li>
-      <div class="students-write odometer"></div>
-      <span class="description">students wrote</span>
-    </li>
-    <li>
-      <div class="students-passed odometer"></div>
-      <span class="description">students passed</span>
-    </li>
-  </ul>
-
-  <div class="banner">
-    <div class="region">{{name}}</div>
-    <div class="year">Matric Results 2012</div>
-  </div>
-
-
-
+{{render "provinces"}}
+{{render "counter"}}
+{{render "country"}}

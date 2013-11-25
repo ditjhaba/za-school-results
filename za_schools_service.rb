@@ -31,8 +31,13 @@ get '/provinces' do
 end
 
 get '/schools' do
-  cache("schools") do
+  province_code = params[:province_code]
+  cache_key = province_code ? "schools-#{province_code}" : "schools"
+
+  # cache(cache_key) do
     schools = School.ne(gis_long: "").and.ne(matric_results_2012_passed: "")
+    schools = schools.where(province_name: province_code) if province_code
+
     schools_results = schools.map do |school|
       {
         name: school.school_name,
@@ -45,7 +50,24 @@ get '/schools' do
       }
     end
     {school: schools_results}.to_json
+  # end
+end
+
+get '/province/:code/schools' do
+  province = Province.where(code: params[:code]).first
+
+  schools_results = province.schools.map do |school|
+    {
+      name: school.school_name,
+      pass_rate: school.matric_results_2012_percent_passed,
+      passed: school.matric_results_2012_passed,
+      wrote: school.matric_results_2012_wrote,
+      lat: school.gis_lat,
+      lng: school.gis_long,
+      province_code: school.province_name
+    }
   end
+  schools_results.to_json
 end
 
 def cache(name, &block)
@@ -85,7 +107,7 @@ class Province
   field :name, type: String
 
   def schools
-    School.where(province_name: self.code).and.ne(matric_results_2012_passed: "")
+    School.where(province_name: self.code).and.ne(matric_results_2012_passed: "").ne(gis_lat: "")
   end
 
   def passed_total

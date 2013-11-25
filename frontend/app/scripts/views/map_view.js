@@ -16,7 +16,5 @@ Frontend.MapView = Ember.View.extend({
       }).addTo(Frontend.map);
 
     window.L.control.pan({position: 'topright'}).addTo(Frontend.map);
-
-    this.get('controller').send('drawOverlay');
   }
 });
