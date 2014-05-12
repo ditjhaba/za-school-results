@@ -9,7 +9,28 @@ html, body {
   background-color: green;
   position: absolute;
   top: 0%;
-  left: 0;
+  left: 0%;
+}
+
+.nav-bar, #navbar-contents {
+
+}
+
+.logo, #logo {
+  display: inline;
+  font-size: 12pt;
+}
+
+.nav-bar-ul {
+  display: inline;
+  text-align: right;
+  float: right;
+  font-size: 12pt;
+  padding-right: 10px;
+}
+
+.nav-bar-ul li{
+  display: inline;
 }
 
 .ember-view.map-canvas {
