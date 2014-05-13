@@ -33,12 +33,19 @@ html, body {
   display: inline;
 }
 
-.ember-view.map-canvas {
+.outlet-container {
   width: 100%;
   height: 95%;
   position: absolute;
   top: 5%;
 }
+
+/*.ember-view.map-canvas {
+  width: 100%;
+  height: 95%;
+  position: absolute;
+  top: 5%;
+}*/
 
 .ember-view, #map {
   width: 100%;
