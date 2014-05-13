@@ -8,11 +8,11 @@
 			</tr>
 		</table>
 	</form>
-	<div class="school-details" id="school-details">
-		<h2>School Details</h2>
-		{{#each showSchool}}
-			<p>{{name}}</p>
-		{{/each}}
-	</div>
+	{{#if foundSchoolName}}
+		<div class="school-details" id="school-details">
+			<h2>School Details</h2>
+			<p>The name of the school you searched for is: {{foundSchoolName}}</p>		
+		</div>
+	{{/if}}
 </div>
 

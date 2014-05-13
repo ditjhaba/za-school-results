@@ -3,13 +3,13 @@ Frontend.AdminController = Ember.ArrayController.extend({
 	foundSchoolName: '',
 	actions: {
 		filterByName: function () {
-			var schoolFound = this.filterBy('name', this.get('schoolName'));
-			console.log(schoolFound[0].get('name'));
-			return schoolFound;
+			this.set('foundSchoolName', this.filterBy('name', this.get('schoolName'))[0].get('name'));
+			// console.log(schoolFound[0].get('name'));
+			// return schoolFound;
 		}
 	},
 
-	showSchool: function() {
-		return this;
-	}.property()
+	// showSchool: function() {
+	// 	return this;
+	// }.property()
 });
