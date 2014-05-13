@@ -1,4 +1,18 @@
 <div class="admin" class="map-canvas">
 	<h1 class="admin-title">Search Schools</h1>
+	<form class="school-search-form">
+		<table>
+			<tr>
+				<td class="school-name-input">{{input valueBinding="schoolName" type="text" size="50" maxlength="50" placeholder="School Name"}}</td>
+				<td class="school-search-button"><button {{action 'filterByName'}}>Search School</button></td>
+			</tr>
+		</table>
+	</form>
+	<div class="school-details" id="school-details">
+		<h2>School Details</h2>
+		{{#each showSchool}}
+			<p>{{name}}</p>
+		{{/each}}
+	</div>
 </div>
 
