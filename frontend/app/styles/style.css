@@ -16,6 +16,10 @@ html, body {
 
 }
 
+.admin-title {
+  text-align: center;
+}
+
 .logo, #logo {
   display: inline;
   font-size: 12pt;
