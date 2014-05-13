@@ -13,8 +13,4 @@ Frontend.AdminController = Ember.ArrayController.extend({
 			}
 		}
 	},
-
-	schools: function() {
-		return this;
-	}.property()
 });

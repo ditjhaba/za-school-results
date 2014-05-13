@@ -29,6 +29,10 @@ html, body {
   height: 25px;
 }
 
+.school-details {
+  text-align: center;
+}
+
 .admin-title {
   text-align: center;
 }
