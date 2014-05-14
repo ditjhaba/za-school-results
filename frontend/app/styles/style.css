@@ -3,14 +3,6 @@ html, body {
   width: 100%;
 }
 
-.nav-bar, #navbar-container {
-  width: 100%;
-  height: 5%;
-  background-color: green;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-}
 
 .school-name-input {
   padding-left: 10px;
@@ -37,20 +29,34 @@ html, body {
   text-align: center;
 }
 
-.logo, #logo {
-  display: inline;
-  font-size: 12pt;
+#navbar-container {
+  width: 100%;
+  height: 5%;
+  background-color: #6b98ce;
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }
 
-.nav-bar-ul {
+.nav-bar {
   display: inline;
   text-align: right;
   float: right;
-  font-size: 12pt;
   padding-right: 10px;
+  font-size: 12.5pt;
+  margin: 10px 0px 10px;
 }
 
-.nav-bar-ul li{
+.nav-bar, #logo {
+  float: left;
+  padding-left: 10px;
+}
+
+.nav-bar, #navigation {
+  float: right;
+}
+
+.nav-bar li{
   display: inline;
 }
 
