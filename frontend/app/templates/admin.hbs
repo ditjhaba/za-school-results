@@ -4,7 +4,7 @@
 		<table>
 			<tr>
 				<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="50" maxlength="50" placeholder="School Name"}}</td>
-				<td class="school-search-button"><button {{action 'filterByName'}}>Search School</button></td>
+				<td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
 			</tr>
 		</table>
 	</form>
@@ -15,7 +15,7 @@
 				<table class="school-details-table">
 					<thead><h2>School Details</h2></thead>
 					<tr>
-						<td class="school-detail">School Name</td>
+						<td class="school-detail">Name</td>
 						<td class="school-name-input">{{schoolFound.name}}</td>
 					</tr>
 					<tr>
