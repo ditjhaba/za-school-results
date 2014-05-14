@@ -1,6 +1,6 @@
 <div class="admin" class="map-canvas">
 	<h1 class="admin-title">Search Schools</h1>
-	<form class="school-search-form">
+	<form class="school-search-form" id="school-search-form">
 		<table>
 			<tr>
 				<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="50" maxlength="50" placeholder="School Name"}}</td>
@@ -10,10 +10,31 @@
 	</form>
 
 	{{#if performedSchoolSearch}}
-		{{#if schoolNameFound}}
+		{{#if schoolFound}}
 			<div class="school-details" id="school-name-found">
-				<h2>School Details</h2>
-				<p>The name of the school you searched for is: {{schoolNameFound}}</p>
+				<table class="school-details-table">
+					<thead><h2>School Details</h2></thead>
+					<tr>
+						<td class="school-detail">School Name</td>
+						<td class="school-name-input">{{schoolFound.name}}</td>
+					</tr>
+					<tr>
+						<td class="school-detail">Province</td>
+						<td class="school-name-input">{{schoolFound.province_code}}</td>
+					</tr>
+					<tr>
+						<td class="school-detail">Pass Rate (%)</td>
+						<td class="school-name-input">{{schoolFound.pass_rate}}</td>
+					</tr>
+					<tr>
+						<td class="school-detail">Students Wrote</td>
+						<td class="school-name-input">{{schoolFound.wrote}}</td>
+					</tr>
+					<tr>
+						<td class="school-detail">Students Passed</td>
+						<td class="school-name-input">{{schoolFound.passed}}</td>
+					</tr>
+				</table>
 			</div>
 		{{else}}
 			<div class="school-details" id="school-name-not-found">

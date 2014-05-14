@@ -23,6 +23,7 @@ a:active {
   padding-left: 10px;
 }
 
+
 .school-search-form {
   padding-left: 10px;
   text-align: center;
@@ -38,6 +39,16 @@ a:active {
 
 .school-details {
   text-align: center;
+}
+
+.school-details-table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.school-detail {
+  font-weight: bold;
+  text-align: left;
 }
 
 .admin-title {
