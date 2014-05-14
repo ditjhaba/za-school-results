@@ -4,12 +4,13 @@ Frontend.AdminController = Ember.ArrayController.extend({
 	performedSchoolSearch: false,
 	actions: {
 		filterByName: function () {
+			var searchName = this.get('schoolNameSearch').toUpperCase();
 			this.set('performedSchoolSearch', true);
-			var retrievedName = this.filterBy('name', this.get('schoolNameSearch'));
+			var retrievedName = this.filterBy('name', searchName);
 			if(retrievedName.length !== 0) {
 				this.set('schoolFound', retrievedName[0]);
 			} else {
-				this.set('schoolNameFound', '');
+				this.set('schoolFound', '');
 			}
 		}
 	},
