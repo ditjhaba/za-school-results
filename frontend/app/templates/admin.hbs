@@ -1,13 +1,14 @@
 <div class="admin" class="map-canvas">
-	<h1 class="admin-title">Search Schools</h1>
-	<form class="school-search-form" id="school-search-form">
-		<table>
-			<tr>
-				<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="50" maxlength="50" placeholder="School Name"}}</td>
-				<td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
-			</tr>
-		</table>
-	</form>
+	<div class="school-search">
+		<form class="school-search-form" id="school-search-form">
+			<table>
+				<tr>
+					<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="30" maxlength="50" placeholder="School Name"}}</td>
+					<td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 
 	{{#if performedSchoolSearch}}
 		{{#if schoolFound}}
@@ -46,7 +47,7 @@
 			</div>
 		{{else}}
 			<div class="school-details" id="school-name-not-found">
-			<h3>No schools with this name were found</h3>
+			<h3>No school found</h3>
 		{{/if}}
 	{{/if}}
 </div>

@@ -19,17 +19,19 @@ a:active {
   text-decoration: underline;
 }
 
-.school-name-input {
-  padding-left: 10px;
+.school-search-form, #school-search-form {
+  float: right;
+  padding: 7px 7px 7px 7px;
+  background-color: #f9f7ee;
 }
 
-
-.school-search-form {
-  padding-left: 10px;
-  text-align: center;
+.school-search {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.school-search-button{
+.school-search-button {
   padding-left: 10px;
   color: white;
   border-radius: 4px;
@@ -39,7 +41,7 @@ a:active {
 
 .school-details {
   text-align: center;
-  margin-top: 10px;
+  padding-top: 10px;
 }
 
 .school-details-table {
