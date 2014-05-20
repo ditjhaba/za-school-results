@@ -2,18 +2,29 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Mocha Spec Runner</title>
+    <title>J&J Tests</title>
     <link rel="stylesheet" href="lib/mocha/mocha.css">
 </head>
 <body>
     <div id="mocha"></div>
     <script src="lib/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
+    
     <!-- assertion framework -->
     <script src="lib/chai.js"></script>
     <script>var expect = chai.expect</script>
+    <script>var assert = chai.assert</script>
+    <script>chai.should()</script>
 
     <!-- include source files here... -->
+    <script src="../app/bower_components/jquery/jquery.js"></script>
+    <script src="../app/bower_components/handlebars/handlebars.runtime.js"></script>
+    <script src="../app/bower_components/ember/ember.js"></script>
+    <script src="../app/bower_components/ember-data-shim/ember-data.js"></script>
+    <script src="../app/lib/localstorage_adapter.js"></script>
+    <script src="../app/scripts/app.js"></script>
+    <script src="../app/scripts/store.js"></script>
+    <script src="../app/scripts/models/school.js"></script>
 
     <!-- include spec files here... -->
     <script src="spec/test.js"></script>
