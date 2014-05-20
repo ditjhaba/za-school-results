@@ -32,7 +32,7 @@
         	it('should retain a name attribute', function(done) {
 
         		var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
-        		var theSchool;
+        		var school;
 
         		var store = DS.Store.create({
         			revision: 12,
@@ -40,7 +40,7 @@
         		});
 
         		Ember.run(this, function(){ 
-        			theSchool = store.createRecord(Frontend.School, {
+        			store.createRecord(Frontend.School, {
 	        			id: '1',
 				        name: 'Greg',
 				        pass_rate: '50',
@@ -50,14 +50,57 @@
 				        lat: '54.7788',
 				        province_code: 'EC'
 	        		});
-	        		
-	        		// theSchool = store.find('school');
+
+	        		store.createRecord(Frontend.School, {
+	        			id: '2',
+				        name: 'DJ',
+				        pass_rate: '50',
+				        passed: '50',
+				        wrote: '100',
+				        lng: '30.0088',
+				        lat: '54.7788',
+				        province_code: 'EC'
+	        		});
+
+	        		school = store.find(Frontend.School,2);
 	        	});
 
-        		console.log(theSchool.get('name'));
+        		expect(school.get('name')).to.equal('DJ');
+        		expect(school.get('name')).to.not.equal('Greg');
 
         		done();
         	});
+
+			it('should retrieve the correct school from the controller', function(done){				
+        		var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
+
+				var store = DS.Store.create({
+        			revision: 12,
+        			adapter: adapter
+        		});
+
+				Ember.run(this, function(){
+					Frontend.reset();
+					var controller = Frontend.__container__.lookup('controller:admin');
+
+	        		store.createRecord(Frontend.School, {
+	        			id: '2',
+				        name: 'DJ',
+				        pass_rate: '50',
+				        passed: '50',
+				        wrote: '100',
+				        lng: '30.0088',
+				        lat: '54.7788',
+				        province_code: 'EC'
+	        		});
+
+	        		var school = store.find(Frontend.School,2);
+	        		controller.set('model', school);
+
+					console.log(controller);
+				});
+				done();
+			});
         });
     });
 })();
