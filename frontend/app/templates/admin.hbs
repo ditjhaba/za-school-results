@@ -12,39 +12,41 @@
 
 	{{#if performedSchoolSearch}}
 		{{#if schoolFound}}
-			<div class="school-details" id="school-name-found">
-				<table class="school-details-table">
-					<thead><h2>School Details</h2></thead>
-					<tr>
-						<td class="school-detail">Name</td>
-						<td class="school-name-input">{{schoolFound.name}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Province</td>
-						<td class="school-name-input">{{schoolFound.province_code}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Pass Rate (%)</td>
-						<td class="school-name-input">{{schoolFound.pass_rate}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Students Wrote</td>
-						<td class="school-name-input">{{schoolFound.wrote}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Students Passed</td>
-						<td class="school-name-input">{{schoolFound.passed}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Latitude</td>
-						<td class="school-name-input">{{schoolFound.lat}}</td>
-					</tr>
-					<tr>
-						<td class="school-detail">Longitude</td>
-						<td class="school-name-input">{{schoolFound.lng}}</td>
-					</tr>
-				</table>
-			</div>
+            {{#each school in schoolFound}}
+                <div class="school-details" id="school-name-found">
+                    <table class="school-details-table">
+                            <thead><h2>School Details</h2></thead>
+                            <tr>
+                                <td class="school-detail">Name</td>
+                                <td class="school-name-input">{{school.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Province</td>
+                                <td class="school-name-input">{{school.province_code}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Pass Rate (%)</td>
+                                <td class="school-name-input">{{school.pass_rate}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Students Wrote</td>
+                                <td class="school-name-input">{{school.wrote}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Students Passed</td>
+                                <td class="school-name-input">{{school.passed}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Latitude</td>
+                                <td class="school-name-input">{{school.lat}}</td>
+                            </tr>
+                            <tr>
+                                <td class="school-detail">Longitude</td>
+                                <td class="school-name-input">{{school.lng}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                {{/each}}
 		{{else}}
 			<div class="school-details" id="school-name-not-found">
 			<h3>No school found</h3>
