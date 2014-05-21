@@ -72,20 +72,19 @@
         	});
 
 			it('should retrieve the correct school from the controller', function(done){				
-        		var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
+        		Frontend.reset();
 
-				var store = DS.Store.create({
-        			revision: 12,
-        			adapter: adapter
-        		});
+        		Ember.run(function() {
+	        		var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
+	        		var school;
+	        		var store = DS.Store.create({
+	        			revision: 12,
+	        			adapter: adapter
+	        		});
 
-				Ember.run(this, function(){
-					Frontend.reset();
-					var controller = Frontend.__container__.lookup('controller:admin');
-
-	        		store.createRecord(Frontend.School, {
-	        			id: '2',
-				        name: 'DJ',
+        			school = store.createRecord(Frontend.School, {
+	        			id: '1',
+				        name: 'Greg',
 				        pass_rate: '50',
 				        passed: '50',
 				        wrote: '100',
@@ -94,12 +93,12 @@
 				        province_code: 'EC'
 	        		});
 
-	        		var school = store.find(Frontend.School,2);
-	        		controller.set('model', school);
+	        		var controller = Frontend.__container__.lookup('controller:admin');
+	        		controller.set('model', [school]);
+	        		console.log(controller.get('model')[0].get('province_code'));
+        		});
 
-					console.log(controller);
-				});
-				done();
+        		done();
 			});
         });
     });
