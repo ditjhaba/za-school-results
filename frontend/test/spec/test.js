@@ -76,15 +76,15 @@
 
         		Ember.run(function() {
 	        		var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
-	        		var school;
+	        		var school1, school2;
 	        		var store = DS.Store.create({
 	        			revision: 12,
 	        			adapter: adapter
 	        		});
 
-        			school = store.createRecord(Frontend.School, {
+        			school1 = store.createRecord(Frontend.School, {
 	        			id: '1',
-				        name: 'Greg',
+				        name: 'GREG',
 				        pass_rate: '50',
 				        passed: '50',
 				        wrote: '100',
@@ -93,13 +93,83 @@
 				        province_code: 'EC'
 	        		});
 
-	        		var controller = Frontend.__container__.lookup('controller:admin');
-	        		controller.set('model', [school]);
-	        		console.log(controller.get('model')[0].get('province_code'));
-        		});
+	        		school2 = store.createRecord(Frontend.School, {
+	        			id: '2',
+				        name: 'DJ',
+				        pass_rate: '40',
+				        passed: '40',
+				        wrote: '100',
+				        lng: '30.9888',
+				        lat: '14.7788',
+				        province_code: 'GA'
+	        		});
 
+	        		var controller = Frontend.__container__.lookup('controller:admin');
+	        		controller.set('model', [school1, school2]);
+	        		controller.set('schoolNameSearch', 'Greg');
+	        		controller.send('filterByName');
+	        		expect(controller.get('schoolFound').get('name')).to.equal('GREG');
+        		});
+				
         		done();
 			});
         });
+
+		describe('AdminController tests', function(){
+			var store, controller, school1, school2;
+
+			beforeEach(function() {
+				Ember.run(this, function() {
+					var adapter = Frontend.SchoolAdapter = DS.FixtureAdapter.extend({});
+	        		var school;
+	        		var store = DS.Store.create({
+	        			revision: 12,
+	        			adapter: adapter
+	        		});
+	        		school1 = store.createRecord(Frontend.School, {
+	        			id: '1',
+				        name: 'GREG',
+				        pass_rate: '50',
+				        passed: '50',
+				        wrote: '100',
+				        lng: '30.0088',
+				        lat: '54.7788',
+				        province_code: 'EC'
+	        		});
+	        		school2 = store.createRecord(Frontend.School, {
+	        			id: '2',
+				        name: 'DJ',
+				        pass_rate: '40',
+				        passed: '40',
+				        wrote: '100',
+				        lng: '30.9888',
+				        lat: '14.7788',
+				        province_code: 'GA'
+	        		});
+	        		controller = Frontend.__container__.lookup('controller:admin');
+	        		controller.set('model', [school1, school2]);
+				});
+			});
+
+			it('Can filter a school based on name', function(done) {
+				Ember.run(this, function() {
+					controller.set('schoolNameSearch', 'Greg');
+	        		controller.send('filterByName');
+	        		expect(controller.get('schoolFound').get('name')).to.equal('GREG');
+				});
+				done();
+			}),
+
+			it('Should understand when school is not found must return null', function(done) {
+				Ember.run(this, function() {
+					controller.set('schoolNameSearch', 'kljfkldj');
+	        		controller.send('filterByName');
+	        		expect(controller.get('schoolFound')).is.null;
+				});
+				done();
+			})
+
+
+		});
     });
 })();
