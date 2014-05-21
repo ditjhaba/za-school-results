@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "ember-mocha-adapter": "0.1.2",
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "ember-qunit": "~0.1.8"
   }
 }
