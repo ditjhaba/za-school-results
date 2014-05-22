@@ -21,14 +21,18 @@
     <script src="../app/bower_components/handlebars/handlebars.runtime.js"></script>
     <script src="../app/bower_components/ember/ember.js"></script>
     <script src="../app/bower_components/ember-data-shim/ember-data.js"></script>
+    <script src="../app/bower_components/ember-mocha-adapter/adapter.js"></script>
     <script src="../app/lib/localstorage_adapter.js"></script>
     <script src="../app/scripts/app.js"></script>
     <script src="../app/scripts/store.js"></script>
+    <script src="../app/scripts/router.js"></script>
     <script src="../app/scripts/models/school.js"></script>
     <script src="../app/scripts/controllers/admin_controller.js"></script>
+    <script src="../app/scripts/routes/admin_route.js"></script>
 
     <!-- include spec files here... -->
-    <script src="spec/test.js"></script>
+    <script src="spec/controller/admin_controller_test.js"></script>
+    <script src="spec/model/school_test.js"></script>
 
     <script>mocha.run()</script>
 </body>

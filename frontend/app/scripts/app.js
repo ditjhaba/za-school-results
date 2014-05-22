@@ -1,9 +1,5 @@
 var Frontend = window.Frontend = Ember.Application.create();
 
-/* For testing */
-// Frontend.setupForTesting();
-// Frontend.injectTestHelpers();
-
 /* Order and include as you please. */
 require('scripts/controllers/*');
 require('scripts/store');
