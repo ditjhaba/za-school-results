@@ -6,7 +6,7 @@
         describe('School model tests', function() {
             it('should have the name attribute', function(done) {
                 var attribute = Frontend.School.metaForProperty('name');
-                expect(attribute.isAttribute).to.equal(true, 'Expected ttribute');
+                expect(attribute.isAttribute).to.equal(true, 'Expected attribute');
                 done();
             });
 

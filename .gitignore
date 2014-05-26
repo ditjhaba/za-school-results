@@ -11,7 +11,7 @@ pom.xml.asc
 .DS_Store
 parse_csv/.lein-repl-history
 parse_csv/resources/raw_data/.~lock.school_data_master_2013.xlsx#
-/public
+public/
 npm-debug.log
 /clojure_service
 /.idea

@@ -58,23 +58,23 @@
                 done();
             }),
 
-                it('return null if the school does not exist', function(done) {
-                    Ember.run(this, function() {
-                        controller.set('schoolNameSearch', 'non_existent_school');
-                        controller.send('filterByName');
-                        expect(controller.get('schoolFound')).is.null;
-                    });
-                    done();
-                }),
+            it('return null if the school does not exist', function(done) {
+                Ember.run(this, function() {
+                    controller.set('schoolNameSearch', 'non_existent_school');
+                    controller.send('filterByName');
+                    expect(controller.get('schoolFound')).is.null;
+                });
+                done();
+            }),
 
-                it('should retrieve all schools with the same name', function(done) {
-                    Ember.run(this, function(){
-                        controller.set('schoolNameSearch', 'DJ');
-                        controller.send('filterByName');
-                        expect(controller.get('schoolFound').length).to.equal(2);
-                    });
-                    done();
-                })
+            it('should retrieve all schools with the same name', function(done) {
+                Ember.run(this, function(){
+                    controller.set('schoolNameSearch', 'DJ');
+                    controller.send('filterByName');
+                    expect(controller.get('schoolFound').length).to.equal(2);
+                });
+                done();
+            })
         });
     });
 })();
