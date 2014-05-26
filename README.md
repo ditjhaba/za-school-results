@@ -1,6 +1,5 @@
 za-school-results
 ***************************************************
-
 Visualization of matric pass rates for South Africa
 ***************************************************
 
@@ -62,3 +61,13 @@ export MONGOHQ_URL="mongodb://localhost:27017/za_schools"
 bundler (1.6.2)
 25. bundle install
 
+***********************************
+RUNNING THE APPLICATION
+***********************************
+1. cd frontend
+2. grunt --force - To compile all new changes
+3. bundle exec unicorn_rails
+4. Identify the port where your application is running
+5. listening on addr=0.0.0.0:8080 fd=9 - indicates it is running at port: 8080
+6. open a web browser and type
+7. http://localhost:8080/
