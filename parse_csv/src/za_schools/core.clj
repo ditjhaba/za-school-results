@@ -22,7 +22,7 @@
 (defn get-master-data
   "parse the master csv file"
   [& args]
-  (take-csv (io/resource "raw_data/school_data_master_2013.csv")))
+  (take-csv (io/resource "raw_data/matric_results_2013.csv")))
 
 (defn save-province
   [province]
