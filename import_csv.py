@@ -4,13 +4,15 @@ import xlrd
 import csv
 import sys
 
-def select_columns_from_excel():
-	headers = ['Test1', 'Test3']
-	with open(sys.argv[1],'rb') as _in, open('output_file.csv','wb') as out:
-	    reader = csv.DictReader(_in)
-	    writer = csv.DictWriter(out, headers, extrasaction='ignore')
-	    writer.writeheader()
-	    for line in reader:
-	        writer.writerow(line)
+def slice_data_from_excel():
+	if len(sys.argv) == 3:
+		with open(sys.argv[1], 'rb') as input_file, open(sys.argv[2], 'rb') as headers_file, open('output_file.csv', 'wb') as output_file:
+				input_data = csv.DictReader(input_file)
+				headers = [line for line in csv.reader(headers_file)]
+				output_file = csv.DictWriter(output_file, headers[0], extrasaction='ignore')
+				for line in input_data:
+					output_file.writerow(line)
+	else:
+		print "usage: python import_csv.py <input_file> <headers_file>"
 
-select_columns_from_excel()
+slice_data_from_excel()
