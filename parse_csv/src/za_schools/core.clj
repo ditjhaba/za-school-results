@@ -12,17 +12,22 @@
 (defn take-csv
     "Takes file name and reads data."
     [fname]
-    (csv/parse-csv (slurp fname) :delimiter \;))
+    (csv/parse-csv (slurp fname) :delimiter \,))
 
 (defn get-provinces
   "parse the provinces csv file"
   [& args]
-  (take-csv (io/resource "raw_data/school_data_provinces_2013.csv")))
+  (take-csv (io/resource "raw_data/new_province_data.csv")))
 
 (defn get-master-data
   "parse the master csv file"
   [& args]
-  (take-csv (io/resource "raw_data/matric_results_2013.csv")))
+  (take-csv (io/resource "raw_data/sa_schools_master_list.csv")))
+
+(defn get-school-results
+  "parse the school result csv file"
+  [& args]
+  (take-csv (io/resource "raw_data/sa_matric_school_results.csv")))
 
 (defn save-province
   [province]
@@ -35,10 +40,29 @@
 
   (insert "province" province-map)))
 
+(defn save-school-results
+  [school_results]
+  (let [school_results-map
+  {
+    :_id (ObjectId.)
+    :emis (nth school_results 0)
+    :wrote (nth school_results 1)
+    :passed (nth school_results 2)
+    :pass_rate (nth school_results 3)}]
+
+    (insert "school_results" school_results-map)))
+
+
+
 (defn parse-provinces
   []
   (doseq [province-data (rest (get-provinces))]
     (save-province province-data)))
+
+(defn parse-school-results
+  []
+  (doseq [school-results-data (rest (get-school-results))]
+    (save-school-results school-results-data)))
 
 (defn str2no [str]
   (if-not (clojure.string/blank? str)
@@ -68,10 +92,6 @@
       :urban_rural (nth dm 15)
       :section21 (nth dm 16)
       :no_fee_school (nth dm 17)
-      :matric_results_2012_entered (str2no (nth dm 18))
-      :matric_results_2012_wrote (str2no (nth dm 19))
-      :matric_results_2012_passed (str2no (nth dm 20))
-      :matric_results_2012_percent_passed (str2no (nth dm 21))
     })
 
 (defn parse-data-master
@@ -87,6 +107,6 @@
   (println "Parsing provinces done")
   (parse-data-master)
   (println "Parsing master data done")
+  (parse-school-results)
+  (println "Parsing school results done")
 )
-
-
