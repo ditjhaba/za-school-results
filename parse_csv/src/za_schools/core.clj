@@ -17,7 +17,7 @@
 (defn get-provinces
   "parse the provinces csv file"
   [& args]
-  (take-csv (io/resource "raw_data/new_province_data.csv")))
+  (take-csv (io/resource "raw_data/sa_schools_province_data.csv")))
 
 (defn get-master-data
   "parse the master csv file"
