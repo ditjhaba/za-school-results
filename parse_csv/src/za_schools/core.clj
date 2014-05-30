@@ -52,8 +52,6 @@
 
     (insert "matric_results" matric-results-map)))
 
-
-
 (defn parse-provinces
   []
   (doseq [province-data (rest (get-provinces))]
@@ -74,24 +72,25 @@
 (defn build-data-master
   [dm]
     {
-      :province_id (nth dm 0)
-      :province_name (nth dm 1)
-      :school_name (nth dm 2)
-      :school_short_name (nth dm 3)
-      :sector (nth dm 4)
-      :type_doe (nth dm 5)
-      :phase_doe (nth dm 6)
-      :specilization (nth dm 7)
-      :gis_long (nth dm 8)
-      :gis_lat (nth dm 9)
-      :latitude (nth dm 10)
-      :longitude (nth dm 11)
-      :magisterial_district (nth dm 12)
-      :town_city (nth dm 13)
-      :steet_address (nth dm 14)
-      :urban_rural (nth dm 15)
-      :section21 (nth dm 16)
-      :no_fee_school (nth dm 17)
+      :emis (nth dm 0)
+      :province_id (nth dm 1)
+      :province_name (nth dm 2)
+      :school_name (nth dm 3)
+      :school_short_name (nth dm 4)
+      :sector (nth dm 5)
+      :type_doe (nth dm 6)
+      :phase_doe (nth dm 7)
+      :specilization (nth dm 8)
+      :gis_long (nth dm 9)
+      :gis_lat (nth dm 10)
+      :latitude (nth dm 11)
+      :longitude (nth dm 12)
+      :magisterial_district (nth dm 13)
+      :town_city (nth dm 14)
+      :steet_address (nth dm 15)
+      :urban_rural (nth dm 16)
+      :section21 (nth dm 17)
+      :no_fee_school (nth dm 18)
     })
 
 (defn parse-data-master
