@@ -70,7 +70,9 @@
     ))
 
 (defn build-data-master
-  [dm]
+  [dm, matric_results]
+  (def matric_result_emis "")
+  (doseq [mr matric_results] (if (= (nth mr 0) (nth dm 0)) (def matric_result_emis (nth dm 0))))
     {
       :emis (nth dm 0)
       :province_id (nth dm 1)
@@ -91,21 +93,23 @@
       :urban_rural (nth dm 16)
       :section21 (nth dm 17)
       :no_fee_school (nth dm 18)
+      :matric_result_emis matric_result_emis
     })
 
 (defn parse-data-master
-  []
+  [matric_results]
   (doseq [data-master-data (rest (rest (get-master-data)))]
-    (insert "school" (build-data-master data-master-data))))
+    (insert "school" (build-data-master data-master-data matric_results))))
 
 (defn -main
   "Parse school data master files"
   [& args]
   (mg/connect-via-uri! (env :mongohq-url))
+  (def matric_results (get-matric-results))
   (parse-provinces)
   (println "Parsing provinces done")
-  (parse-data-master)
+  (parse-data-master matric_results)
   (println "Parsing master data done")
-  (parse-matric-results)
+  (save-matric-results matric_results)
   (println "Parsing matric results done")
 )
