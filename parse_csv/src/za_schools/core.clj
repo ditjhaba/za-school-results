@@ -110,6 +110,6 @@
   (println "Parsing provinces done")
   (parse-data-master matric_results)
   (println "Parsing master data done")
-  (save-matric-results matric_results)
+  (parse-matric-results)
   (println "Parsing matric results done")
 )

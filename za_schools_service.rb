@@ -35,23 +35,25 @@ get '/schools' do
   cache_key = province_code ? "schools-#{province_code}" : "schools"
 
   # cache(cache_key) do
-    schools = School.ne(gis_long: "").and.ne(matric_results_2012_passed: "")
+    schools = School.ne(gis_long: "").and.ne(matric_result_emis: "")
     schools = schools.where(province_name: province_code) if province_code
 
     schools_results = schools.map do |school|
+      matric_result = school.matric_result
       {
         name: school.school_name,
-        pass_rate: school.matric_results_2012_percent_passed,
-        passed: school.matric_results_2012_passed,
-        wrote: school.matric_results_2012_wrote,
         lat: school.gis_lat,
         lng: school.gis_long,
-        province_code: school.province_name
+        province_code: school.province_name,
+        pass_rate: matric_result.pass_rate,
+        passed: matric_result.passed,
+        wrote: matric_result.wrote
       }
     end
     {school: schools_results}.to_json
   # end
 end
+
 
 get '/province/:code/schools' do
   province = Province.where(code: params[:code]).first
@@ -84,18 +86,22 @@ def cache(name, &block)
   value
 end
 
-
 class School
   include Mongoid::Document
   store_in collection: "school"
+  # has_one :result
 
-  field :matric_results_2012_passed, type: Integer
-  field :matric_results_2012_wrote, type: Integer
-  field :matric_results_2012_percent_passed, type: Float
+  field :emis, type: String
   field :gis_lat, type: String
   field :gis_lng, type: String
   field :school_name, type: String
   field :province_name, type: String
+  field :matric_result_emis, type: String
+
+  def matric_result
+    MatricResult.where(emis: self.matric_result_emis).first
+  end
+
 end
 
 class Province
@@ -117,4 +123,16 @@ class Province
   def wrote_total
     schools.sum(:matric_results_2012_wrote).to_i
   end
+end
+
+class MatricResult
+ include Mongoid::Document
+ store_in collection: "matric_results"
+ # belongs_to :school
+
+ field :emis, type: String
+ field :wrote, type: Integer
+ field :passed, type: Integer
+ field :pass_rate, type: Integer
+
 end
