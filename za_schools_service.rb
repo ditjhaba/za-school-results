@@ -7,9 +7,9 @@ end
 
 get '/countries/:id' do
   cache("countries") do
-    country_results = School.ne(matric_results_2012_passed: "")
-    passed = country_results.sum(:matric_results_2012_passed).to_i
-    wrote = country_results.sum(:matric_results_2012_wrote).to_i
+    country_results = MatricResult.ne(emis: "")
+    passed = country_results.sum(:passed).to_i
+    wrote = country_results.sum(:wrote).to_i
     {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote}}.to_json
   end
 end
@@ -54,19 +54,19 @@ get '/schools' do
   # end
 end
 
-
 get '/province/:code/schools' do
   province = Province.where(code: params[:code]).first
 
   schools_results = province.schools.map do |school|
+    matric_result = school.matric_result
     {
       name: school.school_name,
-      pass_rate: school.matric_results_2012_percent_passed,
-      passed: school.matric_results_2012_passed,
-      wrote: school.matric_results_2012_wrote,
       lat: school.gis_lat,
       lng: school.gis_long,
-      province_code: school.province_name
+      province_code: school.province_name,
+      pass_rate: matric_result.pass_rate,
+      passed: matric_result.passed,
+      wrote: matric_result.wrote
     }
   end
   schools_results.to_json
@@ -113,7 +113,7 @@ class Province
   field :name, type: String
 
   def schools
-    School.where(province_name: self.code).and.ne(matric_results_2012_passed: "").ne(gis_lat: "")
+    School.where(province_name: self.code).ne(matric_result_emis: "").and.ne(gis_lat: "")
   end
 
   def passed_total
