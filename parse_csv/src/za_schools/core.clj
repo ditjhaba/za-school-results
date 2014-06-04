@@ -29,6 +29,11 @@
   [& args]
   (take-csv (io/resource "raw_data/sa_matric_school_results.csv")))
 
+(defn get-sanitation-data
+  "parse the school sanitation data csv file "
+  [& args]
+  (take-csv (io/resource "raw_data/sa_sanitation.csv")))
+
 (defn save-province
   [province]
   (let [province-map
@@ -52,14 +57,15 @@
 
     (insert "matric_results" matric-results-map)))
 
+;using the 'rest' here in order to keep the province data intact
 (defn parse-provinces
   []
-  (doseq [province-data (rest (get-provinces))]
+  (doseq [province-data (rest (get-provinces))] 
     (save-province province-data)))
 
 (defn parse-matric-results
   []
-  (doseq [matric-results-data (rest (get-matric-results))]
+  (doseq [matric-results-data (get-matric-results)]
     (save-matric-results matric-results-data)))
 
 (defn str2no [str]
@@ -70,9 +76,11 @@
     ))
 
 (defn build-data-master
-  [dm, matric_results]
+  [dm, matric_results, sanitation]
   (def matric_result_emis "")
   (doseq [mr matric_results] (if (= (nth mr 0) (nth dm 0)) (def matric_result_emis (nth dm 0))))
+  (def sanitation_emis "")
+  (doseq [sd sanitation] (if (= (nth sd 0) (nth dm 0)) (def sanitation_emis (nth sd 0))))
     {
       :emis (nth dm 0)
       :province_id (nth dm 1)
@@ -94,22 +102,50 @@
       :section21 (nth dm 17)
       :no_fee_school (nth dm 18)
       :matric_result_emis matric_result_emis
+      :sanitation_emis sanitation_emis
+    })
+
+(defn build-sanitation-data
+  [sd]
+  {
+    :emis (nth sd 0)
+    :no_of_boys (nth sd 1)
+    :no_of_girls (nth sd 2)
+    :total_toilets (nth sd 3)
+    :sanitation_plan (nth sd 4)
+    :construction (nth sd 5)
+    :running_water (nth sd 6)
     })
 
 (defn parse-data-master
-  [matric_results]
-  (doseq [data-master-data (rest (rest (get-master-data)))]
-    (insert "school" (build-data-master data-master-data matric_results))))
+  [matric_results, sanitation]
+  (doseq [data-master-data (get-master-data)]
+    (insert "school" (build-data-master data-master-data matric_results sanitation))))
+
+(defn parse-sanitation-data
+  []
+  (doseq [sanitation-data (get-sanitation-data)]
+    (insert "school_sanitation" (build-sanitation-data sanitation-data))))
 
 (defn -main
   "Parse school data master files"
   [& args]
   (mg/connect-via-uri! (env :mongohq-url))
   (def matric_results (get-matric-results))
+  (def sanitation (get-sanitation-data))
   (parse-provinces)
   (println "Parsing provinces done")
-  (parse-data-master matric_results)
+  (parse-data-master matric_results sanitation)
   (println "Parsing master data done")
   (parse-matric-results)
   (println "Parsing matric results done")
+  (parse-sanitation-data)
+  (println "Parsing sanitation data done")
 )
+
+
+
+
+
+
+
