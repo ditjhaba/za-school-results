@@ -5,12 +5,12 @@ get '/' do
   File.read(File.join('public', 'index.html'))
 end
 
-get '/countries/:id' do
+get '/country' do
   cache("countries") do
     country_results = MatricResult.ne(emis: "")
     passed = country_results.sum(:passed).to_i
     wrote = country_results.sum(:wrote).to_i
-    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote}}.to_json
+    {country: {name: "South Africa", passed: passed, wrote: wrote}}.to_json
   end
 end
 

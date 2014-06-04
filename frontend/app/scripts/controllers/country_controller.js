@@ -4,7 +4,7 @@ Frontend.CountryController = Ember.ObjectController.extend({
 
   showCountry: function() {
     var that = this;
-    this.store.find('country', 1).then(function(country) {
+    this.store.find('country').then(function(country) {
       var counter = that.get('counter');
       counter.set('model', that.store.createRecord('counter'));
       counter.set('passed', country.get('passed'));
