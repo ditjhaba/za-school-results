@@ -56,7 +56,6 @@ end
 
 get '/sanitation' do
   schools = School.ne(sanitation_emis: "").and.ne(gis_long: "")
-  puts schools.count
   sanitation = schools.map do |school|
   school_sanitation = school.school_sanitation
      {
@@ -76,9 +75,10 @@ end
 
 
 get '/province/:code/schools' do
-  province = Province.where(code: params[:code]).first
 
-  schools_results = province.schools.map do |school|
+  school_results = School.where(province_name: params[:code]).ne(matric_result_emis: "").and.ne(gis_lat: "")
+
+  school_results = school_results.map do |school|
     matric_result = school.matric_result
     {
       name: school.school_name,
@@ -90,7 +90,7 @@ get '/province/:code/schools' do
       wrote: matric_result.wrote
     }
   end
-  schools_results.to_json
+  school_results.to_json
 end
 
 def cache(name, &block)
@@ -136,18 +136,6 @@ class Province
   field :id, type: Integer
   field :code, type: String
   field :name, type: String
-
-  def schools
-    School.where(province_name: self.code).ne(matric_result_emis: "").and.ne(gis_lat: "")
-  end
-
-  def passed_total
-    schools.sum(:matric_results_2012_passed).to_i
-  end
-
-  def wrote_total
-    schools.sum(:matric_results_2012_wrote).to_i
-  end
 end
 
 class MatricResult
