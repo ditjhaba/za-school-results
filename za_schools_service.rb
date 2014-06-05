@@ -63,7 +63,6 @@ get '/sanitation' do
         name: school.school_name,
         lat: school.gis_lat,
         lng: school.gis_long,
-        sanitation_emis: school.sanitation_emis, 
         no_of_boys: school_sanitation.no_of_boys,
         no_of_girls: school_sanitation.no_of_girls,
         total_toilets: school_sanitation.total_toilets,
