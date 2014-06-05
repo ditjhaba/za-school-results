@@ -1,4 +1,0 @@
-Frontend.SanitationRoute = Ember.Route.extend({
-  model: function() { 
-  }
-});

@@ -54,7 +54,7 @@ get '/schools' do
   # end
 end
 
-get '/sanitation' do
+get '/sanitations' do
   schools = School.ne(sanitation_emis: "").and.ne(gis_long: "")
   sanitation = schools.map do |school|
   school_sanitation = school.school_sanitation
