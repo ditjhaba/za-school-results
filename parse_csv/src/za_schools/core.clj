@@ -5,7 +5,7 @@
               [clojure.java.io :as io]
               [environ.core :refer [env]])
    (:use [monger.core :only [connect! connect set-db! get-db]]
-         [monger.collection :only [insert insert-batch]])
+         [monger.collection :only [insert insert-batch create-index]])
    (:import [org.bson.types ObjectId]
             [com.mongodb DB WriteConcern]))
 
@@ -127,6 +127,10 @@
   (doseq [sanitation-data (get-sanitation-data)]
     (insert "school_sanitation" (build-sanitation-data sanitation-data))))
 
+(defn create-indeces
+  [db, collection, column]
+  (monger.collection/create-index collection {column 1}))
+
 (defn -main
   "Parse school data master files"
   [& args]
@@ -141,6 +145,10 @@
   (println "Parsing matric results done")
   (parse-sanitation-data)
   (println "Parsing sanitation data done")
+  (println "Creating matric_results indeces")
+  (create-indeces (mg/get-db "za-schools") "matric_results" "emis")
+  (println "Creating school indeces")
+  (create-indeces (mg/get-db "za-schools") "school" "emis")
 )
 
 
