@@ -97,7 +97,7 @@
       :longitude (nth dm 12)
       :magisterial_district (nth dm 13)
       :town_city (nth dm 14)
-      :steet_address (nth dm 15)
+      :street_address (nth dm 15)
       :urban_rural (nth dm 16)
       :section21 (nth dm 17)
       :no_fee_school (nth dm 18)
