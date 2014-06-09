@@ -15,19 +15,19 @@ get '/countries/:id' do
 end
 
 get '/provinces' do
-  cache("provinces") do
+  # cache("provinces") do
     provinces = Province.all
     province_results = provinces.map do |province|
       {
         code: province.code,
         name: province.name,
         id: province.id,
-        passed: province.passed_total,
-        wrote: province.wrote_total
+        passed: province.passed,
+        wrote: province.wrote
       }
     end
     {province: province_results}.to_json
-  end
+  # end
 end
 
 get '/schools' do
@@ -135,6 +135,25 @@ class Province
   field :id, type: Integer
   field :code, type: String
   field :name, type: String
+
+  def passed
+    schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
+    passed = 0
+    schools.each { |school|
+      passed = passed + MatricResult.where(emis: school.matric_result_emis).first.passed 
+    }
+    passed
+  end
+
+  def wrote
+    schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
+    wrote = 0
+    schools.each { |school|
+      wrote = wrote + MatricResult.where(emis: school.matric_result_emis).first.wrote 
+    }
+    wrote
+  end
+
 end
 
 class MatricResult

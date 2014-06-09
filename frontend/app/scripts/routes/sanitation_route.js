@@ -1,5 +1,5 @@
-Frontend.IndexRoute = Ember.Route.extend({
+Frontend.SanitationRoute = Ember.Route.extend({
   model: function() {
-		return this.store.findAll('sanitation');
+	  return this.get("store").all("sanitation")
 	}
 });
