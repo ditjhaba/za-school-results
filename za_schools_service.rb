@@ -54,27 +54,6 @@ get '/schools' do
   # end
 end
 
-get '/all_schools' do
-  schools = School.all()
-
-  school_data = schools.map do |school|
-    matric_result = school.matric_result
-    {
-      emis: school.emis,
-      name: school.school_name,
-      lat: school.gis_lat,
-      lng: school.gis_long,
-      province_code: school.province_name,
-      address: school.steet_address,
-      specialization: school.specilization,
-      district: school.magisterial_district,
-      town_city: school.town_city,
-      type_doe: school.type_doe
-    }
-  end 
-  {schools: schools}.to_json
-end
-
 get '/sanitations' do
   schools = School.ne(sanitation_emis: "").and.ne(gis_long: "")
   sanitation = schools.map do |school|
@@ -93,7 +72,6 @@ get '/sanitations' do
   end
   {sanitation: sanitation}.to_json
 end
-
 
 get '/province/:code/schools' do
 
