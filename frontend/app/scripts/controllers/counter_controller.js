@@ -16,7 +16,8 @@ Frontend.CounterController = Ember.ObjectController.extend({
     window.$('.students-passed').html(this.get('passed'));
     window.$('.students-wrote').html(this.get('wrote'));
     window.$('.students-pass-rate').html(this.get('pass_rate'));
-  }.observes('passed', 'wrote', 'pass_rate'),
+    window.$('.title').html(this.get('title'));
+  }.observes('passed', 'wrote', 'pass_rate','title'),
 
   odometerFor: function(element, value) {
     Ember.run(this, function() {

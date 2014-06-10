@@ -22,8 +22,8 @@ get '/provinces' do
         code: province.code,
         name: province.name,
         id: province.id,
-        passed: province.matric_result(1),
-        wrote: province.matric_result(0)
+        passed: province.matric_result("passed"),
+        wrote: province.matric_result("wrote")
       }
     end
     {province: province_results}.to_json
@@ -139,7 +139,7 @@ class Province
   def matric_result(flag)
     schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
     result = 0
-    if flag == 1
+    if flag == "passed"
       schools.each { |school|
         result = result + MatricResult.where(emis: school.matric_result_emis).first.passed 
       }
