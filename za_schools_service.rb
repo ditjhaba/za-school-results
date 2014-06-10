@@ -22,8 +22,8 @@ get '/provinces' do
         code: province.code,
         name: province.name,
         id: province.id,
-        passed: province.passed,
-        wrote: province.wrote
+        passed: province.matric_result(1),
+        wrote: province.matric_result(0)
       }
     end
     {province: province_results}.to_json
@@ -136,24 +136,20 @@ class Province
   field :code, type: String
   field :name, type: String
 
-  def passed
+  def matric_result(flag)
     schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
-    passed = 0
-    schools.each { |school|
-      passed = passed + MatricResult.where(emis: school.matric_result_emis).first.passed 
-    }
-    passed
+    result = 0
+    if flag == 1
+      schools.each { |school|
+        result = result + MatricResult.where(emis: school.matric_result_emis).first.passed 
+      }
+    else
+      schools.each { |school|
+        result = result + MatricResult.where(emis: school.matric_result_emis).first.wrote 
+      }
+    end
+    result
   end
-
-  def wrote
-    schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
-    wrote = 0
-    schools.each { |school|
-      wrote = wrote + MatricResult.where(emis: school.matric_result_emis).first.wrote 
-    }
-    wrote
-  end
-
 end
 
 class MatricResult
