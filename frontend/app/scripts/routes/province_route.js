@@ -1,5 +1,4 @@
-Frontend.ProvincesRoute = Ember.Route.extend({
+Frontend.ProvinceRoute = Ember.Route.extend({
   model: function() {
-    
-  }
+	}
 });

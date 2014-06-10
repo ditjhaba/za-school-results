@@ -23,7 +23,8 @@ get '/provinces' do
         name: province.name,
         id: province.id,
         passed: province.matric_result("passed"),
-        wrote: province.matric_result("wrote")
+        wrote: province.matric_result("wrote"),
+        no_of_boys: 100
       }
     end
     {province: province_results}.to_json
@@ -149,6 +150,15 @@ class Province
       }
     end
     result
+  end
+
+  def no_of_boys
+     schools = School.where(province_name: self.code).and.ne(sanitation_emis: "")
+     boys = 0
+     schools.each {|school|
+      boys = boys + Sanitation.where(emis: school.sanitation_emis).first.no_of_boys
+     }
+     boys
   end
 end
 
