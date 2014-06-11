@@ -10,7 +10,13 @@ get '/countries/:id' do
     country_results = MatricResult.ne(emis: "")
     passed = country_results.sum(:passed).to_i
     wrote = country_results.sum(:wrote).to_i
-    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote}}.to_json
+    no_of_boys = 100
+    no_of_girls = 150 
+    total_toilets = 20 
+    sanitation_plan = "yes" 
+    construction = "yes"
+    running_water = "yes"
+    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys}}.to_json
   end
 end
 
@@ -22,8 +28,10 @@ get '/provinces' do
         code: province.code,
         name: province.name,
         id: province.id,
-        passed: province.matric_result("passed"),
-        wrote: province.matric_result("wrote"),
+        passed: 58,
+        wrote: 80,
+        # passed: province.matric_result("passed"),
+        # wrote: province.matric_result("wrote"),
         no_of_boys: 100
       }
     end

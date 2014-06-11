@@ -68,9 +68,9 @@ Frontend.Province = DS.Model.extend({
   setCounter: function() {
     var counter = window.Frontend.__container__.lookup("controller:counter");
     var display_data = window.data_type;
+    counter.set('title', this.get('name'));
 
     if(display_data === "display_matric_results") {
-      counter.set('title', this.get('name'));
       counter.set('passed', this.get('passed'));
       counter.set('wrote', this.get('wrote'));
       counter.set('pass_rate', this.get('pass_rate'));
@@ -82,16 +82,14 @@ Frontend.Province = DS.Model.extend({
       counter.set('sanitation_plan', this.get('sanitation_plan'));
       counter.set('construction', this.get('construction'));
       counter.set('running_water', this.get('running_water'));
-      counter.set('matric_year', "");
-      counter.set('sanitation_year', "Sanitation 2013");
     }
   },
 
-  resetCounter: function() {
-    this.get('store').find('country', 1).then(function(country) {
-      country.setCounter();
-    });
-  },
+  // resetCounter: function() {
+  //   this.get('store').find('country', 1).then(function(country) {
+  //     country.setCounter();
+  //   });
+  // },
 
   zoomIn: function() {
     var provinceCenter = this.get('geo_json').getBounds().getCenter();

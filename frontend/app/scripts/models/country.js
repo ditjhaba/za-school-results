@@ -2,10 +2,14 @@ Frontend.Country = DS.Model.extend({
   name: DS.attr(),
   passed: DS.attr(),
   wrote: DS.attr(),
-
-  country_name: DS.attr(),
-  country_passed: DS.attr(),
-  country_wrote: DS.attr(),
+  no_of_boys: DS.attr(),
+  no_of_girls: DS.attr(),
+  total_toilets: DS.attr(),
+  sanitation_plan: DS.attr(),
+  construction: DS.attr(),
+  running_water: DS.attr(),
+  matric_year: DS.attr(),
+  sanitation_year: DS.attr(),
 
   pass_rate: function() {
      return (this.get('passed')/this.get('wrote')) * 100;
