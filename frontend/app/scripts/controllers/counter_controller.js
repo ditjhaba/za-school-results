@@ -4,60 +4,10 @@ Frontend.CounterController = Ember.ObjectController.extend({
       console.log("starting odometer");
       // this.set('model', this.store.createRecord('counter'));
       if(window.data_type === "display_matric_results") {
-        var el = document.querySelector('.students-pass-rate');
-        this.odometerFor(el, this.get('pass_rate'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("% students passed");
-        span.appendChild(span_content);
-        var li = document.getElementById("students-pass-rate");
-        li.appendChild(span);
-
-        el = document.querySelector('.students-passed');
-        this.odometerFor(el, this.get('passed'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("students passed");
-        span.appendChild(span_content);
-        var li = document.getElementById("students-passed");
-        li.appendChild(span);
-
-        el = document.querySelector('.students-wrote');
-        this.odometerFor(el, this.get('wrote'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("students wrote");
-        span.appendChild(span_content);
-        var li = document.getElementById("students-wrote");
-        li.appendChild(span);
+        this.createMatricResultsOdometer();  
       } 
       else {
-        var el = document.querySelector('.number-of-boys');
-        this.odometerFor(el, this.get('no_of_boys'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("boys");
-        span.appendChild(span_content);
-        var li = document.getElementById("number-of-boys");
-        li.appendChild(span);
-
-        var el = document.querySelector('.number-of-girls');
-        this.odometerFor(el, this.get('no_of_girls'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("girls");
-        span.appendChild(span_content);
-        var li = document.getElementById("number-of-girls");
-        li.appendChild(span);
-
-        var el = document.querySelector('.total-toilets');
-        this.odometerFor(el, this.get('total_toilets'));
-        var span = document.createElement("span");
-        span.className = "description";
-        var span_content = document.createTextNode("toilets");
-        span.appendChild(span_content);
-        var li = document.getElementById("total-toilets");
-        li.appendChild(span);
+        this.createSanitationInfoOdometer();
       }
     }
   },
@@ -87,5 +37,47 @@ Frontend.CounterController = Ember.ObjectController.extend({
       });
       element.innerHTML = value;
     });
+  },
+
+  createMatricResultsOdometer: function() {
+    var el = document.querySelector('.students-pass-rate');
+        this.odometerFor(el, this.get('pass_rate'));
+        this.descriptionFor("students-pass-rate")
+
+        el = document.querySelector('.students-passed');
+        this.odometerFor(el, this.get('passed'));
+        this.descriptionFor("students-passed")
+
+        el = document.querySelector('.students-wrote');
+        this.odometerFor(el, this.get('wrote'));
+        this.descriptionFor("students-wrote")
+  },
+
+  createSanitationInfoOdometer: function() {
+    var el = document.querySelector('.number-of-boys');
+        this.odometerFor(el, this.get('no_of_boys'));
+        this.descriptionFor("number-of-boys");
+
+        var el = document.querySelector('.number-of-girls');
+        this.odometerFor(el, this.get('no_of_girls'));
+        this.descriptionFor("number-of-girls");
+
+        var el = document.querySelector('.total-toilets');
+        this.odometerFor(el, this.get('total_toilets'));
+        this.descriptionFor("total-toilets");
+  },
+
+  descriptionFor: function(data) {
+    var span = document.createElement("span");
+    span.className = "description";
+    var li = document.getElementById(data);
+
+    var splitData = data.split("-");
+    var joinedData = splitData.join(" "); 
+    var span_content = document.createTextNode(joinedData);
+
+    span.appendChild(span_content);
+    li.appendChild(span);
   }
+
 });
