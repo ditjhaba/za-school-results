@@ -1,11 +1,13 @@
-<div id="navbar-container">
-	<p id='logo' class='nav-bar'>Jay and Jay Digital Project</p>
-	
-	<ul id='navigation' class='nav-bar'>
-		{{#link-to 'index'}}Matric Results{{/link-to}}
-		<li class="link-separator">|</li>
-		{{#link-to 'health'}}Sanitation{{/link-to}}
-		<li class="link-separator">|</li>
-		{{#link-to 'admin'}}Admin{{/link-to}}
-	</ul>
-</div>
+{{#view Frontend.NavBarView}}
+	<div id="navbar-container">
+		<p id='logo' class='nav-bar'>Jay and Jay Digital Project</p>
+		
+		<ul id='navigation' class='nav-bar'>
+			{{#link-to 'index'}}Matric Results{{/link-to}}
+			<li class="link-separator">|</li>
+			{{#link-to 'health'}}Sanitation{{/link-to}}
+			<li class="link-separator">|</li>
+			{{#link-to 'admin'}}Admin{{/link-to}}
+		</ul>
+	</div>
+{{/view}}

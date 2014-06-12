@@ -68,16 +68,36 @@ Frontend.CounterController = Ember.ObjectController.extend({
   },
 
   descriptionFor: function(data) {
-    var span = document.createElement("span");
-    span.className = "description";
-    var li = document.getElementById(data);
+    var descriptionSpan = document.createElement("span");
+    descriptionSpan.className = "description";
+    var parent = document.getElementById(data);
 
-    var splitData = data.split("-");
-    var joinedData = splitData.join(" "); 
-    var span_content = document.createTextNode(joinedData);
+    var cleanData = data.split("-").join(" ");
+    var descriptionSpanContent = document.createTextNode(cleanData);
 
-    span.appendChild(span_content);
-    li.appendChild(span);
+    descriptionSpan.appendChild(descriptionSpanContent);
+    parent.appendChild(descriptionSpan);
   }
-
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

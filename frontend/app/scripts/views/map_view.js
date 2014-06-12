@@ -4,7 +4,7 @@ Frontend.MapView = Ember.View.extend({
 
   didInsertElement: function() {
 
-   Frontend.map = window.L.map('map', {zoomControl: false}).setView([-30.559482,  22.937505999999985], 6 );
+   Frontend.map = window.L.map('map', {zoomControl: false}).setView([-29.328516, 23.751131], 6);
 
     window.L.control.zoom({position: 'topright'}).addTo(Frontend.map);
    // window.L.control.pan().addTo(Frontend.map);
