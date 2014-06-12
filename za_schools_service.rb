@@ -6,18 +6,20 @@ get '/' do
 end
 
 get '/countries/:id' do
-  cache("countries") do
+  # cache("countries") do
     country_results = MatricResult.ne(emis: "")
     passed = country_results.sum(:passed).to_i
     wrote = country_results.sum(:wrote).to_i
+    
     no_of_boys = 100
     no_of_girls = 150 
     total_toilets = 20 
     sanitation_plan = "yes" 
     construction = "yes"
     running_water = "yes"
+    
     {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys}}.to_json
-  end
+  # end
 end
 
 get '/provinces' do
@@ -104,7 +106,6 @@ end
 def cache(name, &block)
   client = IronCache::Client.new
   cache =  client.cache("za_schools_results")
-
   item = cache.get(name)
   if item
     value = item.value
