@@ -25,15 +25,15 @@ end
 get '/provinces' do
   # cache("provinces") do
     provinces = Province.all
+    puts 
     province_results = provinces.map do |province|
       {
         code: province.code,
         name: province.name,
         id: province.id,
-        passed: 58,
-        wrote: 80,
-        # passed: province.matric_result("passed"),
-        # wrote: province.matric_result("wrote"),
+        passed: province.passed,
+        wrote: province.wrote,
+        pass_rate: province.pass_rate,
         no_of_boys: 100
       }
     end
@@ -164,21 +164,9 @@ class Province
   field :id, type: Integer
   field :code, type: String
   field :name, type: String
-
-  def matric_result(flag)
-    schools = School.where(province_name: self.code).and.ne(matric_result_emis: "")
-    result = 0
-    if flag == "passed"
-      schools.each { |school|
-        result = result + MatricResult.where(emis: school.matric_result_emis).first.passed 
-      }
-    else
-      schools.each { |school|
-        result = result + MatricResult.where(emis: school.matric_result_emis).first.wrote 
-      }
-    end
-    result
-  end
+  field :wrote, type: Integer
+  field :passed, type: Integer
+  field :pass_rate, type: Float
 
   def no_of_boys
      schools = School.where(province_name: self.code).and.ne(sanitation_emis: "")
