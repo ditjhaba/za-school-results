@@ -18,7 +18,8 @@ get '/countries/:id' do
     construction = "yes"
     running_water = "yes"
     
-    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys}}.to_json
+    {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys,
+     no_of_girls: no_of_girls, total_toilets: total_toilets}}.to_json
   # end
 end
 
@@ -34,7 +35,9 @@ get '/provinces' do
         passed: province.passed,
         wrote: province.wrote,
         pass_rate: province.pass_rate,
-        no_of_boys: 100
+        no_of_boys: 67,
+        no_of_girls: 98,
+        total_toilets: 30
       }
     end
     {province: province_results}.to_json
@@ -109,6 +112,7 @@ get '/province/:code/schools' do
 
   school_results = school_results.map do |school|
     matric_result = school.matric_result
+    sanitation = school.school_sanitation
     {
       name: school.school_name,
       lat: school.gis_lat,
@@ -116,7 +120,13 @@ get '/province/:code/schools' do
       province_code: school.province_name,
       pass_rate: matric_result.pass_rate,
       passed: matric_result.passed,
-      wrote: matric_result.wrote
+      wrote: matric_result.wrote,
+      no_of_boys: sanitation != nil ? sanitation.no_of_boys : "unknown",
+      no_of_girls: sanitation != nil ? sanitation.no_of_girls : "unknown",
+      total_toilets: sanitation != nil ? sanitation.total_toilets : "unknown",
+      sanitation_plan: sanitation != nil ? sanitation.sanitation_plan : "unknown",
+      running_water: sanitation != nil ? sanitation.running_water : "unknown",
+      construction: sanitation != nil ? sanitation.construction : "unknown" 
     }
   end
   school_results.to_json

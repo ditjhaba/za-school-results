@@ -3,7 +3,6 @@ Frontend.MapView = Ember.View.extend({
   tagName: 'div',
 
   didInsertElement: function() {
-
    Frontend.map = window.L.map('map', {zoomControl: false}).setView([-29.328516, 23.751131], 6);
 
     window.L.control.zoom({position: 'topright'}).addTo(Frontend.map);

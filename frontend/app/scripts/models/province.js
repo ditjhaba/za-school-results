@@ -108,13 +108,27 @@ Frontend.Province = DS.Model.extend({
             weight: 3,
             fillOpacity: 0.5,
           });
-          circle.addTo(Frontend.map);
           var popupContent = "<h3>" + school.name + "</h3>";
-          popupContent += "<ul class='popup-content'>"
-          popupContent += "<li><strong>Pass Rate: </strong>" + school.pass_rate + "%</li>";
-          popupContent += "<li><strong>Students passed: </strong>" + school.passed + "</li>";
-          popupContent += "<li><strong>Students wrote: </strong>" + school.wrote + "</li>";
-          popupContent += "</ul>"
+
+          if(window.data_type === "display_matric_results") {
+            popupContent += "<ul class='popup-content'>"
+            popupContent += "<li><strong>Pass Rate: </strong>" + school.pass_rate + "</li>";
+            popupContent += "<li><strong>Students passed: </strong>" + school.passed + "</li>";
+            popupContent += "<li><strong>Students wrote: </strong>" + school.wrote + "</li>";
+            popupContent += "</ul>"
+          }
+          else {
+            popupContent += "<ul class='popup-content'>"
+            popupContent += "<li><strong>Number of boys: </strong>" + school.no_of_boys + "</li>";
+            popupContent += "<li><strong>Number of girls: </strong>" + school.no_of_girls + "</li>";
+            popupContent += "<li><strong>Total toilets: </strong>" + school.total_toilets + "</li>";
+            popupContent += "<li><strong>Sanitation plan: </strong>" + school.sanitation_plan + "</li>";
+            popupContent += "<li><strong>Running water: </strong>" + school.running_water + "</li>";
+            popupContent += "<li><strong>Under construction: </strong>" + school.construction + "</li>";
+            popupContent += "</ul>"
+          }
+          
+          circle.addTo(Frontend.map);
           circle.bindPopup(popupContent);
           circle.bringToFront();
       });

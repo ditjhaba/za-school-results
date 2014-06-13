@@ -19,7 +19,7 @@ Frontend.CounterController = Ember.ObjectController.extend({
     window.$('.title').html(this.get('title'));
     window.$('.country').html(this.get('country'));
     window.$('.number-of-boys').html(this.get('no_of_boys'));
-    window.$('.number-of-girls').html(this.get('number_of_girls'));
+    window.$('.number-of-girls').html(this.get('no_of_girls'));
     window.$('.total-toilets').html(this.get('total_toilets'));
     window.$('.sanitation-plan').html(this.get('sanitation_plan'));
     window.$('.construction').html(this.get('construction'));
