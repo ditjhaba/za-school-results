@@ -35,9 +35,9 @@ get '/provinces' do
         passed: province.passed,
         wrote: province.wrote,
         pass_rate: province.pass_rate,
-        no_of_boys: 67,
-        no_of_girls: 98,
-        total_toilets: 30
+        no_of_boys: province.no_of_boys,
+        no_of_girls: province.no_of_girls,
+        total_toilets: province.total_toilets
       }
     end
     {province: province_results}.to_json
@@ -90,7 +90,7 @@ end
 get '/sanitations' do
   schools = School.ne(sanitation_emis: "").and.ne(gis_long: "")
   sanitation = schools.map do |school|
-  school_sanitation = school.school_sanitation
+  school_sanitation = school.sanitation
      {
         name: school.school_name,
         lat: school.gis_lat,
@@ -112,7 +112,7 @@ get '/province/:code/schools' do
 
   school_results = school_results.map do |school|
     matric_result = school.matric_result
-    sanitation = school.school_sanitation
+    sanitation = school.sanitation
     {
       name: school.school_name,
       lat: school.gis_lat,
@@ -161,7 +161,7 @@ class School
     MatricResult.where(emis: self.matric_result_emis).first
   end
 
-  def school_sanitation
+  def sanitation
     Sanitation.where(emis: self.sanitation_emis).first
   end
 
@@ -177,15 +177,10 @@ class Province
   field :wrote, type: Integer
   field :passed, type: Integer
   field :pass_rate, type: Float
+  field :no_of_boys, type: Integer
+  field :no_of_girls, type: Integer
+  field :total_toilets, type: Integer
 
-  def no_of_boys
-     schools = School.where(province_name: self.code).and.ne(sanitation_emis: "")
-     boys = 0
-     schools.each {|school|
-      boys = boys + Sanitation.where(emis: school.sanitation_emis).first.no_of_boys
-     }
-     boys
-  end
 end
 
 class MatricResult
