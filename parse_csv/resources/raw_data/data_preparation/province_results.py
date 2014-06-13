@@ -4,8 +4,8 @@ import pymongo
 from pymongo import MongoClient
 
 # *************************************************************************
-# This script is used to compute and insert matric results data in the 
-# province table
+# This script is used to compute and insert matric results and sanitation 
+# data into the province table
 # *************************************************************************
 
 # *************************************************************************
@@ -13,8 +13,15 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.za_schools
 schools = db.school
+sanitations = db.school_sanitation
 matric_results = db.matric_results
 provinces = db.province
+
+# *************************************************************************
+# Filter for bad data in sanitation table
+BAD_DATA = ["Pit toilets", "VIP toilets", ""]
+def bad_data(value):
+	return (value in BAD_DATA)
 # *************************************************************************
 
 # *************************************************************************
@@ -27,12 +34,34 @@ def province_matric_results(schools):
 		wrote += int(matric_result.get('wrote'))
 		passed += int(matric_result.get('passed'))
 
-	return {"wrote": wrote, "passed": passed, "pass_rate": round((passed/float(wrote)) * 100, 2)}
+	return {"wrote": wrote, "passed": passed, 
+			"pass_rate": round((passed/float(wrote)) * 100, 2)}
 # *************************************************************************
 
+
 # *************************************************************************
+# Extracting sanitation data for a province given its list of schools
+def province_sanitation(schools):
+	no_of_boys = 0
+	no_of_girls = 0
+	total_toilets = 0
+	for school in schools:
+		sanitation = sanitations.find_one({"emis": school.get('emis')})
+		if not bad_data(sanitation.get('no_of_boys')):
+			no_of_boys += int(sanitation.get('no_of_boys'))
+		if not bad_data(sanitation.get('no_of_girls')):
+			no_of_girls += int(sanitation.get('no_of_girls'))
+		if not bad_data(sanitation.get('total_toilets')):
+			total_toilets += int(sanitation.get('total_toilets'))
+
+	return {"no_of_boys": no_of_boys, "no_of_girls": no_of_girls, 
+			"total_toilets": total_toilets}
+#*************************************************************************
+
+# *************************************************************************
+
 # Extracting provinces data and update it with the new matric result fields
-def update_provinces():
+def update_province_matric_results():
 	for province in provinces.find():
 		province_schools = schools.find({"province_name": province.get("code"), "matric_result_emis": {"$ne": ""}})
 		matric_result = province_matric_results(province_schools)
@@ -41,6 +70,19 @@ def update_provinces():
 									"passed": matric_result.get("passed"), 
 									"pass_rate": matric_result.get("pass_rate")}})
 # *************************************************************************
+
+# *************************************************************************
+# Extracting provinces data and update it with the new matric result fields
+def update_province_sanitation():
+	for province in provinces.find():
+		province_schools = schools.find({"province_name": province.get("code"), "sanitation_emis": {"$ne": ""}})
+		sanitation = province_sanitation(province_schools)
+		provinces.update({"_id": province.get("_id")}, 
+						 {"$set": {"no_of_boys": sanitation.get("no_of_boys"),
+									"no_of_girls": sanitation.get("no_of_girls"),
+									"total_toilets": sanitation.get("total_toilets")}})
+# *************************************************************************
 # Executing the process
-update_provinces()
+update_province_matric_results()
+update_province_sanitation()
 # *************************************************************************
