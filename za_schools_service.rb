@@ -112,6 +112,7 @@ get '/province/:code/schools' do
 
   school_results = school_results.map do |school|
     matric_result = school.matric_result
+    sanitation = school.school_sanitation
     {
       name: school.school_name,
       lat: school.gis_lat,
@@ -120,11 +121,12 @@ get '/province/:code/schools' do
       pass_rate: matric_result.pass_rate,
       passed: matric_result.passed,
       wrote: matric_result.wrote,
-      no_of_boys: 25,
-      no_of_girls: 67,
-      total_toilets: 45,
-      sanitation_plan: "yes",
-      running_water: "yes" 
+      no_of_boys: sanitation != nil ? sanitation.no_of_boys : "unknown",
+      no_of_girls: sanitation != nil ? sanitation.no_of_girls : "unknown",
+      total_toilets: sanitation != nil ? sanitation.total_toilets : "unknown",
+      sanitation_plan: sanitation != nil ? sanitation.sanitation_plan : "unknown",
+      running_water: sanitation != nil ? sanitation.running_water : "unknown",
+      construction: sanitation != nil ? sanitation.construction : "unknown" 
     }
   end
   school_results.to_json

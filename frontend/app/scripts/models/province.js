@@ -119,11 +119,12 @@ Frontend.Province = DS.Model.extend({
           }
           else {
             popupContent += "<ul class='popup-content'>"
-            popupContent += "<li><strong>Number of boys: </strong>" + school.no_of_boys + "%</li>";
+            popupContent += "<li><strong>Number of boys: </strong>" + school.no_of_boys + "</li>";
             popupContent += "<li><strong>Number of girls: </strong>" + school.no_of_girls + "</li>";
             popupContent += "<li><strong>Total toilets: </strong>" + school.total_toilets + "</li>";
             popupContent += "<li><strong>Sanitation plan: </strong>" + school.sanitation_plan + "</li>";
             popupContent += "<li><strong>Running water: </strong>" + school.running_water + "</li>";
+            popupContent += "<li><strong>Under construction: </strong>" + school.construction + "</li>";
             popupContent += "</ul>"
           }
           
