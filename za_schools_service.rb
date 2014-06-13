@@ -7,17 +7,13 @@ end
 
 get '/countries/:id' do
   # cache("countries") do
-    country_results = MatricResult.ne(emis: "")
-    passed = country_results.sum(:passed).to_i
-    wrote = country_results.sum(:wrote).to_i
-    
-    no_of_boys = 100
-    no_of_girls = 150 
-    total_toilets = 20 
-    sanitation_plan = "yes" 
-    construction = "yes"
-    running_water = "yes"
-    
+    provinces = Province.all
+    passed = provinces.sum(:passed)
+    wrote = provinces.sum(:wrote)
+    no_of_boys = provinces.sum(:no_of_boys)
+    no_of_girls = provinces.sum(:no_of_girls)
+    total_toilets  = provinces.sum(:total_toilets)
+
     {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys,
      no_of_girls: no_of_girls, total_toilets: total_toilets}}.to_json
   # end
@@ -25,8 +21,7 @@ end
 
 get '/provinces' do
   # cache("provinces") do
-    provinces = Province.all
-    puts 
+    provinces = Province.all 
     province_results = provinces.map do |province|
       {
         code: province.code,
