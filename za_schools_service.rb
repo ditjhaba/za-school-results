@@ -34,7 +34,7 @@ get '/provinces' do
         no_of_boys: province.no_of_boys,
         no_of_girls: province.no_of_girls,
         total_toilets: province.total_toilets,
-        running_water: (province.running_water).to_f
+        running_water: province.running_water
       }
     end
     {province: province_results}.to_json
@@ -177,7 +177,7 @@ class Province
   field :no_of_boys, type: Integer
   field :no_of_girls, type: Integer
   field :total_toilets, type: Integer
-  field :running_water, type: Integer
+  field :running_water, type: Float
 
 end
 

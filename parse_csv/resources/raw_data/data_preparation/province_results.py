@@ -86,7 +86,7 @@ def update_province_sanitation():
 						 {"$set": {"no_of_boys": sanitation.get("no_of_boys"),
 									"no_of_girls": sanitation.get("no_of_girls"),
 									"total_toilets": sanitation.get("total_toilets"),
-									"running_water": sanitation.get("running_water")}})
+									"running_water": round(sanitation.get("running_water"), 2)}})
 # *************************************************************************
 # Executing the process
 update_province_matric_results()
