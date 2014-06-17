@@ -13,9 +13,10 @@ get '/countries/:id' do
     no_of_boys = provinces.sum(:no_of_boys)
     no_of_girls = provinces.sum(:no_of_girls)
     total_toilets  = provinces.sum(:total_toilets)
+    running_water = provinces.sum(:running_water)/provinces.count
 
     {country: {id: 1, name: "South Africa", passed: passed, wrote: wrote, no_of_boys: no_of_boys,
-     no_of_girls: no_of_girls, total_toilets: total_toilets}}.to_json
+     no_of_girls: no_of_girls, total_toilets: total_toilets, running_water: running_water}}.to_json
   # end
 end
 
@@ -32,7 +33,8 @@ get '/provinces' do
         pass_rate: province.pass_rate,
         no_of_boys: province.no_of_boys,
         no_of_girls: province.no_of_girls,
-        total_toilets: province.total_toilets
+        total_toilets: province.total_toilets,
+        running_water: province.running_water
       }
     end
     {province: province_results}.to_json
@@ -175,6 +177,7 @@ class Province
   field :no_of_boys, type: Integer
   field :no_of_girls, type: Integer
   field :total_toilets, type: Integer
+  field :running_water, type: Integer
 
 end
 
