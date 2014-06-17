@@ -34,7 +34,7 @@ get '/provinces' do
         no_of_boys: province.no_of_boys,
         no_of_girls: province.no_of_girls,
         total_toilets: province.total_toilets,
-        running_water: province.running_water
+        running_water: (province.running_water).to_f
       }
     end
     {province: province_results}.to_json

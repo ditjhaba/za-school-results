@@ -19,6 +19,7 @@ Frontend.CountryController = Ember.ObjectController.extend({
         counter.set('no_of_boys', country.get('no_of_boys'));
         counter.set('no_of_girls', country.get('no_of_girls'));
         counter.set('total_toilets', country.get('total_toilets'));
+        counter.set('running_water', country.get('running_water'));
         counter.set('sanitation_year', "Sanitation Information");
       }
       counter.set('country', country.get('name'));

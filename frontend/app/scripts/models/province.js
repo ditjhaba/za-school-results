@@ -85,12 +85,6 @@ Frontend.Province = DS.Model.extend({
     }
   },
 
-  // resetCounter: function() {
-  //   this.get('store').find('country', 1).then(function(country) {
-  //     country.setCounter();
-  //   });
-  // },
-
   zoomIn: function() {
     var provinceCenter = this.get('geo_json').getBounds().getCenter();
     Frontend.map.setView(provinceCenter, 8);

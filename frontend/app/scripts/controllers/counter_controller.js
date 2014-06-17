@@ -23,7 +23,7 @@ Frontend.CounterController = Ember.ObjectController.extend({
     window.$('.total-toilets').html(this.get('total_toilets'));
     window.$('.sanitation-plan').html(this.get('sanitation_plan'));
     window.$('.construction').html(this.get('construction'));
-    window.$('.running-water').html(this.get('running_water'));
+    window.$('.running-water-percentage').html(this.get('running_water'));
     window.$('.matric-year').html(this.get('matric_year'));
     window.$('.sanitation-year').html(this.get('sanitation_year'));
   }.observes('passed', 'wrote', 'pass_rate','title', 'no_of_boys', 'number_of_girls',
@@ -64,7 +64,11 @@ Frontend.CounterController = Ember.ObjectController.extend({
 
         var el = document.querySelector('.total-toilets');
         this.odometerFor(el, this.get('total_toilets'));
-        this.descriptionFor("total-toilets");
+        this.descriptionFor("total-toilets");        
+
+        var el = document.querySelector('.running-water-percentage');
+        this.odometerFor(el, this.get('running_water'));
+        this.descriptionFor("running-water-percentage");
   },
 
   descriptionFor: function(data) {
