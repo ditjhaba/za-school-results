@@ -97,39 +97,53 @@ Frontend.Province = DS.Model.extend({
     this.showSchools();
   },
 
+  popupForMatricResult: function(school) {
+    var popupContent = "<h3>" + school.name + "</h3>";
+        popupContent += "<ul class='popup-content'>"
+        popupContent += "<li><strong>Pass Rate: </strong>" + school.pass_rate + "</li>";
+        popupContent += "<li><strong>Students passed: </strong>" + school.passed + "</li>";
+        popupContent += "<li><strong>Students wrote: </strong>" + school.wrote + "</li>";
+        popupContent += "</ul>";
+
+    return popupContent;
+  },
+
+  popupForSanitationInformation: function(school) {
+    var popupContent = "<h3>" + school.name + "</h3>";
+        popupContent += "<ul class='popup-content'>"
+        popupContent += "<li><strong>Number of boys: </strong>" + school.no_of_boys + "</li>";
+        popupContent += "<li><strong>Number of girls: </strong>" + school.no_of_girls + "</li>";
+        popupContent += "<li><strong>Total toilets: </strong>" + school.total_toilets + "</li>";
+        popupContent += "<li><strong>DOE Sanitation plan: </strong>" + school.sanitation_plan + "</li>";
+        popupContent += "<li><strong>Running water: </strong>" + school.running_water + "</li>";
+        popupContent += "<li><strong>Construction Status: </strong>" + school.construction + "</li>";
+        popupContent += "</ul>";
+
+    return popupContent;
+  },
+
   showSchools: function() {
     var that = this;
     var url = "/province/" + this.get('code') + "/schools";
     Ember.$.getJSON(url).then(function(data){
       Ember.$.each(data, function(key, school) {
         var circle = window.L.circleMarker([school.lat, school.lng], {
-            color: that.schoolFillColor(school.pass_rate),
+            color: that.schoolFillColor(school.pass_rate), //make this generic
             opacity: 0.1,
             weight: 3,
             fillOpacity: 0.5,
           });
-          var popupContent = "<h3>" + school.name + "</h3>";
 
           if(window.data_type === "display_matric_results") {
-            popupContent += "<ul class='popup-content'>"
-            popupContent += "<li><strong>Pass Rate: </strong>" + school.pass_rate + "</li>";
-            popupContent += "<li><strong>Students passed: </strong>" + school.passed + "</li>";
-            popupContent += "<li><strong>Students wrote: </strong>" + school.wrote + "</li>";
-            popupContent += "</ul>"
+            var popupContent = that.popupForMatricResult(school);
+            circle.bindPopup(popupContent);
           }
           else {
-            popupContent += "<ul class='popup-content'>"
-            popupContent += "<li><strong>Number of boys: </strong>" + school.no_of_boys + "</li>";
-            popupContent += "<li><strong>Number of girls: </strong>" + school.no_of_girls + "</li>";
-            popupContent += "<li><strong>Total toilets: </strong>" + school.total_toilets + "</li>";
-            popupContent += "<li><strong>Sanitation plan: </strong>" + school.sanitation_plan + "</li>";
-            popupContent += "<li><strong>Running water: </strong>" + school.running_water + "</li>";
-            popupContent += "<li><strong>Under construction: </strong>" + school.construction + "</li>";
-            popupContent += "</ul>"
+            var popupContent = that.popupForSanitationInformation(school);
+            circle.bindPopup(popupContent);
           }
           
           circle.addTo(Frontend.map);
-          circle.bindPopup(popupContent);
           circle.bringToFront();
       });
     });
