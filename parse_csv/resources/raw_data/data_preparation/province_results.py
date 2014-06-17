@@ -45,6 +45,8 @@ def province_sanitation(schools):
 	no_of_boys = 0
 	no_of_girls = 0
 	total_toilets = 0
+	running_water = 0
+
 	for school in schools:
 		sanitation = sanitations.find_one({"emis": school.get('emis')})
 		if not bad_data(sanitation.get('no_of_boys')):
@@ -53,9 +55,12 @@ def province_sanitation(schools):
 			no_of_girls += int(sanitation.get('no_of_girls'))
 		if not bad_data(sanitation.get('total_toilets')):
 			total_toilets += int(sanitation.get('total_toilets'))
+		
+		if sanitation.get('running_water') in ["Yes", "Yes "]: # In our data there are schools with running water "Yes" and "Yes "
+			running_water = running_water + 1
 
-	return {"no_of_boys": no_of_boys, "no_of_girls": no_of_girls, 
-			"total_toilets": total_toilets}
+	return {"no_of_boys": no_of_boys, "no_of_girls": no_of_girls, "total_toilets": total_toilets, 
+			"running_water": (float(running_water)/schools.count()) * 100 if schools.count()!=0 else running_water}
 #*************************************************************************
 
 # *************************************************************************
@@ -80,7 +85,8 @@ def update_province_sanitation():
 		provinces.update({"_id": province.get("_id")}, 
 						 {"$set": {"no_of_boys": sanitation.get("no_of_boys"),
 									"no_of_girls": sanitation.get("no_of_girls"),
-									"total_toilets": sanitation.get("total_toilets")}})
+									"total_toilets": sanitation.get("total_toilets"),
+									"running_water": sanitation.get("running_water")}})
 # *************************************************************************
 # Executing the process
 update_province_matric_results()
