@@ -13,7 +13,8 @@ Frontend.Province = DS.Model.extend({
   matric_year: DS.attr(),
   sanitation_year: DS.attr(),
   geo_json: DS.attr(),
-  passRateRange: DS.attr(),
+  minPassRate: DS.attr(),
+  maxPassRate: DS.attr(),
 
   geoJSONStyle: function() {
     return {
@@ -27,12 +28,14 @@ Frontend.Province = DS.Model.extend({
 
   fillColor: function() {
     var d = this.get('pass_rate');
+    var q = (this.get('maxPassRate') - this.get('minPassRate'))/5;
+    var base = this.get('minPassRate');
 
-    return d > 80  ?  '#47A103' :
-           d > 60   ? '#E8DA04' :
-           d > 40   ? '#FFB707' :
-           d > 20   ? '#E86605' :
-                      '#FF2B12';
+    return d > (base + 4*q)  ?  '#47A103' :
+           d > (base + 3*q)  ?  '#E8DA04' :
+           d > (base + 2*q)  ?  '#FFB707' :
+           d > (base + q)    ?  '#E86605' :
+                       '#FF2B12';
   }.property('fillColor'),
 
   schoolFillColor: function(pass_rate) {
@@ -148,7 +151,7 @@ Frontend.Province = DS.Model.extend({
     var province = this.province;
     layer.on("mouseover", function (e) {
       province.setCounter();
-      layer.setStyle({
+       layer.setStyle({
         color: '#333',
         weight: 1,
         dashArray: ''
