@@ -13,6 +13,7 @@ Frontend.Province = DS.Model.extend({
   matric_year: DS.attr(),
   sanitation_year: DS.attr(),
   geo_json: DS.attr(),
+  passRateRange: DS.attr(),
 
   geoJSONStyle: function() {
     return {
