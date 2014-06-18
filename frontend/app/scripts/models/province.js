@@ -35,7 +35,7 @@ Frontend.Province = DS.Model.extend({
            d > (base + 3*q)  ?  '#E8DA04' :
            d > (base + 2*q)  ?  '#FFB707' :
            d > (base + q)    ?  '#E86605' :
-                       '#FF2B12';
+                                '#FF2B12';
   }.property('fillColor'),
 
   schoolFillColor: function(pass_rate) {

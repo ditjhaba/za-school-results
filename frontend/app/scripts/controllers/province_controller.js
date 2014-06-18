@@ -7,11 +7,8 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     Ember.$.ajax('/data/sa_provinces.json').then( function(data){
       Frontend.globalPaths = data;
       that.get('store').findAll('province').then(function(provinces) {
-      var minPassRate = that.findPassRateBound("MIN", provinces);
-      var maxPassRate = that.findPassRateBound("MAX", provinces);
         provinces.forEach(function(province) {
-          province.set('minPassRate', minPassRate);
-          province.set('maxPassRate', maxPassRate);
+          that.setPassRateBounds(province, provinces);
           var provinceGeoJSON = window.L.geoJson( province.get('dataFromJSON'),
                                                   { style: province.get('geoJSONStyle'),
                                                     province: province,
@@ -30,8 +27,16 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
       passRates.push(province.get('pass_rate'));
     });
     return bound == "MAX" ? Math.max.apply(null,passRates) : Math.min.apply(null,passRates);
+  },
+
+  setPassRateBounds: function(province, provinces) {
+    var passRates = [];
+    provinces.forEach(function(thisProvince) {
+      passRates.push(thisProvince.get('pass_rate'));
+    });
+    province.set('minPassRate', Math.min.apply(null,passRates));
+    province.set('maxPassRate', Math.max.apply(null,passRates));
   }
-  
 });
 
 
