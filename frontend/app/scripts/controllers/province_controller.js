@@ -21,14 +21,6 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     });
   }.property('drawAll'),
 
-  findPassRateBound: function(bound, provinces) {
-    var passRates = [];
-    provinces.forEach(function(province) {
-      passRates.push(province.get('pass_rate'));
-    });
-    return bound == "MAX" ? Math.max.apply(null,passRates) : Math.min.apply(null,passRates);
-  },
-
   setPassRateBounds: function(province, provinces) {
     var passRates = [];
     provinces.forEach(function(thisProvince) {
