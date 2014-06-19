@@ -1,7 +1,7 @@
 Frontend.CounterController = Ember.ObjectController.extend({
   actions: {
     startOdometer: function() {
-      console.log("starting odometer");
+      // console.log("starting odometer");
       // this.set('model', this.store.createRecord('counter'));
       if(window.data_type === "display_matric_results") {
         this.createMatricResultsOdometer();  
