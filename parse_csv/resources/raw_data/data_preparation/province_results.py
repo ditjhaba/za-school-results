@@ -92,3 +92,20 @@ def update_province_sanitation():
 update_province_matric_results()
 update_province_sanitation()
 # *************************************************************************
+
+# *************************************************************************
+# Analysis for duplicate records using school_name
+# *************************************************************************
+
+map = """function(){
+   if(this.school_name) {
+   emit(this.school_name, 1);}
+}"""
+
+reduce = """function(key, values){
+    return Array.sum(values);
+}"""
+
+db.school.map_reduce(map, reduce, "map_reduce_values")
+for school in db.map_reduce_values.find({"value": {"$gt": 1}}):
+	db.duplicate_schools.insert(school)
