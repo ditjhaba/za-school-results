@@ -65,23 +65,33 @@ get '/schools' do
   # end
 end
 
-get '/all_schools' do
-  schools = School.all().each do |school|
+get '/schools/:name' do
+  name = params[:name].upcase
+  schools = School.where(school_name: /.*#{name}.*/)
+  schools_data = schools.map do |school|
     matric_result = school.matric_result
+    school_sanitation = school.sanitation
     {
       emis: school.emis,
       name: school.school_name,
+      type_doe: school.type_doe, 
       lat: school.gis_lat,
       lng: school.gis_long,
+      street_address: school.street_address,
+      town: school.town_city,
       province_code: school.province_name,
-      address: school.street_address,
-      specialization: school.specilization,
-      district: school.magisterial_district,
-      town_city: school.town_city,
-      type_doe: school.type_doe
+      pass_rate: matric_result ? matric_result.pass_rate : "",
+      passed: matric_result ? matric_result.passed : "",
+      wrote: matric_result ? matric_result.wrote : "",
+      no_of_boys: school_sanitation ? school_sanitation.no_of_boys : "",
+      no_of_girls: school_sanitation ? school_sanitation.no_of_girls : "",
+      total_toilets: school_sanitation ? school_sanitation.total_toilets : "",
+      sanitation_plan: school_sanitation ? school_sanitation.sanitation_plan : "",
+      construction: school_sanitation ? school_sanitation.construction : "",
+      running_water: school_sanitation ? school_sanitation.running_water : "",
     }
-  end 
-  {schools: schools}.to_json
+  end
+  {school: schools_data}.to_json
 end
 
 get '/sanitations' do

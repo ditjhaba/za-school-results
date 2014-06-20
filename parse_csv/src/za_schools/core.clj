@@ -149,6 +149,8 @@
   (create-indeces (mg/get-db "za-schools") "matric_results" "emis")
   (println "Creating school indeces")
   (create-indeces (mg/get-db "za-schools") "school" "emis")
+  (println "Creating sanitation indeces")
+  (create-indeces (mg/get-db "za-schools") "school_sanitation" "emis")
 )
 
 
