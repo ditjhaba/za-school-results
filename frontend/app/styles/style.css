@@ -185,10 +185,10 @@ a:active {
 
 .legend {
   position: absolute;
-  bottom: 30%;
-  left: 0%;
+  bottom: 65%;
+  left: 1%;
   width: 35%;
-  text-align: left;
+  text-align: center;
 }
 
 .legend table {
@@ -199,11 +199,15 @@ a:active {
 }
 
 #colour-1 {
-  color: #47A103;  
+  /*color: #47A103;*/
+
+  color: #FF2B12;  
 }
 
 #colour-2 {
-  color: #E8DA04;  
+  /*color: #E8DA04;  */
+
+  color: #E86605;
 }
 
 #colour-3 {
@@ -211,11 +215,15 @@ a:active {
 }
 
 #colour-4 {
-  color: #E86605;  
+  /*color: #E86605;  */
+
+  color: #E8DA04;
 }
 
 #colour-5 {
-  color: #FF2B12  ;  
+  /*color: #FF2B12;*/
+
+  color: #47A103;  
 }
 
 

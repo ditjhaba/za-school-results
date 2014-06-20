@@ -15,6 +15,7 @@ Frontend.Province = DS.Model.extend({
   geo_json: DS.attr(),
   minPassRate: DS.attr(),
   maxPassRate: DS.attr(),
+  quintiles: DS.attr(),
 
   geoJSONStyle: function() {
     return {
@@ -28,13 +29,12 @@ Frontend.Province = DS.Model.extend({
 
   fillColor: function() {
     var d = this.get('pass_rate');
-    var q = (this.get('maxPassRate') - this.get('minPassRate'))/5;
-    var base = this.get('minPassRate');
+    var quintiles = this.get('quintiles');
 
-    return d > (base + 4*q)  ?  '#47A103' :
-           d > (base + 3*q)  ?  '#E8DA04' :
-           d > (base + 2*q)  ?  '#FFB707' :
-           d > (base + q)    ?  '#E86605' :
+    return d > quintiles[4]  ?  '#47A103' :
+           d > quintiles[3]  ?  '#E8DA04' :
+           d > quintiles[2]  ?  '#FFB707' :
+           d > quintiles[1]    ?  '#E86605' :
                                 '#FF2B12';
   }.property('fillColor'),
 
@@ -150,6 +150,7 @@ Frontend.Province = DS.Model.extend({
   onEachFeature: function(feature, layer)  {
     var province = this.province;
     layer.on("mouseover", function (e) {
+      console.log(province.get('testArray'));
       province.setCounter();
        layer.setStyle({
         color: '#333',
