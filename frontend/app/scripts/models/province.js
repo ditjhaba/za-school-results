@@ -28,14 +28,25 @@ Frontend.Province = DS.Model.extend({
   }.property("getGeoJSONStyle"),
 
   fillColor: function() {
-    var d = this.get('pass_rate');
-    var quintiles = this.get('quintiles');
+    if(window.data_type === "display_matric_results") {
+      var d = this.get('pass_rate');
+      var quintiles = this.get('quintiles');
 
-    return d > quintiles[4]  ?  '#47A103' :
-           d > quintiles[3]  ?  '#E8DA04' :
-           d > quintiles[2]  ?  '#FFB707' :
-           d > quintiles[1]    ?  '#E86605' :
-                                '#FF2B12';
+      return d > quintiles[4]  ?  '#47A103' :
+             d > quintiles[3]  ?  '#E8DA04' :
+             d > quintiles[2]  ?  '#FFB707' :
+             d > quintiles[1]  ?  '#E86605' :
+                                  '#FF2B12' ;
+
+    } else if(window.data_type === "display_sanitation") {
+      var ratio = (this.get('no_of_boys') + this.get('no_of_girls'))/this.get('total_toilets');
+
+      return ratio > 40  ?  '#47A103' :
+             ratio > 30  ?  '#E8DA04' :
+             ratio > 20  ?  '#FFB707' :
+             ratio > 10  ?  '#E86605' :
+                            '#FF2B12' ;
+    }
   }.property('fillColor'),
 
   schoolFillColor: function(pass_rate) {
