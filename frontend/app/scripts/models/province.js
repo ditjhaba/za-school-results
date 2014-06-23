@@ -27,9 +27,8 @@ Frontend.Province = DS.Model.extend({
     }
   }.property("getGeoJSONStyle"),
 
-  fillColor: function() {
-    if(window.data_type === "display_matric_results") {
-      var d = this.get('pass_rate');
+  fillColourForMatricResults: function(pass_rate) {
+      var d = pass_rate;
       var quintiles = this.get('quintiles');
 
       return d > quintiles[4]  ?  '#47A103' :
@@ -37,26 +36,36 @@ Frontend.Province = DS.Model.extend({
              d > quintiles[2]  ?  '#FFB707' :
              d > quintiles[1]  ?  '#E86605' :
                                   '#FF2B12' ;
+  },
 
-    } else if(window.data_type === "display_sanitation") {
-      var ratio = (this.get('no_of_boys') + this.get('no_of_girls'))/this.get('total_toilets');
-
+  fillColourForSanitationInformation: function(ratio) {
       return ratio > 40  ?  '#47A103' :
              ratio > 30  ?  '#E8DA04' :
              ratio > 20  ?  '#FFB707' :
              ratio > 10  ?  '#E86605' :
                             '#FF2B12' ;
+  },
+
+  fillColor: function() {
+    if(window.data_type === "display_matric_results") {
+      return this.fillColourForMatricResults(this.get('pass_rate'));
+    } 
+    else if(window.data_type === "display_sanitation") {
+      var ratio = (this.get('no_of_boys') + this.get('no_of_girls'))/this.get('total_toilets');
+      return this.fillColourForSanitationInformation(ratio);
     }
   }.property('fillColor'),
 
-  schoolFillColor: function(pass_rate) {
-    var d = pass_rate;
-
-    return d > 80  ?  '#47A103' :
-           d > 60   ? '#E8DA04' :
-           d > 40   ? '#FFB707' :
-           d > 20   ? '#E86605' :
-                      '#FF2B12';
+  schoolFillColor: function(school) {
+    if(window.data_type === "display_matric_results") {
+      return this.fillColourForMatricResults(school.pass_rate);
+    } 
+    else if(window.data_type === "display_sanitation") {
+      console.log("Setting school colours for sanitation information");
+      return school.no_of_boys != "unknown" ? 
+             this.fillColourForSanitationInformation((school.no_of_boys + school.no_of_girls)/school.total_toilets) : 
+             '#57A7C7';
+    }
   },
 
   pass_rate: function() {
@@ -136,8 +145,9 @@ Frontend.Province = DS.Model.extend({
     var url = "/province/" + this.get('code') + "/schools";
     Ember.$.getJSON(url).then(function(data){
       Ember.$.each(data, function(key, school) {
+        console.log(school.no_of_boys);
         var circle = window.L.circleMarker([school.lat, school.lng], {
-            color: that.schoolFillColor(school.pass_rate), //make this generic
+            color: that.schoolFillColor(school), //make this generic
             opacity: 0.1,
             weight: 3,
             fillOpacity: 0.5,
@@ -161,7 +171,6 @@ Frontend.Province = DS.Model.extend({
   onEachFeature: function(feature, layer)  {
     var province = this.province;
     layer.on("mouseover", function (e) {
-      console.log(province.get('testArray'));
       province.setCounter();
        layer.setStyle({
         color: '#333',
