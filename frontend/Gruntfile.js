@@ -17,6 +17,7 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-mkdir');
 
     // configurable paths
     var yeomanConfig = {
@@ -297,6 +298,13 @@ module.exports = function (grunt) {
                 src: '<%= yeoman.app %>/scripts/app.js',
                 dest: '.tmp/scripts/combined-scripts.js'
             }
+        },
+        mkdir: {
+            all: {
+                options: {
+                    create: ['../public/uploads']
+                }
+            }
         }
     });
 
@@ -314,6 +322,10 @@ module.exports = function (grunt) {
             'watch'
         ]);
     });
+
+    grunt.registerTask('makeUploadsDirectory', [
+        'mkdir'
+    ]);
 
     grunt.registerTask('test', [
         'clean:server',
@@ -339,6 +351,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jshint',
         'test',
-        'build'
+        'build',
+        'makeUploadsDirectory'
     ]);
 };
