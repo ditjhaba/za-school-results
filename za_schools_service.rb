@@ -66,8 +66,12 @@ get '/schools' do
 end
 
 post '/schools/upload' do
-  puts params
+  @filename = "master-list.csv"
 
+  File.open("public/uploads/" + @filename, "w") do |file|
+    file.write(params['school-data'][:tempfile].read)
+  end
+  
   redirect '/#/admin'
 end
 
