@@ -65,6 +65,12 @@ get '/schools' do
   # end
 end
 
+post '/schools/upload' do
+  puts params
+
+  redirect '/#/admin'
+end
+
 get '/schools/:name' do
   name = params[:name].upcase
   schools = School.where(school_name: /.*#{name}.*/)

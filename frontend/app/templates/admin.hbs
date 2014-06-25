@@ -10,6 +10,19 @@
 		</form>
 	</div>
 
+    <div class='school-data-upload'>
+        <h3>Upload School Information</h3>
+        <form action="/schools/upload" enctype="multiparm/form-data" method="post">
+            <p>
+                Please choose the school data file <br>
+                <input type="file" name="school-data" size="40">
+            </p>
+            <div>
+                <input type="submit" value="send">
+            </div>
+        </form>
+    </div>
+
 	{{#if performedSchoolSearch}}
 		{{#if schoolFound}}
             {{#each school in schoolFound}}
