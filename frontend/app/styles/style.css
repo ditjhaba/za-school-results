@@ -202,29 +202,29 @@ a:active {
   border-color: black;
 }
 
-#colour-1 {
+#quintile-1 {
   /*color: #47A103;*/
 
   color: #FF2B12;  
 }
 
-#colour-2 {
+#quintile-2 {
   /*color: #E8DA04;  */
 
   color: #E86605;
 }
 
-#colour-3 {
+#quintile-3 {
   color: #FFB707;  
 }
 
-#colour-4 {
+#quintile-4 {
   /*color: #E86605;  */
 
   color: #E8DA04;
 }
 
-#colour-5 {
+#quintile-5 {
   /*color: #FF2B12;*/
 
   color: #47A103;  
