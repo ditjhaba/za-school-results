@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import os
 import math
 import pymongo
 from pymongo import MongoClient
@@ -10,8 +11,10 @@ from pymongo import MongoClient
 
 # *************************************************************************
 # Connecting to the database to pull up all necessary tables 
-client = MongoClient('localhost', 27017)
+MONGO_URL = os.environ.get('MONGOHQ_URL')
+client = MongoClient(MONGO_URL)
 db = client.za_schools
+# When running on the prod DB: db = client.app19456176
 schools = db.school
 sanitations = db.school_sanitation
 matric_results = db.matric_results
@@ -67,6 +70,7 @@ def province_sanitation(schools):
 
 # Extracting provinces data and update it with the new matric result fields
 def update_province_matric_results():
+	print "updating provinces"
 	for province in provinces.find():
 		province_schools = schools.find({"province_name": province.get("code"), "matric_result_emis": {"$ne": ""}})
 		matric_result = province_matric_results(province_schools)
@@ -74,12 +78,14 @@ def update_province_matric_results():
 						 {"$set": {"wrote": matric_result.get("wrote"), 
 									"passed": matric_result.get("passed"), 
 									"pass_rate": matric_result.get("pass_rate")}})
+	print "updating provinces done"
 # *************************************************************************
 
 # *************************************************************************
 # Extracting provinces data and update it with the new matric result fields
 def update_province_sanitation():
 	for province in provinces.find():
+		print "updating province sanitation"
 		province_schools = schools.find({"province_name": province.get("code"), "sanitation_emis": {"$ne": ""}})
 		sanitation = province_sanitation(province_schools)
 		provinces.update({"_id": province.get("_id")}, 
@@ -87,9 +93,11 @@ def update_province_sanitation():
 									"no_of_girls": sanitation.get("no_of_girls"),
 									"total_toilets": sanitation.get("total_toilets"),
 									"running_water": round(sanitation.get("running_water"), 2)}})
+	print "updating province sanitation done"
 # *************************************************************************
 # Executing the process
-update_province_matric_results()
+print "**************************"
+# update_province_matric_results()
 update_province_sanitation()
 # *************************************************************************
 
@@ -97,15 +105,15 @@ update_province_sanitation()
 # Analysis for duplicate records using school_name
 # *************************************************************************
 
-map = """function(){
-   if(this.school_name) {
-   emit(this.school_name, 1);}
-}"""
+# map = """function(){
+#    if(this.school_name) {
+#    emit(this.school_name, 1);}
+# }"""
 
-reduce = """function(key, values){
-    return Array.sum(values);
-}"""
+# reduce = """function(key, values){
+#     return Array.sum(values);
+# }"""
 
-db.school.map_reduce(map, reduce, "map_reduce_values")
-for school in db.map_reduce_values.find({"value": {"$gt": 1}}):
-	db.duplicate_schools.insert(school)
+# db.school.map_reduce(map, reduce, "map_reduce_values")
+# for school in db.map_reduce_values.find({"value": {"$gt": 1}}):
+# 	db.duplicate_schools.insert(school)
