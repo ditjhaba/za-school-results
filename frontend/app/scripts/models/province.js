@@ -15,7 +15,7 @@ Frontend.Province = DS.Model.extend({
   geo_json: DS.attr(),
   minPassRate: DS.attr(),
   maxPassRate: DS.attr(),
-  quintiles: DS.attr(),
+  pass_rate_ranges: DS.attr(),
 
   geoJSONStyle: function() {
     return {
@@ -29,12 +29,12 @@ Frontend.Province = DS.Model.extend({
 
   fillColourForMatricResults: function(pass_rate) {
       var d = pass_rate;
-      var quintiles = this.get('quintiles');
+      var ranges = this.get('pass_rate_ranges');
 
-      return d > quintiles[4]  ?  '#47A103' :
-             d > quintiles[3]  ?  '#E8DA04' :
-             d > quintiles[2]  ?  '#FFB707' :
-             d > quintiles[1]  ?  '#E86605' :
+      return d > ranges[4]  ?  '#47A103' :
+             d > ranges[3]  ?  '#E8DA04' :
+             d > ranges[2]  ?  '#FFB707' :
+             d > ranges[1]  ?  '#E86605' :
                                   '#FF2B12' ;
   },
 

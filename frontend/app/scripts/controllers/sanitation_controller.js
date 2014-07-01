@@ -5,12 +5,12 @@ Frontend.SanitationController = Ember.ObjectController.extend({
 
   drawAll: function() {
     var that = this;
-    Ember.$.ajax('/data/sa_provinces.json').then( function(data){
+    Ember.$.ajax('/data/sa_provinces.json').then( function(data) {
       Frontend.globalPaths = data;
       that.get('store').findAll('province').then(function(provinces) {
-        var quintiles = that.get('province_controller').calculateQuintiles(provinces)
+        var ranges = that.get('province_controller').calculatePassRateRanges(provinces)
         provinces.forEach(function(province) {
-          province.set('quintiles', quintiles);
+          province.set('pass_rate_ranges', ranges);
           var provinceGeoJSON = window.L.geoJson( province.get('dataFromJSON'),
                                                   { style: province.get('geoJSONStyle'),
                                                     province: province,

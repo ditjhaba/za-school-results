@@ -8,10 +8,10 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     Ember.$.ajax('/data/sa_provinces.json').then( function(data){
       Frontend.globalPaths = data;
       that.get('store').findAll('province').then(function(provinces) {
-        var quintiles = that.calculateQuintiles(provinces);
-        that.setLegendQuintiles(quintiles);
+        var ranges = that.calculatePassRateRanges(provinces);
+        that.setLegendPassRateRanges(ranges);
         provinces.forEach(function(province) {
-          province.set('quintiles', quintiles);
+          province.set('pass_rate_ranges', ranges);
           var provinceGeoJSON = window.L.geoJson( province.get('dataFromJSON'),
                                                   { style: province.get('geoJSONStyle'),
                                                     province: province,
@@ -24,7 +24,7 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     });
   }.property('drawAll'),
 
-  calculateQuintiles: function(provinces) {
+  calculatePassRateRanges: function(provinces) {
     var passRates = [];
     provinces.forEach(function(thisProvince) {
       passRates.push(thisProvince.get('pass_rate'));
@@ -33,24 +33,23 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     var upperBound = Math.max.apply(null,passRates);
     var lowerBound = Math.min.apply(null,passRates);
     var QR = (upperBound - lowerBound)/5;
-
-    var quintiles = [];
+    var ranges = [];
     for(var i = 0; i <= 5; i++) {
-      quintiles.push(lowerBound + i*QR);
+      ranges.push(lowerBound + i*QR);
     }
 
-    return quintiles;
+    return ranges;
   },
 
-  setLegendQuintiles: function(quintiles) {
+  setLegendPassRateRanges: function(ranges) {
     var legend = this.get('legend');
     legend.set('model', this.store.createRecord('legend'));
-    legend.set('floor', quintiles[0]);
-    legend.set('first_quintile', quintiles[1]);
-    legend.set('second_quintile', quintiles[2]);
-    legend.set('third_quintile', quintiles[3]);
-    legend.set('fourth_quintile', quintiles[4]);
-    legend.set('ceiling', quintiles[5]);
+    legend.set('floor', ranges[0]);
+    legend.set('first_quintile', ranges[1]);
+    legend.set('second_quintile', ranges[2]);
+    legend.set('third_quintile', ranges[3]);
+    legend.set('fourth_quintile', ranges[4]);
+    legend.set('ceiling', ranges[5]);
     legend.send('makeLegend');
   },
 });

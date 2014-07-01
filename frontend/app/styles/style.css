@@ -202,31 +202,23 @@ a:active {
   border-color: black;
 }
 
-#quintile-1 {
-  /*color: #47A103;*/
-
+#pass-rate-range-1 {
   color: #FF2B12;  
 }
 
-#quintile-2 {
-  /*color: #E8DA04;  */
-
+#pass-rate-range-2 {
   color: #E86605;
 }
 
-#quintile-3 {
+#pass-rate-range-3 {
   color: #FFB707;  
 }
 
-#quintile-4 {
-  /*color: #E86605;  */
-
+#pass-rate-range-4 {
   color: #E8DA04;
 }
 
-#quintile-5 {
-  /*color: #FF2B12;*/
-
+#pass-rate-range-5 {
   color: #47A103;  
 }
 
