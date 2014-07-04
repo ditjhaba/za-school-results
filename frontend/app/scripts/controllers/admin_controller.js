@@ -1,4 +1,6 @@
 Frontend.AdminController = Ember.ArrayController.extend({
+    needs:['edit'],
+    edit: Ember.computed.alias("controllers.edit"),
 	schoolNameSearch: '',
 	schoolFound: '',
 	performedSchoolSearch: false,
@@ -15,6 +17,14 @@ Frontend.AdminController = Ember.ArrayController.extend({
 					that.set('schoolFound', null);
 				}
             });
-		}
+		},
+
+        edit: function(school){
+            var edit = this.get('edit');
+            edit.set('model', school);
+            edit.send('retrieve_school');
+            edit.transitionToRoute('edit');
+        }
+
 	}
 });

@@ -36,7 +36,10 @@
             {{#each school in schoolFound}}
                 <div class="school-details" id="school-name-found">
                     <table class="school-details-table">
-                            <thead><h2>School Details</h2></thead>
+                            <thead>
+                                <h2>School Details</h2>
+                            </thead>
+
                             <tr>
                                 <td class="school-detail">EMIS No</td>
                                 <td class="school-name-input">{{school.emis}}</td>
@@ -93,6 +96,8 @@
                                 <td class="school-detail">Longitude</td>
                                 <td class="school-name-input">{{school.lng}}</td>
                             </tr>
+
+                            <button class="school-edit-button" {{action 'edit' school}}>Edit</button>
                         </table>
                     </div>
                 {{/each}}

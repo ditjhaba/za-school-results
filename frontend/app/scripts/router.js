@@ -5,4 +5,5 @@ Frontend.Router.map(function () {
   this.resource('admin');
   this.resource('sanitation');
   this.resource('health');
+  this.resource('edit');
 });
