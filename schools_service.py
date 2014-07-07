@@ -14,10 +14,6 @@ schools = db.school
 provinces = db.province
 matric_results = db.matric_results
 
-@app.route('/')
-def hello_world():
-	return 'Hello World!!!'
-
 @app.route('/countries/<id>')
 def countries(id):
 	provinces = [province for province in provinces.find()]
@@ -31,11 +27,7 @@ def countries(id):
 
 	return jsonify(results=sanitation)
 
-<<<<<<< HEAD
-def sum_province_data(key):
-=======
 def sum_province_data_for(key):
->>>>>>> DJ, Charles & Greg: refactored and expanded python service
 	data = provinces.aggregate([{ 
 	   	    "$group": { 
 	         "_id": "", 
