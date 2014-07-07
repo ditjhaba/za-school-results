@@ -2,12 +2,6 @@ from flask import Flask
 from flask.ext.pymongo import PyMongo
 from flask import jsonify
 import json
-# import pymongo
-# from pymongo import MongoClient
-
-# client = MongoClient('localhost', 27017)
-# db = client.za_schools
-# sanitation = db.db.school_sanitation
 
 app = Flask(__name__)
 mongo = PyMongo(app)
@@ -15,22 +9,45 @@ mongo = PyMongo(app)
 from pymongo import Connection  
 connection = Connection()  
 db = connection.za_schools  
-schools_sanitation_data = db.school_sanitation  
-schools_data = db.school
-provinces_data = db.province
-results_data = db.matric_results
+schools_sanitation = db.school_sanitation  
+schools = db.school
+provinces = db.province
+matric_results = db.matric_results
 
 @app.route('/')
 def hello_world():
 	return 'Hello World!!!'
 
+@app.route('/countries/<id>')
+def countries(id):
+	provinces = [province for province in provinces.find()]
+	sanitation = {
+		'passed': sum_province_data("passed"),
+		'wrote':  sum_province_data("wrote"),
+		'no_of_boys': sum_province_data("no_of_boys"),
+		'no_of_girls': sum_province_data("no_of_girls"),
+		'total_toilets': sum_province_data("total_toilets")
+	}
+
+	return jsonify(results=sanitation)
+
+def sum_province_data(key):
+	data = provinces.aggregate([{ 
+	   	    "$group": { 
+	         "_id": "", 
+	         "total": { "$sum": (("$%s")%(key)) } 
+	      	}
+		}])
+
+	return data['result'][0]['total']
+	
 @app.route('/sanitations')
 def sanitations():
-	schools = [s for s in schools_data.find({"sanitation_emis": {"$ne": ""}, "gis_long": {"$ne": ""}})]
+	schools = [s for s in schools.find({"sanitation_emis": {"$ne": ""}, "gis_long": {"$ne": ""}})]
 	sanitation_colletion = []
 	
 	for school in schools:
-		sanitation = schools_sanitation_data.find_one({"emis": school['emis']})
+		sanitation = schools_sanitation.find_one({"emis": school['emis']})
 		
 		sanitation = {
 	        'name': school['school_name'],
@@ -50,11 +67,11 @@ def sanitations():
 
 @app.route('/schools')
 def schools():
-	schools = [s for s in schools_data.find({"matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}, "gis_long": {"$ne": ""}})]
+	schools = [s for s in schools.find({"matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}, "gis_long": {"$ne": ""}})]
 	schools_collection = []
 	
 	for school in schools:
-		matric_result = results_data.find_one({"emis": school['emis']})
+		matric_result = matric_results.find_one({"emis": school['emis']})
 
 		school = {
 	        'name': school['school_name'],
@@ -72,7 +89,7 @@ def schools():
 
 @app.route('/provinces')
 def provinces():
-	provinces = [s for s in provinces_data.find()]
+	provinces = [province for province in provinces.find()]
 	provinces_collection = []
 	
 	for province in provinces:
@@ -95,12 +112,12 @@ def provinces():
 
 @app.route('/schools/<name>')
 def schools_by_name(name):
-	schools = [s for s in schools_data.find({"school_name": {"$regex": name.upper()}})]
+	schools = [s for s in schools.find({"school_name": {"$regex": name.upper()}})]
 	schools_collection = []
 	
 	for school in schools:
-		matric_result = results_data.find_one({"emis": school['emis']})
-		sanitation = schools_sanitation_data.find_one({"emis": school['emis']})
+		matric_result = matric_results.find_one({"emis": school['emis']})
+		sanitation = schools_sanitation.find_one({"emis": school['emis']})
 
 		school = {
 			'emis': school['emis'],
@@ -126,14 +143,14 @@ def schools_by_name(name):
 
 	return jsonify(results=schools_collection)
 
-@app.route('/province/<code>/schools')
+@app.route('/provinces/<code>/schools')
 def province_schools(code):
-	schools = [s for s in schools_data.find({"province_name": code, "matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}})]
+	schools = [s for s in schools.find({"province_name": code, "matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}})]
 	schools_collection = []
 
 	for school in schools:
-		matric_result = results_data.find_one({"emis": school['emis']})
-		sanitation = schools_sanitation_data.find_one({"emis": school['emis']})
+		matric_result = matric_results.find_one({"emis": school['emis']})
+		sanitation = schools_sanitation.find_one({"emis": school['emis']})
 
 		school = {
 			'name': school['school_name'],
