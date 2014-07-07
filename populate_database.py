@@ -10,16 +10,15 @@ from pymongo import Connection
 DATA_PATH = "parse_csv/resources/raw_data/"
 matric_results_file = "{0}{1}".format(DATA_PATH, "sa_matric_school_results.csv")
 matric_result_headers = "{0}{1}".format(DATA_PATH, "data_preparation/sa_matric_results_headers.csv")
-headers_list = ["emis", "wrote", "passed", "pass_rate"]
 # *************************************************************************
 
 # *************************************************************************
-# Establishing the connection and creating databased and collections 
+# Establishing the connection and creating a database and collections 
 # *************************************************************************
 connection = Connection()
 db = connection['za_schools_db']
 matric_results = db['matric_results']
-province = db['provinces']
+provinces = db['provinces']
 sanitations = db['sanitations']
 schools = db['schools']
 # *************************************************************************
@@ -82,13 +81,14 @@ class School(object):
 def read_csv_files(headers_file, data_file):
 	with open(headers_file, 'rb') as headers, open(data_file, 'rb') as data:
 		header_data = [header for header in csv.reader(headers)]
+		headers = header_data[0]
 		input_data = csv.reader(data)
 
 		for line in input_data:
-			matric_result = MatricResult(emis=line[headers_list.index("emis")],
-										passed=line[headers_list.index("passed")],
-										pass_rate=line[headers_list.index("pass_rate")],
-										wrote=line[headers_list.index("wrote")])
+			matric_result = MatricResult(emis=line[headers.index("emis")],
+										passed=line[headers.index("2013_passed")],
+										pass_rate=line[headers.index("2013_pass_rate")],
+										wrote=line[headers.index("2013_wrote")])
 			matric_results.insert(matric_result.__dict__)
 
 # *************************************************************************
