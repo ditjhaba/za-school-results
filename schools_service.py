@@ -10,25 +10,25 @@ from pymongo import Connection
 connection = Connection()  
 db = connection.za_schools  
 schools_sanitation = db.school_sanitation  
-schools = db.school
-provinces = db.province
+schools_db = db.school
+provinces_db = db.province
 matric_results = db.matric_results
 
 @app.route('/countries/<id>')
 def countries(id):
-	provinces = [province for province in provinces.find()]
+	provinces = [province for province in provinces_db.find()]
 	sanitation = {
-		'passed': sum_province_data("passed"),
-		'wrote':  sum_province_data("wrote"),
-		'no_of_boys': sum_province_data("no_of_boys"),
-		'no_of_girls': sum_province_data("no_of_girls"),
-		'total_toilets': sum_province_data("total_toilets")
+		'passed': sum_province_data_for("passed"),
+		'wrote':  sum_province_data_for("wrote"),
+		'no_of_boys': sum_province_data_for("no_of_boys"),
+		'no_of_girls': sum_province_data_for("no_of_girls"),
+		'total_toilets': sum_province_data_for("total_toilets")
 	}
 
 	return jsonify(results=sanitation)
 
 def sum_province_data_for(key):
-	data = provinces.aggregate([{ 
+	data = provinces_db.aggregate([{ 
 	   	    "$group": { 
 	         "_id": "", 
 	         "total": { "$sum": (("$%s")%(key)) } 
@@ -39,7 +39,7 @@ def sum_province_data_for(key):
 	
 @app.route('/sanitations')
 def sanitations():
-	schools = [s for s in schools.find({"sanitation_emis": {"$ne": ""}, "gis_long": {"$ne": ""}})]
+	schools = [school for school in schools_db.find({"sanitation_emis": {"$ne": ""}, "gis_long": {"$ne": ""}})]
 	sanitation_colletion = []
 	
 	for school in schools:
@@ -63,7 +63,7 @@ def sanitations():
 
 @app.route('/schools')
 def schools():
-	schools = [s for s in schools.find({"matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}, "gis_long": {"$ne": ""}})]
+	schools = [school for school in schools_db.find({"matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}, "gis_long": {"$ne": ""}})]
 	schools_collection = []
 	
 	for school in schools:
@@ -85,7 +85,7 @@ def schools():
 
 @app.route('/provinces')
 def provinces():
-	provinces = [province for province in provinces.find()]
+	provinces = [province for province in provinces_db.find()]
 	provinces_collection = []
 	
 	for province in provinces:
@@ -108,7 +108,7 @@ def provinces():
 
 @app.route('/schools/<name>')
 def schools_by_name(name):
-	schools = [s for s in schools.find({"school_name": {"$regex": name.upper()}})]
+	schools = [school for school in schools_db.find({"school_name": {"$regex": name.upper()}})]
 	schools_collection = []
 	
 	for school in schools:
@@ -132,7 +132,7 @@ def schools_by_name(name):
 			'total_toilets': sanitation['total_toilets'] if sanitation else "",
 			'sanitation_plan': sanitation['sanitation_plan'] if sanitation else "",
 			'construction': sanitation['construction'] if sanitation else "",
-			'running_water': sanitation['running_water'] if sanitation else "",
+			'running_water': sanitation['running_water'] if sanitation else ""
 		}
 
 		schools_collection.append(school)
@@ -141,7 +141,7 @@ def schools_by_name(name):
 
 @app.route('/provinces/<code>/schools')
 def province_schools(code):
-	schools = [s for s in schools.find({"province_name": code, "matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}})]
+	schools = [school for school in schools_db.find({"province_name": code, "matric_result_emis": {"$ne": ""}, "gis_lat": {"$ne": ""}})]
 	schools_collection = []
 
 	for school in schools:
