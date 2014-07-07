@@ -5,14 +5,6 @@ import json
 from pymongo import Connection
 
 # *************************************************************************
-# Data and Headers Files
-# *************************************************************************
-DATA_PATH = "parse_csv/resources/raw_data/"
-matric_results_file = "{0}{1}".format(DATA_PATH, "sa_matric_school_results.csv")
-matric_result_headers = "{0}{1}".format(DATA_PATH, "data_preparation/sa_matric_results_headers.csv")
-# *************************************************************************
-
-# *************************************************************************
 # Establishing the connection and creating a database and collections 
 # *************************************************************************
 connection = Connection()
@@ -23,6 +15,19 @@ sanitations = db['sanitations']
 schools = db['schools']
 # *************************************************************************
 
+# *************************************************************************
+# Input Data and Headers Files
+# *************************************************************************
+DATA_PATH = "parse_csv/resources/raw_data/"
+matric_results_file = "{0}{1}".format(DATA_PATH, "sa_matric_school_results.csv")
+matric_result_headers = "{0}{1}".format(DATA_PATH, "data_preparation/sa_matric_results_headers.csv")
+# *************************************************************************
+sanitations_file = "{0}{1}".format(DATA_PATH, "sa_sanitation.csv")
+sanitation_headers = "{0}{1}".format(DATA_PATH, "data_preparation/sa_schools_sanitation_headers.csv")
+# *************************************************************************
+schools_file = "{0}{1}".format(DATA_PATH, "sa_schools_master_list.csv")
+school_headers = "{0}{1}".format(DATA_PATH, "data_preparation/sa_schools_master_headers.csv")
+# *************************************************************************
 
 class Province(object):
 	"""Defining an object that represents a province"""
@@ -66,17 +71,20 @@ class Sanitation(object):
 class School(object):
 	"""Defining an object that represents a school"""
 	def __init__(self, emis, gis_lat=None, gis_lng=None, province_code=None, 
-				province_name=None, matric_result_emis=None, 
-				sanitation_emis=None, street_address=None, town=None):
+				province_name=None, matric_result_emis=None, name=None, no_fee_school=None,
+				sanitation_emis=None, street_address=None, town=None, urban_rural=None):
 		self.emis = emis
 		self.gis_lat = gis_lat
 		self.gis_lng = gis_lng
 		self.province_code = province_code
 		self.province_name = province_name
 		self.matric_result_emis = matric_result_emis
+		self.name = name
+		self.no_fee_school = no_fee_school
 		self.sanitation_emis = sanitation_emis
 		self.street_address = street_address
 		self.town = town
+		self.urban_rural = urban_rural
 
 def read_csv_files(headers_file, data_file):
 	with open(headers_file, 'rb') as headers, open(data_file, 'rb') as data:
@@ -85,12 +93,60 @@ def read_csv_files(headers_file, data_file):
 		input_data = csv.reader(data)
 
 		for line in input_data:
-			matric_result = MatricResult(emis=line[headers.index("emis")],
-										passed=line[headers.index("2013_passed")],
-										pass_rate=line[headers.index("2013_pass_rate")],
-										wrote=line[headers.index("2013_wrote")])
-			matric_results.insert(matric_result.__dict__)
 
+			if headers_file.__contains__("schools_sanitation"):
+				populate_sanitations(line, headers)
+
+			elif headers_file.__contains__("matric_results"):
+				populate_matric_results(line, headers)
+
+			elif headers_file.__contains__("schools_master"):
+				populate_schools(line, headers)
+				
+
+def populate_sanitations(data, header):
+	sanitation = Sanitation(emis=data[header.index("emis")], 
+							construction=data[header.index("construction")], 
+							no_of_boys=data[header.index("boys")], 
+							no_of_girls=data[header.index("girls")], 
+							running_water=data[header.index("water")], 
+							sanitation_plan=data[header.index("sanitation_plan")], 
+							total_toilets=data[header.index("total_toilets_available")])
+	sanitations.insert(sanitation.__dict__)
+	
+def populate_matric_results(data, header):
+	matric_result = MatricResult(emis=data[header.index("emis")],
+								passed=data[header.index("2013_passed")],
+								pass_rate=data[header.index("2013_pass_rate")],
+								wrote=data[header.index("2013_wrote")])
+	matric_results.insert(matric_result.__dict__)
+
+def populate_schools(data, header):
+	school = School(emis=data[header.index("emis")],
+					province_code=data[header.index("province_code")],
+					province_name=data[header.index("province")],
+					name=data[header.index("name")],
+					gis_lng=data[header.index("gis_long")],
+					gis_lat=data[header.index("gis_lat")],
+					town=data[header.index("town_city")],
+					street_address=data[header.index("street_address")],
+					urban_rural=data[header.index("urban_rural")],
+					no_fee_school=data[header.index("no_fee_school")])
+	schools.insert(school.__dict__)
+	
+# *************************************************************************
+# Running the scripts to populate the 'za_schools' database and collections
 # *************************************************************************
 read_csv_files(matric_result_headers, matric_results_file)
+print "*************************************************************"
+print "Successfully Loaded Matric Results Data"
+print "*************************************************************"
+read_csv_files(sanitation_headers, sanitations_file)
+print "*************************************************************"
+print "Successfully Loaded Sanitation Data"
+print "*************************************************************"
+read_csv_files(school_headers, schools_file)
+print "*************************************************************"
+print "Successfully Loaded Schools Data"
+print "*************************************************************"
 # *************************************************************************
