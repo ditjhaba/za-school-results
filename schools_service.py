@@ -168,6 +168,35 @@ def province_schools(code):
 
 	return jsonify(results=schools_collection)	
 
+@app.route('/provinces/<code>/all_schools')
+def province_all_schools(code):
+	schools = [school for school in schools_db.find({"province_name": code, "gis_lat": {"$ne": ""}})]
+	schools_collection = []
+
+	for school in schools:
+		matric_result = matric_results.find_one({"emis": school['emis']})
+		sanitation = schools_sanitation.find_one({"emis": school['emis']})
+
+		school = {
+			'name': school['school_name'],
+	  		'lat': school['gis_lat'],
+	    	'lng': school['gis_long'],
+      		'province_code': school['province_name'],
+	  		'pass_rate': matric_result['pass_rate'] if matric_result else "unknown",
+	  		'passed': matric_result['passed'] if matric_result else "unknown",
+	  		'wrote': matric_result['wrote'] if matric_result else "unknown",
+	  		'no_of_boys': sanitation['no_of_boys'] if sanitation else "unknown",
+	  		'no_of_girls': sanitation['no_of_girls'] if sanitation else "unknown",
+	  		'total_toilets': sanitation['total_toilets'] if sanitation else "unknown",
+	  		'sanitation_plan': sanitation['sanitation_plan'] if sanitation else "unknown",
+	  		'running_water': sanitation['running_water'] if sanitation else "unknown",
+	  		'construction': sanitation['construction'] if sanitation else "unknown" 
+		}
+
+		schools_collection.append(school)
+
+	return jsonify(results=schools_collection)	
+
 def strip_id(collection):
 	for item in collection:
 		del s['_id']
