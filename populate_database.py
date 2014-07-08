@@ -122,13 +122,19 @@ def populate_matric_results(data, header):
 	matric_results.insert(matric_result.__dict__)
 
 def populate_schools(data, header):
-	school = School(emis=data[header.index("emis")],
+	emis = data[header.index("emis")]
+	matric_result_emis = emis if matric_results.find({"emis": emis}).count()==1 else ""
+	sanitation_emis = emis if sanitations.find({"emis": emis}).count()==1 else ""
+
+	school = School(emis=emis,
 					province_code=data[header.index("province_code")],
 					province_name=data[header.index("province")],
+					matric_result_emis=matric_result_emis,
 					name=data[header.index("name")],
 					gis_lng=data[header.index("gis_long")],
 					gis_lat=data[header.index("gis_lat")],
 					town=data[header.index("town_city")],
+					sanitation_emis = sanitation_emis,
 					street_address=data[header.index("street_address")],
 					urban_rural=data[header.index("urban_rural")],
 					no_fee_school=data[header.index("no_fee_school")])
@@ -142,11 +148,9 @@ print "*************************************************************"
 print "Successfully Loaded Matric Results Data"
 print "*************************************************************"
 read_csv_files(sanitation_headers, sanitations_file)
-print "*************************************************************"
-print "Successfully Loaded Sanitation Data"
+print "Successfully Loaded Sanitations Data"
 print "*************************************************************"
 read_csv_files(school_headers, schools_file)
-print "*************************************************************"
 print "Successfully Loaded Schools Data"
 print "*************************************************************"
 # *************************************************************************
