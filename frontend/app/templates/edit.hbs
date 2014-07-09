@@ -1,1 +1,92 @@
-{{render "school" Frontend.School}}
+<div class="edit-school" class="map-canvas">
+    <table class="school-details">
+        <thead>
+        <h2 class="school-columns">Edit School</h2>
+
+        </thead>
+        <tr>
+            <td class="school-columns">EMIS No.:</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.emis size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Name</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.name size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Address</td>
+            <td class="school-edit-input">
+                <div>{{textarea type="text" value=school.street_address }}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Town/City</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.town size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Province</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.province_code size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Number of Boys</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.no_of_boys size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Number of Girls</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.no_of_girls size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Total Number of Toilets</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.total_toilets size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Running Water</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.running_water size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Matric Pass Rate (%)</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.pass_rate size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Matric Students Wrote</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.wrote size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Matric Students Passed</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.passed size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Latitude</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.lat size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Longitude</td>
+            <td class="school-edit-input">
+                <div>{{input type="text" value=school.long size="50"}}</div>
+            </td>
+        </tr>
+    </table>
+</div>
