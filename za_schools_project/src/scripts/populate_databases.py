@@ -11,7 +11,7 @@ limitations under the License.
 import csv
 
 from constants.paths import Constants
-from constants.connection import matric_results, provinces, \
+from constants.create_connection import matric_results, provinces, \
     sanitations, schools
 from models.matric_result import MatricResult
 from models.province import Province
