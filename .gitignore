@@ -16,4 +16,4 @@ npm-debug.log
 /.idea
 public/
 *.pyc
-flask_ve/*
+flask_ve/

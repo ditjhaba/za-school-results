@@ -12,28 +12,24 @@ limitations under the License.
 class Constants(object):
     """Paths for Data and Header Files"""
 
-    DATA_PATH = "../../../../za-school-results/parse_csv/resources/raw_data/"
+    DATA_PATH = "../../data/schools_data/"
+    HEADER_PATH = "../../data/headers/"
 
-    MATRIC_RESULTS_FILE = "{0}{1}".format(
-        DATA_PATH,
-        "sa_matric_school_results.csv")
+    MATRIC_RESULTS_FILE = "{0}{1}".format(DATA_PATH,
+                                          "sa_matric_school_results.csv")
 
-    MATRIC_RESULTS_HEADER = "{0}{1}".format(
-        DATA_PATH,
-        "data_preparation/sa_matric_results_headers.csv")
+    MATRIC_RESULTS_HEADER = "{0}{1}".format(HEADER_PATH,
+                                            "sa_matric_results_headers.csv")
 
     SANITATION_FILE = "{0}{1}".format(DATA_PATH, "sa_sanitation.csv")
-    SANITATION_HEADERS = "{0}{1}".format(
-        DATA_PATH,
-        "data_preparation/sa_schools_sanitation_headers.csv")
+    SANITATION_HEADERS = "{0}{1}".format(HEADER_PATH,
+                                         "sa_schools_sanitation_headers.csv")
 
     SCHOOLS_FILE = "{0}{1}".format(DATA_PATH,
                                    "sa_schools_master_list.csv")
-    SCHOOL_HEADERS = "{0}{1}".format(
-        DATA_PATH,
-        "data_preparation/sa_schools_master_headers.csv")
+    SCHOOL_HEADERS = "{0}{1}".format(HEADER_PATH,
+                                     "sa_schools_master_headers.csv")
 
     PROVINCES_FILE = "{0}{1}".format(DATA_PATH, "sa_provinces.csv")
-    PROVINCE_HEADERS = "{0}{1}".format(
-        DATA_PATH,
-        "data_preparation/sa_provinces_headers.csv")
+    PROVINCE_HEADERS = "{0}{1}".format(HEADER_PATH,
+                                       "sa_provinces_headers.csv")
