@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'mongoid'
+require 'JSON'
 
 get '/' do
   File.read(File.join('public', 'index.html'))
@@ -63,6 +64,21 @@ get '/schools' do
     end
     {schools: schools_results}.to_json
   # end
+end
+
+post '/school/update/:school' do
+  param = params[:school]
+  school_params = JSON.parse(param)
+
+  school = School.where(emis: school_params['emis']).first
+
+  school.school_name = school_params['name']
+  school.type_doe = school_params['type_doe']
+  school.gis_lat = school_params['lat']
+  school.gis_lng = school_params['lng']
+  school.province_name = school_params['province_code']
+
+  school.save
 end
 
 post '/uploads' do

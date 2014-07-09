@@ -47,6 +47,14 @@ a:active {
     height: 25px;
 }
 
+.school-update-button {
+    padding-left: 10px;
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 1, 0, 0.2);
+    height: 25px;
+}
+
 .school-edit-input {
     padding-left: 30px;
 }
