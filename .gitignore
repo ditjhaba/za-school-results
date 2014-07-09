@@ -15,3 +15,5 @@ npm-debug.log
 /clojure_service
 /.idea
 public/
+*.pyc
+flask_ve/*
