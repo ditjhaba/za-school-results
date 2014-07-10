@@ -47,15 +47,15 @@ get '/schools' do
   cache_key = province_code ? "schools-#{province_code}" : "schools"
 
   # cache(cache_key) do
-    schools = School.ne(gis_long: "").ne(gis_lat: "").and.ne(matric_result_emis: "")
+    schools = School.ne(gis_lng: "").ne(gis_lat: "").and.ne(matric_result_emis: "")
     schools = schools.where(province_name: province_code) if province_code
 
     schools_results = schools.map do |school|
       matric_result = school.matric_result
       {
-        name: school.school_name,
+        name: school.name,
         lat: school.gis_lat,
-        lng: school.gis_long,
+        lng: school.gis_lng,
         province_code: school.province_name,
         pass_rate: matric_result.pass_rate,
         passed: matric_result.passed,
@@ -71,15 +71,50 @@ post '/school/update/:school' do
   school_params = JSON.parse(param)
 
   school = School.where(emis: school_params['emis']).first
+  sanitation = school.sanitation 
 
-  school.school_name = school_params['name']
+  school.name = school_params['name']
   school.type_doe = school_params['type_doe']
   school.gis_lat = school_params['lat']
   school.gis_lng = school_params['lng']
   school.province_name = school_params['province_code']
-
+  school.street_address = school_params['street_address']
+  school.town = school_params['town']
   school.save
+
+  if sanitation != nil
+    sanitation.no_of_boys = school_params['no_of_boys']
+    sanitation.no_of_girls = school_params['no_of_girls']
+    sanitation.running_water = school_params['running_water']
+    sanitation.sanitation_plan = school_params['sanitation_plan']
+    sanitation.construction = school_params['construction']
+    sanitation.total_toilets = school_params['total_toilets']
+    sanitation.save
+
+  elsif check_sanitation_data(school_params)
+    new_sanitation = Sanitation.new(emis: school_params['emis'], 
+                                    no_of_boys: school_params['no_of_boys'], 
+                                    no_of_girls: school_params['no_of_girls'],
+                                    running_water: school_params['running_water'],
+                                    construction: school_params['construction'],
+                                    sanitation_plan: school_params['sanitation_plan'],
+                                    total_toilets: school_params['total_toilets'])
+    new_sanitation.save
+    school.sanitation_emis = school_params['emis']
+    school.save
+  end
+  
+
 end
+
+def check_sanitation_data(school_params)
+  (school_params['no_of_girls'] != "" or 
+   school_params['no_of_boys'] != "" or 
+   school_params['running_water'] != "" or 
+   school_params['construction'] != "" or 
+   school_params['sanitation_plan'] != "" or
+   school_params['total_toilets'] != "")
+end 
 
 post '/uploads' do
 
@@ -95,16 +130,17 @@ end
 
 get '/schools/:name' do
   name = params[:name].upcase
-  schools = School.where(school_name: /.*#{name}.*/)
+  schools = School.where(name: /.*#{name}.*/)
   schools_data = schools.map do |school|
     matric_result = school.matric_result
     school_sanitation = school.sanitation
+  
     {
       emis: school.emis,
-      name: school.school_name,
+      name: school.name,
       type_doe: school.type_doe, 
       lat: school.gis_lat,
-      lng: school.gis_long,
+      lng: school.gis_lng,
       street_address: school.street_address,
       town: school.town_city,
       province_code: school.province_name,
@@ -123,13 +159,13 @@ get '/schools/:name' do
 end
 
 get '/sanitations' do
-  schools = School.ne(sanitation_emis: "").and.ne(gis_long: "")
+  schools = School.ne(sanitation_emis: "").and.ne(gis_lng: "")
   sanitation = schools.map do |school|
   school_sanitation = school.sanitation
      {
-        name: school.school_name,
+        name: school.name,
         lat: school.gis_lat,
-        lng: school.gis_long,
+        lng: school.gis_lng,
         no_of_boys: school_sanitation.no_of_boys,
         no_of_girls: school_sanitation.no_of_girls,
         total_toilets: school_sanitation.total_toilets,
@@ -149,9 +185,9 @@ get '/province/:code/schools' do
     matric_result = school.matric_result
     sanitation = school.sanitation
     {
-      name: school.school_name,
+      name: school.name,
       lat: school.gis_lat,
-      lng: school.gis_long,
+      lng: school.gis_lng,
       province_code: school.province_name,
       pass_rate: matric_result.pass_rate,
       passed: matric_result.passed,
@@ -182,15 +218,17 @@ end
 
 class School
   include Mongoid::Document
-  store_in collection: "school"
+  store_in collection: "schools"
 
   field :emis, type: String
   field :gis_lat, type: String
   field :gis_lng, type: String
-  field :school_name, type: String
+  field :name, type: String
   field :province_name, type: String
   field :matric_result_emis, type: String
   field :sanitation_emis, type: String
+  field :town_city, type: String
+  field :type_doe, type: String
 
   def matric_result
     MatricResult.where(emis: self.matric_result_emis).first
@@ -204,7 +242,7 @@ end
 
 class Province
   include Mongoid::Document
-  store_in collection: "province"
+  store_in collection: "provinces"
 
   field :id, type: Integer
   field :code, type: String
@@ -232,7 +270,7 @@ end
 
 class Sanitation
  include Mongoid::Document
- store_in collection: "school_sanitation"
+ store_in collection: "sanitations"
 
  field :emis, type: String
  field :no_of_boys, type: Integer
