@@ -6,4 +6,5 @@ Frontend.Router.map(function () {
   this.resource('sanitation');
   this.resource('health');
   this.resource('edit');
+  this.resource('create');
 });

@@ -4,7 +4,7 @@ Frontend.EditController = Ember.ObjectController.extend({
         admin: Ember.computed.alias("controllers.admin"),
         actions:{
             retrieve_school: function() {
-                this.set('school', this.content);
+                this.set('school', this.get(''));
             },
 
             update: function(school){

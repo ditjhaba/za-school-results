@@ -103,9 +103,55 @@ post '/school/update/:school' do
     school.sanitation_emis = school_params['emis']
     school.save
   end
-  
-
 end
+
+post '/school/create/:school' do
+  param = params[:school]
+  puts "*******************************"
+  puts param
+  puts "*******************************"
+
+  school_params = JSON.parse(param)
+
+  school = School.where(emis: school_params['emis']).first 
+
+  puts "*******************************"
+  puts school
+  puts "*******************************"
+
+
+  if school == nil
+    puts "*******************************"
+    puts "There is no school with the given emis"
+    puts "*******************************"
+    school = School.new(emis: school_params['emis'],
+                        name: school_params['name'],
+                        type_doe: school_params['type_doe'],
+                        gis_lat: school_params['lat'],
+                        gis_lng: school_params['lng'],
+                        province_name: school_params['province_code'],
+                        street_address: school_params['street_address'],
+                        town: school_params['town'])
+    
+    if check_sanitation_data(school_params)
+      puts school_params
+      puts "*******************************"
+      puts "There is sanitation data in the request"
+      puts "*******************************"
+      new_sanitation = Sanitation.new(emis: school_params['emis'], 
+                                      no_of_boys: school_params['no_of_boys'], 
+                                      no_of_girls: school_params['no_of_girls'],
+                                      running_water: school_params['running_water'],
+                                      construction: school_params['construction'],
+                                      sanitation_plan: school_params['sanitation_plan'],
+                                      total_toilets: school_params['total_toilets'])
+      new_sanitation.save
+      school.sanitation_emis = school_params['emis']
+    school.save
+    end
+  end
+end
+
 
 def check_sanitation_data(school_params)
   (school_params['no_of_girls'] != "" or 

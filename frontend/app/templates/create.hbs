@@ -1,0 +1,83 @@
+<div class="edit-school" class="map-canvas">
+
+
+    <table class="school-details">
+        <thead>
+        <h2 class="school-columns">New School</h2>
+
+        </thead>
+        <tr>
+            <td class="school-columns">EMIS No</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding='emis' type="text" size="50" }}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Name</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="name" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Address</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="address" type="text" }}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Town/City</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="town" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Province</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="province" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Number of Boys</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="numberBoys" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Number of Girls</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="numberGirls" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Total Number of Toilets</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="totalToilets" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Running Water</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="runningWater" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Latitude</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="latitude" type="text" size="50"}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="school-columns">Longitude</td>
+            <td class="school-edit-input">
+                <div>{{input valueBinding="longitude" type="text" size="50"}}</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button class="school-update-button" {{action 'create'}}>Create</button>
+            </td>
+        </tr>
+    </table>
+</div>
