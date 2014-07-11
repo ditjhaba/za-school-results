@@ -47,7 +47,7 @@ get '/schools' do
   cache_key = province_code ? "schools-#{province_code}" : "schools"
 
   # cache(cache_key) do
-    schools = School.ne(gis_lng: "").ne(gis_lat: "").and.ne(matric_result_emis: "")
+    schools = School.ne(gis_lng: nil).ne(gis_lat: nil).and.ne(matric_result_emis: "")
     schools = schools.where(province_name: province_code) if province_code
 
     schools_results = schools.map do |school|
@@ -57,9 +57,9 @@ get '/schools' do
         lat: school.gis_lat,
         lng: school.gis_lng,
         province_code: school.province_name,
-        pass_rate: matric_result.pass_rate,
-        passed: matric_result.passed,
-        wrote: matric_result.wrote
+        pass_rate: matric_result ? matric_result.pass_rate : "",
+        passed: matric_result ? matric_result.passed : "",
+        wrote: matric_result ? matric_result.wrote : ""
       }
     end
     {schools: schools_results}.to_json
@@ -107,37 +107,19 @@ end
 
 post '/school/create/:school' do
   param = params[:school]
-  puts "*******************************"
-  puts param
-  puts "*******************************"
-
   school_params = JSON.parse(param)
 
-  school = School.where(emis: school_params['emis']).first 
-
-  puts "*******************************"
-  puts school
-  puts "*******************************"
-
-
-  if school == nil
-    puts "*******************************"
-    puts "There is no school with the given emis"
-    puts "*******************************"
+  if School.where(emis: school_params['emis']).first == nil
     school = School.new(emis: school_params['emis'],
-                        name: school_params['name'],
-                        type_doe: school_params['type_doe'],
-                        gis_lat: school_params['lat'],
-                        gis_lng: school_params['lng'],
-                        province_name: school_params['province_code'],
-                        street_address: school_params['street_address'],
-                        town: school_params['town'])
-    
+                        name: school_params['name'].upcase,
+                        gis_lat: school_params['latitude'],
+                        gis_lng: school_params['longitude'],
+                        province_name: school_params['province'],
+                        street_address: school_params['address'],
+                        town_city: school_params['town'],
+                        matric_result_emis: "")
+    school.save
     if check_sanitation_data(school_params)
-      puts school_params
-      puts "*******************************"
-      puts "There is sanitation data in the request"
-      puts "*******************************"
       new_sanitation = Sanitation.new(emis: school_params['emis'], 
                                       no_of_boys: school_params['no_of_boys'], 
                                       no_of_girls: school_params['no_of_girls'],
@@ -147,19 +129,20 @@ post '/school/create/:school' do
                                       total_toilets: school_params['total_toilets'])
       new_sanitation.save
       school.sanitation_emis = school_params['emis']
-    school.save
+      school.save
+    
     end
   end
 end
 
 
 def check_sanitation_data(school_params)
-  (school_params['no_of_girls'] != "" or 
-   school_params['no_of_boys'] != "" or 
-   school_params['running_water'] != "" or 
-   school_params['construction'] != "" or 
-   school_params['sanitation_plan'] != "" or
-   school_params['total_toilets'] != "")
+  (school_params['no_of_girls'] != nil or 
+   school_params['no_of_boys'] != nil or 
+   school_params['running_water'] != nil or 
+   school_params['construction'] != nil or 
+   school_params['sanitation_plan'] != nil or
+   school_params['total_toilets'] != nil)
 end 
 
 post '/uploads' do
@@ -177,6 +160,7 @@ end
 get '/schools/:name' do
   name = params[:name].upcase
   schools = School.where(name: /.*#{name}.*/)
+  
   schools_data = schools.map do |school|
     matric_result = school.matric_result
     school_sanitation = school.sanitation
@@ -205,7 +189,7 @@ get '/schools/:name' do
 end
 
 get '/sanitations' do
-  schools = School.ne(sanitation_emis: "").and.ne(gis_lng: "")
+  schools = School.ne(sanitation_emis: "").and.ne(gis_lng: nil)
   sanitation = schools.map do |school|
   school_sanitation = school.sanitation
      {
@@ -225,7 +209,7 @@ end
 
 get '/province/:code/schools' do
 
-  school_results = School.where(province_name: params[:code]).ne(matric_result_emis: "").and.ne(gis_lat: "")
+  school_results = School.where(province_name: params[:code]).ne(matric_result_emis: "").and.ne(gis_lat: nil)
 
   school_results = school_results.map do |school|
     matric_result = school.matric_result
@@ -275,6 +259,7 @@ class School
   field :sanitation_emis, type: String
   field :town_city, type: String
   field :type_doe, type: String
+  field :street_address, type: String
 
   def matric_result
     MatricResult.where(emis: self.matric_result_emis).first

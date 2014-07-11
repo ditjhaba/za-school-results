@@ -1,36 +1,26 @@
 Frontend.CreateController = Ember.ObjectController.extend({
     needs:['admin'],
     admin: Ember.computed.alias("controllers.admin"),
-//    emis:'',
-//    name: '',
-//    town: '',
-//    province: '',
-//    numberBoys: '',
-//    numberGirls: '',
-//    totalToilets: '',
-//    runningWater: '',
-//    latitude: '',
-//    longitude: '',
 
     actions:{
 
         create: function(){
-            var emis = this.get('emis');
-            var name = this.get('name');
-            var town = this.get('town');
-            var province = this.get('province');
-            var numberBoys = this.get('numberBoys');
-            var numberGirls = this.get('numberGirls');
-            var totalToilets = this.get('totalToilets');
-            var runningWater = this.get('runningWater');
-            var latitude = this.get('latitude');
-            var longitude = this.get('longitude');
-
-            var school = {"emis": this.get('emis')};
+            var school = {
+              "emis": this.get('emis'),
+              "name": this.get('name'),
+              "town": this.get('town'),
+              "address": this.get('address'),
+              "province": this.get('province'),
+              "no_of_boys": this.get('numberBoys'),
+              "no_of_girls": this.get('numberGirls'),
+              "total_toilets": this.get('totalToilets'),
+              "running_water": this.get('runningWater'),
+              "latitude": this.get('latitude'),
+              "longitude": this.get('longitude')
+            };
 
             this.set('school', school);
             var url = "school/create/" + JSON.stringify(school);
-//            var url = "school/create/" + school;
             Ember.$.post(url).then(function(school){
             });
 
