@@ -149,7 +149,7 @@ post '/uploads' do
 
   params.each { |param| 
     @filename = params[param[0]][:filename]
-    File.open("public/uploads/" + @filename, "w") do |file|
+    File.open("za_schools/data/raw_data/" + @filename, "w") do |file|
       file.write(params[param[0]][:tempfile].read)
     end
   }
@@ -160,7 +160,7 @@ end
 get '/schools/:name' do
   name = params[:name].upcase
   schools = School.where(name: /.*#{name}.*/)
-  
+
   schools_data = schools.map do |school|
     matric_result = school.matric_result
     school_sanitation = school.sanitation

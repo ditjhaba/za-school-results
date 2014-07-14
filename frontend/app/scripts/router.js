@@ -7,4 +7,5 @@ Frontend.Router.map(function () {
   this.resource('health');
   this.resource('edit');
   this.resource('create');
+  this.resource('upload');
 });

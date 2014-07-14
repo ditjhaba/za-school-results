@@ -1,0 +1,24 @@
+<div class="admin" class="map-canvas">
+	
+	<div class='school-data-upload'>
+		<h3>Upload Schools Data</h3>
+		<form action="/uploads" enctype="multipart/form-data" method="post">
+		    <p>
+		        Please choose the schools master list file
+		        <input type="file" name="school-master-list" size="40">
+		    </p>
+		    <p>
+		        Please choose the schools matric results file<br><br>
+		        <input type="file" name="matric-results" size="40">
+		    </p>
+		    <p>
+		        Please choose the schools sanitation file<br><br>
+		        <input type="file" name="sanitation-information" size="40">
+		    </p>
+		    <div>
+		        <input type="submit" value="Upload", onClick="alert('Existing databased will be deleted, do you want to proceed?')">
+				</div>
+		    </div>
+		</form>
+	</div>
+</div>
