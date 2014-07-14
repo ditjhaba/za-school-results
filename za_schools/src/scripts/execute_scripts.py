@@ -5,9 +5,6 @@ from pymongo import Connection
 
 Connection().drop_database('za_schools')
 
-raw_data_path = Constants.RAW_DATA_PATH
-
-
 print "**********************************************************************"
 print "Importing CSV Files"
 print "**********************************************************************"
