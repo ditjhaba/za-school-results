@@ -155,6 +155,9 @@ post '/uploads' do
   }
 
   redirect '/#/admin'
+
+  exec("python za_schools/src/scripts/execute_scripts.py")
+
 end
 
 get '/schools/:name' do
