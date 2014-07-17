@@ -1,38 +1,35 @@
 import os
 
-from constants.paths import Constants
+from constants.constant import Constants, Paths
 from pymongo import Connection
 
 Connection().drop_database('za_schools')
-
-print "**********************************************************************"
+print "Dropping Existing Database - Done"
+print Constants.LINE
 print "Importing CSV Files"
-print "**********************************************************************"
+print Constants.LINE
 os.system("python import_csv.py {0} {1} {2}".format(
-    Constants.MATRIC_RESULTS_FILE, Constants.MATRIC_RESULTS_HEADER,
-    Constants.MATRIC_RESULTS_FILE))
-print "Importing Matric Results CSV File - Done"
-print "**********************************************************************"
+    Paths.MATRIC_RESULTS_RAW_DATA_FILE, Paths.MATRIC_RESULTS_HEADER,
+    Paths.MATRIC_RESULTS_FILE))
+print "1. Importing Matric Results CSV File - Done"
+print Constants.LINE
 os.system("python import_csv.py {0} {1} {2}".format(
-    Constants.SANITATION_RAW_DATA_FILE, Constants.SANITATION_HEADERS,
-    Constants.SANITATION_FILE))
-print "Importing Sanitation CSV File - Done"
-print "**********************************************************************"
+    Paths.SANITATION_RAW_DATA_FILE, Paths.SANITATION_HEADERS,
+    Paths.SANITATION_FILE))
+print "2. Importing Sanitation CSV File - Done"
+print Constants.LINE
 os.system("python import_csv.py {0} {1} {2}".format(
-    Constants.SCHOOLS_RAW_DATA_FILE, Constants.SCHOOL_HEADERS,
-    Constants.SCHOOLS_FILE))
-print "Importing School Master CSV File - Done"
-print "**********************************************************************"
-print "**********************************************************************"
+    Paths.SCHOOLS_RAW_DATA_FILE, Paths.SCHOOL_HEADERS,
+    Paths.SCHOOLS_FILE))
+print "3. Importing Schools Master CSV File - Done"
+print Constants.LINE
 print "Creating Connection"
-print "**********************************************************************"
 os.system("python ../../src/constants/create_connection.py")
-print "**********************************************************************"
-print "Populating Databases"
-print "**********************************************************************"
+print Constants.LINE
+print "Populating Database"
 os.system("python populate_databases.py")
-print "**********************************************************************"
-print "Indexing Databases"
-print "**********************************************************************"
+print Constants.LINE
+print "Indexing Database"
+print Constants.LINE
 os.system("python database_structure.py")
-print "**********************************************************************"
+print Constants.LINE

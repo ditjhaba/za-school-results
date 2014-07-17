@@ -10,10 +10,9 @@ limitations under the License.
 
 import csv
 
-from constants.create_connection import sanitations, matric_results, schools, \
-    provinces
-
-from constants.paths import Constants
+from constants.constant import Paths, Constants
+from constants.create_connection import matric_results, provinces, \
+    sanitations, schools
 from models.matric_result import MatricResult
 from models.province import Province
 from models.sanitation import Sanitation
@@ -151,18 +150,20 @@ def bad_data(value):
     """Filter for bad data in sanitation table"""
     return (value in ["Pit toilets", "VIP toilets", ""])
 
-#Running the scripts to populate the 'za_schools' database and collections"""
+# *************************************************************************
+#Running the scripts to populate the 'za_schools' database and collections
+# **********************************************************
 
-read_csv_files(Constants.MATRIC_RESULTS_HEADER, Constants.MATRIC_RESULTS_FILE)
-print "*************************************************************"
-print "Loading Matric Results Data - Done"
-print "*************************************************************"
-read_csv_files(Constants.SANITATION_HEADERS, Constants.SANITATION_FILE)
-print "Loading Sanitations Data - Done"
-print "*************************************************************"
-read_csv_files(Constants.SCHOOL_HEADERS, Constants.SCHOOLS_FILE)
-print "Loading Schools Data - Done"
-print "*************************************************************"
-read_csv_files(Constants.PROVINCE_HEADERS, Constants.PROVINCES_FILE)
-print "Loading Provinces Data - Done"
-print "*************************************************************"
+read_csv_files(Paths.MATRIC_RESULTS_HEADER, Paths.MATRIC_RESULTS_FILE)
+print Constants.LINE
+print "1. Loading Matric Results Data - Done"
+print Constants.LINE
+read_csv_files(Paths.SANITATION_HEADERS, Paths.SANITATION_FILE)
+print "2. Loading Sanitations Data - Done"
+print Constants.LINE
+read_csv_files(Paths.SCHOOL_HEADERS, Paths.SCHOOLS_FILE)
+print "3. Loading Schools Data - Done"
+print Constants.LINE
+read_csv_files(Paths.PROVINCE_HEADERS, Paths.PROVINCES_FILE)
+print "4. Loading Provinces Data - Done"
+

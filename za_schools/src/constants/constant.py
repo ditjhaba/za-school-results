@@ -9,7 +9,7 @@ limitations under the License.
 """
 
 
-class Constants(object):
+class Paths(object):
     """Paths for Data and Header Files"""
 
     DATA_PATH = "../../data/schools_data/"
@@ -30,7 +30,7 @@ class Constants(object):
                                          "sa_schools_sanitation_headers.csv")
 
     SANITATION_RAW_DATA_FILE = "{0}{1}".format(RAW_DATA_PATH,
-                                               "sa_schools_sanitations.csv")
+                                               "sa_schools_sanitation.csv")
 
     SCHOOLS_FILE = "{0}{1}".format(DATA_PATH,
                                    "sa_schools_master_list.csv")
@@ -44,3 +44,14 @@ class Constants(object):
                                               "sa_schools_province_data.csv")
     PROVINCE_HEADERS = "{0}{1}".format(HEADER_PATH,
                                        "sa_provinces_headers.csv")
+
+
+class Constants(object):
+    """General Constants"""
+
+    DATABASE_NAME = 'za_schools'
+    LINE = "****************************************************************"
+    MATRIC_RESULTS_COLLECTION = 'matric_results'
+    PROVINCES_COLLECTION = 'provinces'
+    SANITATIONS_COLLECTION = 'sanitations'
+    SCHOOLS_COLLECTION = 'schools'

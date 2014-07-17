@@ -8,16 +8,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from constants.constant import Constants
 from constants.create_connection import matric_results, sanitations, \
     schools
 
-print "******************************************************"
 matric_results.create_index("emis")
-print "Creating Indices For Matric Results - Done"
-print "******************************************************"
+print "1. Creating Indices For Matric Results - Done"
+print Constants.LINE
 sanitations.create_index("emis")
-print "Creating Indices For Sanitations - Done"
-print "******************************************************"
+print "2. Creating Indices For Sanitations - Done"
+print Constants.LINE
 schools.create_index("emis")
-print "Creating Indices For Schools - Done"
-print "******************************************************"
+print "3. Creating Indices For Schools - Done"
