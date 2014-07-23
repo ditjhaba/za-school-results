@@ -8,4 +8,5 @@ Frontend.Router.map(function () {
   this.resource('edit');
   this.resource('create');
   this.resource('upload');
+  this.resource('login');
 });

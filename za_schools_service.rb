@@ -135,6 +135,21 @@ post '/school/create/:school' do
   end
 end
 
+post '/login/:logs' do
+  param = params[:logs]
+  login_details = JSON.parse(param)
+
+  if authenticate(login_details)
+    redirect '/#/admin'
+  end
+  
+end
+
+def authenticate(login)
+  login['username'] == "NinaGabriels" and login['password'] == "Nina@Grabriels_J&J.2014"
+end
+
+
 
 def check_sanitation_data(school_params)
   (school_params['no_of_girls'] != nil or 
@@ -313,4 +328,5 @@ class Sanitation
  field :sanitation_plan, type: String
  field :construction, type: String
  field :running_water, type: String
+
 end
