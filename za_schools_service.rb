@@ -212,7 +212,7 @@ end
 
 get '/province/:code/schools' do
 
-  school_results = School.where(province_name: params[:code]).ne(matric_result_emis: "").and.ne(gis_lat: nil)
+  school_results = School.where(province_name: params[:code]).ne(matric_result_emis: "").and.ne(gis_lat: "")
 
   school_results = school_results.map do |school|
     matric_result = school.matric_result

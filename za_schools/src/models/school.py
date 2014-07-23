@@ -12,9 +12,9 @@ limitations under the License.
 class School(object):
     """Defining an object that represents a school"""
 
-    def __init__(self, emis, gis_lat=None, gis_lng=None, province_code=None,
-                 province_name=None, matric_result_emis=None, name=None,
-                 no_fee_school=None, sanitation_emis=None,
+    def __init__(self, emis, gis_lat="", gis_lng="", province_code=None,
+                 province_name=None, matric_result_emis="", name=None,
+                 no_fee_school=None, sanitation_emis="",
                  street_address=None, town=None, urban_rural=None):
         self.emis = emis
         self.gis_lat = gis_lat

@@ -56,8 +56,7 @@ def populate_sanitations(data, header):
 def populate_matric_results(data, header):
     matric_result = MatricResult(emis=data[header.index("emis")],
                                  passed=data[header.index("2013_passed")],
-                                 pass_rate=data[
-                                     header.index("2013_pass_rate")],
+                                 pass_rate=data[header.index("2013_pass_rate")],
                                  wrote=data[header.index("2013_wrote")])
     matric_results.insert(matric_result.__dict__)
 
