@@ -1,39 +1,54 @@
-<div class="edit-school" class="map-canvas">
-    
-   <form class="form-horizontal", role="form"> 
-        <br></br>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="login-form", id="login-form">
+        
+        <br>
+        <div class="login">
+          <h3>User Login</h3>
+        </div>
+        
         {{#if loginFailed}}
-            <div class="form-group", style="color: red">
-            <p> Invalid username or password.</p>
+            <div class="login", style="color: red">
+              <p> Invalid username or password.</p>
             </div>
         {{/if}}
+    
+        <div class="login">
+          <label class="control-label" for="inputUsername">Username</label>
+            <div class="span3">              
+              {{input valueBinding="username" type="text" placeholder="Username"}}
+           </div>          
+        </div>
+        <div class="login">
+          <label class="control-label" for="inputPassword">Password</label>
+            <div class="span3">
+            {{input valueBinding="password" type="password" placeholder="Password"}}
+            </div>
+        </div>
+        <br>
+        <div class="login">
+          <div class="controls">
+            <button type="submit" class="btn btn-primary" {{action 'login'}}>Login
+            </button>
+          </div>
+        </div>
+      </form>
 
-        <table class="school-details">
-            <thead>
-            <h4 class="school-columns">Login Details</h4>
-            </thead>
-            <tr>
-                <td class="school-columns">Username</td>
-                <td class="school-edit-input">
-                    <div>{{input valueBinding='username' type="text" size="15" }}</div>
-                </td>
-            </tr>
-            <tr></tr>
-            <tr>
-                <td class="school-columns">Password</td>
-                <td class="school-edit-input">
-                    <div>{{input valueBinding='password' type="password" size="15"}}</div>
-                </td>
-            </tr>
-            <tr></tr>
+    </div>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
+    </script>
+  </body>
 
-            <tr>
-                <td></td>
-                <td>
-                    <button class="school-update-button" {{action 'login'}}>Login</button>
-                </td>
-            </tr>
-        </table>
-
-    </form>
-</div>
+</html>

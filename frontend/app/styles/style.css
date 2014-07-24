@@ -228,6 +228,21 @@ a:active {
   border-color: black;
 }
 
+.login {
+  width: 20%;
+  height: 20%;
+  padding-top: 5px;
+  font-size: 12pt;
+  margin:auto;
+}
+
+.login-form, #login-form {
+  float: center;
+  display: block;
+  margin-bottom:10px;
+  margin-top: 10px
+}
+
 #pass-rate-range-1 {
   color: #FF2B12;  
 }
