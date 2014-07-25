@@ -51,7 +51,7 @@ Frontend.ProvinceController = Ember.ObjectController.extend({
     legend.set('fourth_quintile', ranges[4]);
     legend.set('ceiling', ranges[5]);
     legend.send('makeLegend');
-  },
+  }
 });
 
 

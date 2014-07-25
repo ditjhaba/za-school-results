@@ -1,6 +1,6 @@
 Frontend.CreateController = Ember.ObjectController.extend({
-    needs:['admin'],
-    admin: Ember.computed.alias("controllers.admin"),
+    needs:['search'],
+    search: Ember.computed.alias("controllers.search"),
 
     actions:{
 
@@ -24,8 +24,8 @@ Frontend.CreateController = Ember.ObjectController.extend({
             Ember.$.post(url).then(function(school){
             });
 
-            var admin = this.get('admin');
-            admin.transitionToRoute('admin');
+            var search = this.get('search');
+            search.transitionToRoute('search');
         }
     }
 });

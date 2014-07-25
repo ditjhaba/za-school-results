@@ -1,4 +1,4 @@
 Frontend.AdminRoute = Ember.Route.extend({
-	model: function() {
-	}
+   model: function(){
+   }
 });

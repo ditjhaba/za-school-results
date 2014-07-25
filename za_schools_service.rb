@@ -140,7 +140,7 @@ post '/login/:logs' do
   login_details = JSON.parse(param)
 
   if authenticate(login_details)
-    redirect '/#/home'
+    redirect '/#/admin'
   end
   
 end
@@ -169,7 +169,7 @@ post '/uploads' do
     end
   }
 
-  redirect '/#/home'
+  redirect '/#/admin'
 
   # This part of the script is not being executed - should find out...
   Dir.chdir("za_schools/src/scripts/") do

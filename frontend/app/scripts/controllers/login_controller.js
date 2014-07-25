@@ -1,8 +1,8 @@
 Frontend.LoginController = Ember.ObjectController.extend({
+  needs:['search'],
   needs:['admin'],
-  needs:['home'],
+  search: Ember.computed.alias("controllers.search"),
   admin: Ember.computed.alias("controllers.admin"),
-  home: Ember.computed.alias("controllers.home"),
   loginFailed: false,
 
   actions: {
@@ -20,8 +20,8 @@ Frontend.LoginController = Ember.ObjectController.extend({
                 Ember.$.post(url).then(function(logs){
                 });
               
-                var home = this.get('home');
-                home.transitionToRoute('home');
+                var admin = this.get('admin');
+                admin.transitionToRoute('admin');
             }
         
         else {

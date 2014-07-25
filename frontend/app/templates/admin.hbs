@@ -1,90 +1,12 @@
-<div class="admin" class="map-canvas">
-	<div class="school-search">
-		<form class="school-search-form" id="school-search-form">
-			<table>
-				<tr>
-					<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="30" maxlength="50" placeholder="School Name"}}</td>
-					<td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
-				</tr>
-			</table>
-		</form>
+{{#view Frontend.NavBarView}}
+	<div id="nav-bar-container">
+		<ul id='navigation' class='nav-bar'>
+			<p>Schools Administration</p>
+			{{#link-to 'search'}}Search Schools{{/link-to}}
+      <li class="link-separator">|</li>
+      {{#link-to 'create'}}Create School{{/link-to}}
+      <li class="link-separator">|</li>
+      {{#link-to 'upload'}}Uploads{{/link-to}}
+		</ul>
 	</div>
-
-	{{#if performedSchoolSearch}}
-		{{#if schoolFound}}
-            {{#each school in schoolFound}}
-                <div class="school-details" id="school-name-found">
-                    <table class="school-details-table">
-                            <thead>
-                                <h2>School Details</h2>
-                            </thead>
-
-                            <tr>
-                                <td class="school-detail">EMIS No</td>
-                                <td class="school-name-input">{{school.emis}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Name</td>
-                                <td class="school-name-input">{{school.name}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Address</td>
-                                <td class="school-name-input">{{school.street_address}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Town/City</td>
-                                <td class="school-name-input">{{school.town}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Province</td>
-                                <td class="school-name-input">{{school.province_code}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Number of Boys</td>
-                                <td class="school-name-input">{{school.no_of_boys}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Number of Girls</td>
-                                <td class="school-name-input">{{school.no_of_girls}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Total Toilets</td>
-                                <td class="school-name-input">{{school.total_toilets}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Running Water</td>
-                                <td class="school-name-input">{{school.running_water}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Matric Pass Rate (%)</td>
-                                <td class="school-name-input">{{school.pass_rate}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Matric Students Wrote</td>
-                                <td class="school-name-input">{{school.wrote}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Matric Students Passed</td>
-                                <td class="school-name-input">{{school.passed}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Latitude</td>
-                                <td class="school-name-input">{{school.lat}}</td>
-                            </tr>
-                            <tr>
-                                <td class="school-detail">Longitude</td>
-                                <td class="school-name-input">{{school.lng}}</td>
-                            </tr>
-
-                            <button class="school-edit-button" {{action 'edit' school}}>Edit</button>
-
-                        </table>
-                    </div>
-                {{/each}}
-		{{else}}
-			<div class="school-details" id="school-name-not-found">
-			<h3>No school found</h3>
-		{{/if}}
-	{{/if}}
-</div>
-
+{{/view}}

@@ -1,7 +1,7 @@
 Frontend.EditController = Ember.ObjectController.extend({
         school:'',
-        needs:['admin'],
-        admin: Ember.computed.alias("controllers.admin"),
+        needs:['search'],
+        search: Ember.computed.alias("controllers.search"),
         actions:{
             retrieve_school: function() {
                 this.set('school', this.get(''));
@@ -12,8 +12,8 @@ Frontend.EditController = Ember.ObjectController.extend({
                 Ember.$.post(url).then(function(school){
                 });
 
-                var admin = this.get('admin');
-                admin.transitionToRoute('admin');
+                var search = this.get('search');
+                search.transitionToRoute('search');
             }
         }
     }
