@@ -1,4 +1,4 @@
-Frontend.EditRoute = Ember.Route.extend({
+Frontend.UploadRoute = Ember.Route.extend({
    model: function(){
    }
 });

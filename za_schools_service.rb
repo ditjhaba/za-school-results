@@ -140,7 +140,7 @@ post '/login/:logs' do
   login_details = JSON.parse(param)
 
   if authenticate(login_details)
-    redirect '/#/admin'
+    redirect '/#/home'
   end
   
 end

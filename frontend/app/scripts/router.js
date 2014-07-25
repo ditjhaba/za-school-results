@@ -9,4 +9,5 @@ Frontend.Router.map(function () {
   this.resource('create');
   this.resource('upload');
   this.resource('login');
+  this.resource('home');
 });

@@ -1,11 +1,13 @@
 Frontend.LoginController = Ember.ObjectController.extend({
   needs:['admin'],
+  needs:['home'],
   admin: Ember.computed.alias("controllers.admin"),
+  home: Ember.computed.alias("controllers.home"),
   loginFailed: false,
 
   actions: {
     login: function() {
-
+      
       if ((this.get('username') == "NinaGabriels") && 
         (this.get('password') == "Nina@Grabriels_J&J.2014")) {
         
@@ -17,8 +19,9 @@ Frontend.LoginController = Ember.ObjectController.extend({
                 var url = "login/" + JSON.stringify(logs);
                 Ember.$.post(url).then(function(logs){
                 });
-                var admin = this.get('admin');
-                admin.transitionToRoute('admin');
+              
+                var home = this.get('home');
+                home.transitionToRoute('home');
             }
         
         else {
