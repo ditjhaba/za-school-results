@@ -169,9 +169,12 @@ post '/uploads' do
     end
   }
 
-  redirect '/#/admin'
+  redirect '/#/home'
 
-  exec("python za_schools/src/scripts/execute_scripts.py")
+  # This part of the script is not being executed - should find out...
+  Dir.chdir("za_schools/src/scripts/") do
+    system "python za_schools/src/scripts/execute_scripts.py"
+  end
 
 end
 
