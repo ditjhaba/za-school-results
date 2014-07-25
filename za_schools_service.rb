@@ -111,7 +111,7 @@ post '/school/create/:school' do
 
   if School.where(emis: school_params['emis']).first == nil
     school = School.new(emis: school_params['emis'],
-                        name: school_params['name'].upcase,
+                        name: school_params['name'] ? school_params['name'].upcase : "",
                         gis_lat: school_params['latitude'],
                         gis_lng: school_params['longitude'],
                         province_name: school_params['province'],
