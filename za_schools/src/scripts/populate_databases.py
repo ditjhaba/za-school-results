@@ -9,10 +9,12 @@ limitations under the License.
 """
 
 import csv
+import this
 
 from constants.constant import Paths, Constants
 from constants.create_connection import matric_results, provinces, \
-    sanitations, schools
+    sanitations, schools, admin
+from models.admin import Admin
 from models.matric_result import MatricResult
 from models.province import Province
 from models.sanitation import Sanitation
@@ -40,6 +42,14 @@ def read_csv_files(headers_file, data_file):
                 populate_provinces(line, headers)
 
 
+def populate_admin(file):
+    with open(file, 'rb') as data_file:
+        data = csv.reader(data_file)
+        for line in data:
+            admin_user = Admin(username=line[0], password=line[1])
+            admin.insert(admin_user.__dict__)
+
+
 def populate_sanitations(data, header):
     sanitation = Sanitation(emis=data[header.index("emis")],
                             construction=data[header.index("construction")],
@@ -56,7 +66,8 @@ def populate_sanitations(data, header):
 def populate_matric_results(data, header):
     matric_result = MatricResult(emis=data[header.index("emis")],
                                  passed=data[header.index("2013_passed")],
-                                 pass_rate=data[header.index("2013_pass_rate")],
+                                 pass_rate=data[
+                                     header.index("2013_pass_rate")],
                                  wrote=data[header.index("2013_wrote")])
     matric_results.insert(matric_result.__dict__)
 
@@ -153,6 +164,9 @@ def bad_data(value):
 #Running the scripts to populate the 'za_schools' database and collections
 # **********************************************************
 
+populate_admin(Paths.ADMIN_FILE)
+print Constants.LINE
+print "Loading Admin Login Data - Done"
 read_csv_files(Paths.MATRIC_RESULTS_HEADER, Paths.MATRIC_RESULTS_FILE)
 print Constants.LINE
 print "1. Loading Matric Results Data - Done"

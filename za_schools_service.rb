@@ -150,6 +150,26 @@ def authenticate(login)
 end
 
 
+get '/login/:logs' do
+  param = params[:logs]
+  login = JSON.parse(param)
+  admin = Admin.where(username: login['username'], password: login['password'])
+
+  if admin.first != nil
+    users = admin.map do |user|
+      {
+        username: user.username,
+        password: user.password
+      }
+      end
+    {admin: users}.to_json
+  else
+    {failed: {}}.to_json
+  end
+  
+end
+
+
 
 def check_sanitation_data(school_params)
   (school_params['no_of_girls'] != nil or 
@@ -266,6 +286,16 @@ def cache(name, &block)
   end
   value
 end
+
+class Admin
+  include Mongoid::Document
+  store_in collection: "admin"
+
+  field :username, type: String
+  field :password, type: String
+  
+end
+
 
 class School
   include Mongoid::Document

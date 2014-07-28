@@ -16,6 +16,8 @@ class Paths(object):
     RAW_DATA_PATH = "../../data/raw_data/"
     HEADER_PATH = "../../data/headers/"
 
+    ADMIN_FILE = "{0}{1}".format(RAW_DATA_PATH, "admin_login.csv")
+
     MATRIC_RESULTS_FILE = "{0}{1}".format(DATA_PATH,
                                           "sa_matric_school_results.csv")
 
@@ -49,6 +51,7 @@ class Paths(object):
 class Constants(object):
     """General Constants"""
 
+    ADMIN_COLLECTION = 'admin'
     DATABASE_NAME = 'za_schools'
     LINE = "****************************************************************"
     MATRIC_RESULTS_COLLECTION = 'matric_results'

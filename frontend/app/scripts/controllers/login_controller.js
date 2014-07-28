@@ -7,27 +7,27 @@ Frontend.LoginController = Ember.ObjectController.extend({
 
   actions: {
     login: function() {
-      
-      if ((this.get('username') == "NinaGabriels") && 
-        (this.get('password') == "Nina@Grabriels_J&J.2014")) {
-        
-          var logs = {
-                  "username": this.get('username'),
-                  "password": this.get('password')
-                };
-                this.set('login', logs);
-                var url = "login/" + JSON.stringify(logs);
-                Ember.$.post(url).then(function(logs){
+
+      var username = this.get('username');
+      var password = this.get('password');
+      var logs = {"username": username, "password": password};
+      var url = "login/" + JSON.stringify(logs);
+      var that = this;
+
+      Ember.$.getJSON(url).then(function(loginDetails){
+              if(loginDetails.hasOwnProperty("admin")) {
+                  Ember.$.post(url).then(function(logs){
                 });
-              
-                var admin = this.get('admin');
+                var admin = that.get('admin');
                 admin.transitionToRoute('admin');
-            }
-        
-        else {
-          this.set('loginFailed', true);
-          document.location = "/#/login";
-              }
-          }
+              } 
+              else {
+                  that.set('loginFailed', true);
+                  document.location = "/#/login"
+                    }
+        });
+
+
+      }
     }
 });
