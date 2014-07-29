@@ -8,9 +8,10 @@ Frontend.LoginController = Ember.ObjectController.extend({
   actions: {
     login: function() {
 
-      var username = this.get('username');
-      var password = this.get('password');
-      var logs = {"username": username, "password": password};
+      var logs = {
+        "username": this.get('username'), 
+        "password": this.get('password')};
+
       var url = "login/" + JSON.stringify(logs);
       var that = this;
 

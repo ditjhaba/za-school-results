@@ -191,7 +191,7 @@ post '/uploads' do
 
   redirect '/#/admin'
 
-  # This part of the script is not being executed - should find out...
+  # This part of code is not being executed - should find out...
   Dir.chdir("za_schools/src/scripts/") do
     system "python za_schools/src/scripts/execute_scripts.py"
   end

@@ -3,10 +3,11 @@
 		<form class="school-search-form" id="school-search-form">
 			<table>
 				<tr>
-					<td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="30" maxlength="50" placeholder="School Name"}}</td>
-					<td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
+				    <td class="school-name-input">{{input valueBinding="schoolNameSearch" type="text" size="30" maxlength="50" placeholder="School Name"}}</td>
+                    <td class="school-search-button"><button {{action 'filterByName'}}>Search</button></td>
 				</tr>
 			</table>
+        <input type="button" value="Back" onClick="history.back(-1)"/>
 		</form>
 	</div>
 
