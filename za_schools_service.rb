@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'mongoid'
+require 'rubygems'
 require 'JSON'
 
 get '/' do
