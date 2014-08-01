@@ -52,7 +52,11 @@ class Constants(object):
     """General Constants"""
 
     ADMIN_COLLECTION = 'admin'
-    DATABASE_NAME = 'za_schools'
+    # local database
+    # DATABASE_NAME = 'za_schools'
+    
+    #Remote/production database
+    DATABASE_NAME = 'app19456176'
     LINE = "****************************************************************"
     MATRIC_RESULTS_COLLECTION = 'matric_results'
     PROVINCES_COLLECTION = 'provinces'

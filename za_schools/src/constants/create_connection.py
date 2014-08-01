@@ -6,7 +6,11 @@ from constants.constant import Constants
 # Establishing mongo connection and creating a database and collections 
 # *************************************************************************
 
-connection = Connection()
+#connect to the remote/production database
+connection = Connection("mongodb://greg:realpassword@paulo.mongohq.com:10047/app19456176", 10047)
+#connect to the localhost database
+# connection = Connection()
+
 db = connection[Constants.DATABASE_NAME]
 matric_results = db[Constants.MATRIC_RESULTS_COLLECTION]
 provinces = db[Constants.PROVINCES_COLLECTION]
